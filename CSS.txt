@@ -1,0 +1,684 @@
+www.w3.org/mdn/caniuse
+##css笔记
+    2.link标签和@import标签的区别
+        link属于html标签,而@import是css提供的
+        页面加载时link同时被加载,@import要页面加载结束后才加载
+        link没有兼容性,@import要IE5以上才支持
+        link方式样式的权重高于@import
+    7.设置一个背景颜色,会填充哪些区域
+        元素的content、padding、border
+    9.inline-block、inline、block区别
+        1.block 
+            块级元素,前后都有换行符,能设置宽高,margin padding都有效
+        2.inline
+            前后无换行符,设置宽高无效,margin在竖直上无效,padding都有效
+        3.inline-block
+            前后无换行符,能设置宽高,margin padding都有效
+    10.重绘和重排,怎么减少,如何让文档脱离文档流
+        DOM变化影响到了几何属性,浏览器重新计算,其他元素也会受到影响,这时需要重新构造渲染:重排
+        重绘:浏览器将受到影响的部分重新绘制到屏幕上的过程称为重绘
+            原因：
+                1.添加或者删除可见的DOM元素
+                2.元素尺寸位置发生改变
+                3.浏览器页面初始化
+                4.浏览器窗口大小发生改变
+            减少方法:
+                1.不在布局信息改变时做DOM查询
+                2.使用csstext,className一次性改变属性
+                3.使用fragment
+        对于多次重排的元素,比如说动画,使用绝对定位脱离文档流,使其不影响其他元素
+    11.overflow的原理
+        BFC块级格式化上下文,是css可视化渲染的一部分,它是一块区域,规定了内部块盒的渲染方式
+        以及浮动相互的联系,当元素设置了overflow样式且值不为visible时,该元素就构建了一个BFC,
+        BFC在计算高度时,内部浮动元素的高度也要计算在内,也就是说BFC只有一个浮动元素,高度也不会发生坍塌
+        所以达到了清除浮动的目的
+    12.清除浮动的方法
+        1.使用带clear属性的空元素
+            在浮动元素后面使用一个空元素<div class="clear"></div>
+            并在css中赋予.clear{clear:both};属性即可清理浮动
+        2.使用css的after伪元素
+            伪元素和IEhack,可以完美兼容当前主流的各大浏览器,IEhack指的是触发hasLayout
+            给浮动元素的容器添加一个clearfix的class,然后给这个class添加一个:
+            after伪元素实现元素末尾添加一个看不见的块元素清理浮动
+        3.overflow/overflow-x/overflow-y
+            处理超出的内容
+                visible: 默认
+                scorll: 裁剪可以通过滚动来查看
+                auto: 有超出部分滚动,没有正常显示
+        4.给浮动元素的容器添加浮动
+            使得整体浮动,影响布局,不推荐使用
+        5.使用邻接元素
+            什么都不做,给浮动元素后面的元素添加clear属性
+    13.元素消失的方法
+        visibility:hidden依然占据空间,不可以触发点击事件
+        display:none删除了一样
+        opacity:0不改变页面布局,可以触发点击事件
+    14.BFC
+        BFC(块级格式化上下文,用于清除浮动,防止margin重叠)
+        块级格式化上下文,是一个独立的渲染区域,并且有一定的布局规则
+        BFC区域不会与float box重叠
+        BFC是页面上的一个独立容器,子元素不会影响到外面
+        计算BFC高度时,浮动元素也会参与计算
+            以下元素会生成BFC:
+            float不为none的元素
+            position为fixed absolute
+            overflow不为visible
+            display为flex inline-flex inline-block table-cell table-caption
+    15.两个嵌套的div,position都是absolute,子div设置top属性,top相对于哪个位置定位
+        margin的外边缘
+    19.css布局
+        1.圣杯布局
+            从上到下分为header container footer
+            container部分定位三栏布局同样分为header container footer
+            缺陷:center在container的padding中,宽度较小时会出现混乱
+        2.双飞翼布局
+            给center部分包裹了一个main通过设置margin主动将页面撑开
+        3.flex布局:css3提供
+        4.绝对定位布局
+            container设置position:relative和overflow:hidden
+            因为绝对定位的元素的参照物为第一个positon不为static的祖先元素
+            left左浮动 right右浮动
+            center使用绝对定位,通过设置left和right将吧两边撑开
+            center使用top:0;bottom:0;将其高度撑开
+        5.表格布局
+            好处在于可以使得三栏布局的高度统一
+        6.网格布局
+            兼容性不太好
+            将页面分割成多个区域
+    20.水平居中
+        1.普通文本
+            text-align: center;
+        2.行内元素
+            text-align: center;
+        3.图片-行内替换元素
+            text-align: center;
+        4.行内块级元素-inline-blcok
+            text-align: center;
+        5.块级元素
+            margin: 0 auto;
+    21.垂直居中
+        1.margin:auto
+            定位为上下左右为0,margin:0可以实现脱离文档流的居中
+        2.margin负值法
+            margin-top:-190px;高的一半
+            margin-left:-240px;宽的一半
+            补充:
+            transform:translateX(-50%)
+            transform:translateY(-50%)
+        3.未脱离文档流 table-cell
+            为父元素设置diaplay:table-cell,vertical-align:middle
+            子元素就可以实现垂直居中
+        4.利用flex
+            父元素设置diaplay:flex,align-items:center,justify-content:center
+    22.transition和animation的区别
+        大部分属性是相同的,都是随时间改变元素的属性值
+        transition需要触发一个事件才能改变属性,2帧
+        animation不需要触发任何事件的情况下才会随时间改变属性值,可以一帧一帧
+    23.js动画和css3动画的差异
+        渲染线程分为main thread和compositor thread
+        如果css动画只改变transfrom和opacity,这时css动画得以在compositor thread完成
+        js动画会在main thread执行,然后出发compositor thread进行下一步操作
+        如果改变transfrom和opacity是不会layout或者paint的
+        区别:
+            功能涵盖面,js更大
+            实现重构上:CSS3更加简单,性能跳优方向固定
+            对帧速表现不好的低版本浏览器,css3可以实现自然降级
+            css动画有天然事件支持
+            css3有兼容性问题
+    26.css3新特性
+        1.css3边框
+            1.border-radius圆角边框
+            2.box-shadow边框阴影
+            3.border-image边框图片
+        2.css3背景
+            1.background-size规定背景图片的尺寸
+            2.background-origin背景图片的定位区域,比如content-box padding-box border-box
+        3.css3文字效果
+            1.text-shadow文本应用阴影
+            2.word-wrap允许对长单词进行拆分,换行到下一行p{word-wrap:break-word};
+        4.css3 2D转换
+            transfrom:通过css3转换,我们可以对元素进行移动、缩放、转动、拉长、拉伸
+            1.translate()从当前位置移动,根据给定的left/top位置参数
+                transform: translate(50px,100px);
+            2.rotate()旋转给定的角度,负值则为逆时针旋转
+                transform: rotate(30deg);
+            3.scale()元素的尺寸会增加或减少,根据给定的宽度和高度
+                transform: scale(2,4);
+            4.skew()转动给定的角度,根据给定的水平线和垂直线
+                transform: skew(20deg,30deg);
+            5.matrix:
+                将所有2D转换方法组合在一起,需要六个参数,包含数学函数
+        5.css3 3D转换
+            rotateX()元素围绕其X轴给定的度数进行旋转
+            rotateY()元素围绕其Y轴给定的度数进行旋转
+        6.css3过渡
+            当从一个样式转换为另一种样式时元素添加的效果
+        7.css3动画
+            可以取代动画图片,Flash动画以及js
+        8.css3多列
+            column-count:规定元素应该被分列的列数
+            column-gap:列之间的间隔
+            column-rule:列之间的宽度、样式和颜色规则
+        9.css3用户界面
+            resize:属性规定用户是否可以自己调整元素大小
+            box-sizing:以确切的方式定义适应某个区域的具体内容
+            outline-offset:属性对轮廓进行偏移,并在超出边框边缘的位置绘制轮廓   
+    28.css动画
+        1.创建动画序列,需要使用animation属性及其子属性,该属性允许配置动画时间、时长、以及其他动画细节
+            但是该属性不能配置动画的实际表现,动画的实际表现由@keyframes规则实现
+        2.transition也可以实现动画,强调过渡,是元素的一个或多个属性发生变化时产生的过渡效果
+            同一个元素通过两个不同的途径获取样式,而当第二个途径当某种改变发生时才能获取样式
+            这样就会产生过渡动画
+    29.css3对溢出的处理
+        text-overflow:
+            clip:修剪文本
+            ellipsis:替换为省略符号
+            string:用指定字符串来表示
+    30.三栏布局的实现方式
+        三列布局又分为两种:
+            1.两列定宽一列自适应
+            2.两侧定宽中间自适应
+        1.两列定宽一列自适应
+            1.使用float+margin
+            2.使用float+overflow
+            3.使用position
+            4.使用table
+            5.使用flex
+            6.使用grid
+        2.两侧定宽中间自适应
+    31.calc
+        用户动态计算长度
+    32.display:table 和 table的区别
+        相对应,diaplay:table的css声明能够让一个html元素和它的子节点像table元素一样,基于表格的css布局
+        能够轻松定义一个单元格的边界、背景等样式,而不会因为使用table制表标签而出现语义化问题
+        之所以淘汰了table系表格元素,因为使用div+css编写出来的文件比用table写出来的文件小
+        而且table必须在页面完全加载后才显示,div是逐行显示
+    37.iframe
+            1.会阻塞主页面的onload事件,搜索引擎的检索程序无法解读这种页面,不利于SEO
+            2.与主页面共享连接池,而浏览器对相同域的连接有限制,影响页面的并行加载
+            解决方案:通过JS动态给iframe加上src属性
+    38.em
+        参考物是父元素的font-size
+        如果自身定义了font-size按自身来计算
+        整个页面em不是一个固定的值
+    39.sprite
+        精灵图,多个图片合成为一个图片(背景图)
+        减少http请求,减轻服务器压力,加快网页响应速度
+        通过background-position来选择相应的图片
+    40.背景居中
+        background-position: center -81px;
+##引用CSS
+        1.引用CSS
+            css样式代码必须放入.css文本文件，或者网页<style>标签中，或插入网页标签style属性值
+            设置编码
+                @charset "utf-8";
+            css样式应用
+                1.行内样式
+                    直接放入代码行的标签中,一般是style属性中
+                2.内嵌式
+                    写在网页源文件的头部,<head><head>之间
+                    只能在此页使用,由type来决定定义css样式还是js脚本
+                    (css)type="text/css"    (js脚本)type="text/javascript"
+                    title属性，为不同样式设置标题，根据标题切换，IE不支持，火狐支持
+                3.链接式
+                    html的<link>标签，将外部样式表文件链接导入HTML文档中
+                    将html文档和css文档完全分离，结构样式的分离
+                    增强了网页结构的可扩展性和css的可维护性
+                    <link href:文件地址 type:文档类型 rel:关联类型>
+                4.导入式
+                    @import导入外部样式表
+##选择器
+    1.css3选择器
+        1.基本选择器
+            even:偶数 odd:奇数
+            * 通用元素选择器，匹配任何元素,可以用于清除浏览器默认样式
+            E 标签选择器，匹配所有使用E标签的元素
+            类选择器: class="text1" .匹配相应class元素,一个元素可以有多个类
+            ID选择器: id="text2" #匹配相应id元素,id名在同一页面中不要重复
+        2.组合选择器
+                1.后代选择器
+                    E F 匹配所有属于E元素后代的F元素
+                2.子选择器
+                    E>F 匹配所有E元素的直接子元素F(类也适用)
+                3.相邻兄弟选择器
+                    E+F 匹配所有紧随E元素之后的同级F元素
+                4.全兄弟选择器
+                    E~F E元素后面的F元素,且为兄弟关系
+                5.并集选择器
+                    E,F 同时匹配所有E元素和F元素
+                6.交集选择器
+                    div.one <div class="one"></div>
+        3.属性选择器
+            [title] 属性包含title
+            [title="div元素"] 属性是div元素
+            [title^="div"] 属性att的值以"div"开头的元素
+            [title$="div"] 属性att的值以"div"结尾的元素
+            [title*="div"] 属性att的值包含"div"的元素
+        4.伪类/伪元素
+            1.动态伪类
+                a:link 未访问的链接
+                a:visited 已访问的链接
+                a:focus 获取焦点-去除tabindex="-1"
+                a:hover 鼠标悬浮
+                a:active 被激活
+                女朋友看见lv f ha
+            2.目标伪类
+                target
+            3.语言伪类
+                lang()
+            4.元素状态伪类
+                :enabled 
+                :disabled 
+                :checked 
+                :selection 
+            5.结构伪类
+                :root 匹配文档根元素，对于HTML文档，就是HTML元素
+                :nth-child(n) 匹配其父元素的第n个子元素，第一个编号为1,元素都会考虑
+                :nth-last-child(n) 匹配其父元素的倒数第n个子元素，第一个编号为1
+                :nth-of-type(n) 和nth-child()类似，但是仅匹配使用同种标签的元素
+                :nth-last-of-type(n) 仅匹配使用同种标签的元素
+                :first-child 匹配父元素的第一个子元素
+                :last-child 匹配父元素的最后一个子元素，等同于nth-last-child()
+                :first-of-type 匹配父元素使用同种标签的第一个元素，等同于nth-of-type(1)
+                :last-of-type 匹配父元素使用同种标签的最后一个元素，等同于nth-last-of-type(1)
+                :only-child 匹配父元素下仅有的一个子元素
+                :only-of-type 匹配父元素下使用同种标签的唯一一个子元素
+                :empty 元素内没有内容
+            6.否定伪类
+                :not()
+            7.伪元素
+                形内元素
+                ::first-line 第一行
+                ::first-letter 第一个字母
+                ::before
+                ::after      
+    2.Emmet语法
+        快速生成代码
+        div>p>span>strong 子代
+        div+a+p+span 兄弟
+        * 多个
+        ^ 上一个层级
+        () 组合
+        {} 内容
+        $*4
+        w100
+        h200
+        m20
+        p30
+    3.CSS特性
+        1.继承(inherited)
+            一个元素没有设置某属性的值,跟随父元素的值
+            自己有属性,就不会继承,而是用自己的
+            color,font-size,font-weight可继承
+            width不可继承
+            不可继承的可以inherit强制继承
+            继承计算值,而不是字面量
+        2.层叠
+            基本层叠:相同选择器,后面层叠前面
+            权重:
+                通配符选择器:0
+                元素选择符/伪元素选择器/关系选择器:1
+                类选择器/属性选择器/伪类选择器:10
+                ID选择器:100
+                内联样式:1000
+                !import:样式级最高
+            作者>用户>浏览器>HTML
+            行内>内嵌,内部>外部
+##文字文本
+    1.字体样式
+        1.font-family
+            定义字体类型
+        2.font-size
+            字体大小
+        3.字体颜色
+            color:为字体定义颜色
+        4.字体字形
+            font-weight:字体粗细
+            font-style:字体倾斜
+                normal正常
+                italic斜体
+                oblique没有斜体变量的特殊字体
+        5.间距
+            letter-spacing:字母之间的间距
+            word-spacing:单词之间的间距
+        6.font
+            缩写属性
+    2.定义文本样式
+        1.text-align
+            元素内容在元素中的水平对齐方式
+            left、right、center、justify
+            文本等行内元素，对块元素无能为力-inline-block
+            解决不同浏览器都能定义块状元素居中显示:
+                定义margin，左右边距都为自动
+                margin-left:auto
+                margin-right:auto
+            justify:两端对齐，当段落文本不满一行时，强制分散进行满行显示,最后一行无效
+        2.块状元素左右对齐
+            i.设置元素浮动显示
+                float:left/right
+            ii.通过绝对定位
+                position:absolute绝对定位元素精确定位在网页中的位置，不受其他元素影响
+                right:0定义绝对定位元素坐标值，这里表示向右看齐
+        3.文本垂直对齐
+            vertical-align
+        4.设置绝对居中显示
+            为绝对定位元素包裹一个相对定位元素，然后再设置包含元素居中对齐，就可以让绝对定位元素居中显示
+        5.line-height
+            行高:两行文字基线之间的间距(baseline)
+            可以用于设置垂直居中,上下行距相等
+        6.text-index
+            文本第一行缩进,2em
+        7.隐藏
+            overflow:hidden超出该容器的内容隐藏
+            visibility:hidden不改变页面布局，不可以触发点击事件
+            display:none删除了一样
+            opacity:0不改变页面布局，可以触发点击事件
+        8.文本阴影
+            text-shaow
+                none:无阴影
+                <length>第一个长度值用来设置对象的阴影水平偏移值，可以为负
+                <length>第二个长度值用来设置对象的阴影垂直偏移值，可以为负
+                <length>第三个长度值用来设置对象的阴影模糊值，不可以为负
+                <color>设置对象的阴影的颜色
+        9.定义溢出文本
+            text-overflow:设置超文本省略显示
+        10.文本换行
+            word-break:定义文本自动换行
+        11.恢复默认样式
+            initial:直接取消对某个元素的样式指定
+        12.text-decoration
+            设置文字的装饰线
+                none:无任何装饰线
+                underline:下划线
+                overline:上划线
+                line-through:删除线
+        13.text-transform
+            设置文字的大小写转换
+                capitalize:首字母大写
+                uppercase:都大写
+                lowercase:都小写
+                none:无效果
+        14.和文本相关的一般会继承
+##边框
+    1.设计边框样式
+        dotted:显示为点线
+        dashed:显示为虚线
+        solid:显示为实线
+    2.定义多色边框
+        border-color:可以设置边框的颜色
+    3.定义边框背景
+        border-image
+    4.设计圆角
+        border-radius:第一个表示圆角的水平半径，第二个表示圆角的垂直半径
+        如果只包括一个参数值，第二个值和第一个值相等，表示一个四分之一圆角
+        如果参数中包含0，这个角就是矩形
+    5.设计椭圆图形
+    6.设置背景图像
+        background和background-repeat
+    7.边框实现三角形
+        border-top:50px solid #f00;
+        border-left:50px solid #0f0;
+        border-right:50px solid #00f;
+        border-bottom:50px solid #ff0;
+        width:0;
+        height:0;  
+    8.outline
+        不占据空间
+    9.box-shaow  
+##表格
+    1.基础表格
+        <table><tr><td>
+    2.优化表格
+        <caption><thead><th><tbody><tfoot>
+    3.合并表格边框
+        border-collapse: collapse;
+        table/caption/thead/th/tbody/tfoot
+    4.单元格合并
+        colspan/rowspan
+    5.border-spacing
+        设置单元格的水平,垂直间距
+##盒子模型
+    1.用来装页面的元素的矩形区域
+        content(元素) padding(内边距) border(边框) margin(外边距)
+        1.IE盒子模型
+            box-sizing:border-box
+            宽高加上了border和padding
+        2.标准的W3C盒子模型
+            box-sizing:content-box
+            宽高都指content的宽高
+    2.margin传递
+        左右不会传递
+        上传递,发生重叠,子元素的margin-top传递给父元素
+        下传递,父元素高度为auto,子元素的margin-bottom传递给父元素
+        防止传递:给父元素设置padding-top/padding-bottom
+                给父元素设置border
+                触发BFC-结界
+    3.margin折叠
+        垂直方向上的2个margin有可能合并成为一个margin
+            取比较大的值
+        防止折叠:只设置一个margin
+    4.box-sizing
+        1.事先定义盒模型的尺寸解析方式
+            box-sizing默认content-box,适用于所有能够定义宽高的元素
+            content-box:宽高只是指定内容的宽高
+            border-box:width/height=border+padding+content
+        3.强调
+            margin和padding都是透明的，padding受背景影响，能够显示背景色或背景图像，border不透明、
+            margin可以定义负值，但border和padding不支持负值
+            margin、border、padding都是可选的,margin和padding默认值为0,border默认不显示
+##元素分类
+    1.显示类型(能不能在同一行显示)
+        1.块级元素
+            独占父元素一行,可以随意设置宽高,默认由内容决定
+                div h1~h6 p
+                ul ol li dl dt dd table form 
+                article aside footer header hgroup main nav section
+                address blockquote fieldset hr 
+                noframes noscript pre legend
+        2.行内级元素
+            多个行内级元素可以在父元素同一行显示,非替换元素不可以设置宽高,宽高由内容决定
+            中间产生空格-浏览器解析换行为空格
+                a img span strong code iframe label input button
+                canvas embed object video audio
+    2.内容类型(是否被浏览器替换掉)
+        1.替换元素
+            可以设置宽高
+        2.非替换元素
+##块级元素的由来           
+    任何元素本身没有样式,而是通过display属性改变默认显示类型
+        block:块级元素
+        none:隐藏显示
+        inline:行内级元素
+        inline-block:同时具备
+        compact:紧凑的块状显示
+        marker:在容器对象前或之后显示
+        table
+        inline-table:行内级元素的表格显示
+        list-item:块级元素的列表项目显示
+        run-in:块状显示或基于内容之上的行内显示
+##定位(normal flow)
+    1.标准流
+    2.position
+        1.static:默认,视口
+        2.relative:相对定位,占据原来空间
+        3.absolute:绝对定位,相对于已定位的父元素,没有则相对于视口,脱离标准流,不占据空间
+        4.fixed:固定定位,脱离标准流,不占据空间
+        5.粘性定位:sticky,
+            元素先按照普通文档流进行定位,然后相对于该元素在流中的BFC和最近的块级祖先元素定位
+            而后元素定位表现为在跨越特定阈值前为相对定位,之后为固定定位
+        6.inherit:
+            从父元素继承position属性的值
+    3.视口
+        viewport-画布-看得见的
+    4.脱离标准流
+        随意设置宽高,不向上传递宽高
+            display: block;
+    5.绝对定位公式
+        对于绝对定位元素来说:
+            定位参照对象的宽度=left+right+margin-left+margin-right+绝对定位元素的实际占用宽度
+            定位参照对象的宽度=top+bottom+margin-top+margin-bottom+绝对定位元素的实际占用宽度
+    6.层叠
+        父子:子元素层叠在父元素上
+        非父子:
+            1.都是非定位元素,在标准流中一般不存在层叠现象
+            2.定位和非定位,定位元素层叠在非定位元素上
+            3.都是定位,使用z-index来处理层叠关系
+                兄弟关系:越大越在上面,相等后面元素在上面
+                找祖先的邻近定位元素
+##浮动
+    1.脱离标准流
+    2.边界紧贴着包含块,或者其他浮动元素的边界为止
+    3.标准元素->浮动元素->定位元素
+    4.浮动元素不能和行内级元素层叠,会挤出去
+    5.初衷是实现文本环绕
+    6.行内级元素,inline-block元素浮动后,其顶部将与所在行的顶部对齐
+    7.浮动元素不能层叠
+##flex布局
+    1.css3布局
+        1.多列布局
+            columns:<column-width>||<column-count>;
+            column-width:定义每列的宽度
+            column-count:定义列数
+            column-gap:定义列间距
+            column-rule:<length>|<style>|<color>|<transparent>
+            column-span:跨列显示
+        3.伸缩盒布局
+            1.display:flex|inline-flex(行内元素)
+                Webkit内核的浏览器,必须加上-webkit前缀
+                ！设定为flex布局后,子元素的float、clear、vertical-align属性都将失效
+            2.采用flex布局的元素，称为flex容器,子元素自动成为成员，称为项目
+                main axis:主轴
+                cross axis:交叉轴
+                main start:主轴开始
+                main end:主轴结束
+                cross start:交叉轴开始
+                cross end:交叉轴结束
+                单个项目占据的主轴空间:main size
+                占据的交叉轴空间:cross size
+            3.容器属性
+                i.flex-direction:决定主轴的方向
+                    row:主轴为水平,起点在左端
+                    row-reverse:主轴为水平,起点在右端
+                    column:主轴为垂直,起点在上沿
+                    column-reverse:主轴为垂直,起点在下沿
+                ii.flex-wrap:换行
+                    nowrap(默认):不换行
+                    wrap:换行,第一行在上方
+                    wrap-reverse:换行,第一行在下方
+                    flex-flow是flex-direction和flex-wrap的简写,默认为 row nowrap
+                iii.justify-content:项目在主轴上的对齐方式
+                    flex-start:左对齐
+                    flex-end:右对齐
+                    center:居中
+                    space-between:两端对齐,项目间隔相等
+                    space-around:每个项目两侧间隔相等
+                iv.align-items:项目在交叉轴上如何对齐
+                    flex-start:交叉轴的起点对齐
+                    flex-end:交叉轴的终点对齐
+                    center:交叉轴的中点对齐
+                    baseline:项目的第一行文字的基线对齐
+                    stretch(默认值):auto将占满整个容器的高度
+                v.align-content:多根轴线的对齐方式,如果只有一根轴线,那么该属性不起作用
+                vii.order:定义项目的排列顺序,数值越小,排列越靠前,默认情况下为0
+                viii.flex-grow:放大比例 flex-shrink:缩小比例
+##CSS兼容
+    1.css兼容
+        浏览器存在不兼容性问题,主要是因为他们使用的渲染引擎不同,不同渲染引擎在解释标准时会有部分差异
+        渲染引擎主要负责解释web页面上的所有代码,然后把代码完美的呈现出来
+        主要通过打补丁或过滤的方式设计不同浏览器能够显示相同的效果
+##第十三章
+    1.css3动画
+        css3动画分为Transitions和Animations
+            区别：大部分都相同,随时间改变元素的属性值
+                  transition需要触发一个事件才可以改变元素的属性值:2帧
+                  animation不需要触发任何事件的情况下随时间改变属性值:可以一帧一帧
+    2.Transform变形
+        实现文本或图像的旋转、缩放、倾斜、移动
+        transform:none|<transform-function>[<transform-function>]*;
+        matrix:定义矩阵变换
+        translate:移动元素对象
+        scale:缩放元素对象
+        rotate:旋转元素对象
+        skew:倾斜元素对象
+    3.2D变形
+        rotate(<angle>):接受旋转指定的元素对象,主要在二维空间进行操作
+        scale():缩放元素,包括两个参数值,分别用来定义宽和高缩放比例
+        translate():重新定义元素的坐标,分别定义x轴和y轴坐标
+        skew():让元素倾斜显示,分别定义x、y倾斜的角度
+        matrix():可以非常灵活的实现各种变形效果
+    4.3D变形
+        translate3d(tx,ty,tz)
+        scale3d(sx,sy,sz)
+        rotateX() rotateY() rotateZ()
+    5.过渡动画
+        Transformation呈现一种变形效果,Transition呈现一种过渡
+        1.定义过渡属性
+            transition-property:定义过渡动画的CSS属性名称
+            transition-duration:定义转换动画的时间长度
+            transition:定义过渡动画的延迟时间
+            transition-timing-function:定义过渡动画的效果
+    6.运动动画
+        Animations实现更复杂的动画效果
+        为了模拟关键帧动画,css3引入@keyframes规则,通过这个规则,用户可以创建动画
+        动画原理:将一套css样式转变成另一套css样式
+        @keyframes animationname {keyframes-selector {css-styles;}}
+        animations-duration
+        animations-timing-function
+        animations-delay
+        animations-iteration-count
+        animations-direction
+        animations-play-state
+        animations-fill-mode
+##Bootstrap
+##第十七章
+    1.css栅格系统
+        也称网格系统,运用固定的格子设计版面布局,以规则的网格阵列来指导和规范网页中的版面布局以及信息分布
+        网页设计中,把网页宽度平均分为N个网格单元,每个单元之间预留一定的空隙
+        BS2栅格系统有两种
+            1.固定式(fix):列宽固定为60px,列间距为20px
+            2.流式的(fluid)
+##第十八章
+    1.css响应式设计
+        弹性网格、液态布局、弹性图片
+        为了适应不同需求,进行相应的响应和调整,能够兼容多个终端,无法跟上设备分辨率革新的步伐
+        1.弹性图片
+            1.无论何时都确保在图片原始宽度范围内,以最大的宽度同比完整地显示图片,不必再样式表中为图片设置宽度
+                和高度,只需要让样式表在窗口尺寸发生变化时,辅助浏览器对图片进行缩放
+            2.要实现图片的智能响应
+                自适应图片缩放尺寸,在小设备上能够自动降低图片的分辨率
+                Responsive Images的设计原理:使用rwd-images.js文件检测当前设备的屏幕分辨率,如果是大屏幕
+                    设备,则向页面头部区域添加Base标记,并将后续的图片、脚本、样式表加载请求定向到一个虚拟路径
+                    "/rwd-router",当这些请求到达服务器端,.htacces文件会决定这些请求所需要的是原始图片,还是
+                    小尺寸的响应式图片,并进行相应的反馈输出,对于小屏幕的移动设备,原始尺寸不会被用到
+            3.定义设备类型
+                css3加入了Media Queries模块,允许添加媒体查询表达式
+##第二十章
+    1.CSS动态样式
+        LESS扩展了CSS语言功能,在CSS的语法基础上,引入了变量、混合、运算和函数等特性
+        LESS受SASS影响而创建的开源项目,SASS采用缩进作为分隔符来区分代码块,而不是CSS常用的括号,所以有了LESS
+        1.LESS概述
+            网页设计常常不是一个用过一次就丢的东西,可能经常需要去修改它
+            LESS可以提供很多方便的工具,过去需要写5行样式声明,现在只需要1行,过去需要改N个地方,现在只需要改一个地方,无遗漏
+        2.使用LESS
+            提前将LESS文件编译生成静态的css文件,然后在HTML文档中应用
+            在客户端只需要下载less.js文件,然后在需要的地方导入
+            在服务端的使用主要是借助于LESS的编译器,将LESS源文件编译生成最终的css文件
+        3.LESS组成
+            LESS包含一套自定义的语法和一个解析器,没有裁剪CSS原有特性,更不会取代CSS,对CSS加入程序式语言特性
+            拥有四大特性:变量、混合、嵌套、运算
+            1.变量
+                通过@的方式声明变量,甚至可以通过算法操作对变量进行运算,这样有利于对全局变量的重复运用,实现全局配置
+            2.混合
+                把A引入B中,B继承A的所有属性
+            #参数混合
+                像声明函数一样,定义一个带参数的样式,可以想象为一个js函数
+            3.嵌套
+                让css的层级更有归属感,用&声明伪类属性
+            4.运算
+            5.作用域
+            6.命名空间
+            7.JS表达式:通过反引号来使用
+        4.LESS和SASS和SCSS
+            SASS:采用缩进作为分隔符来区分代码块
+            LESS:平滑的过渡CSS到LESS
+            SCSS:采用大括弧作为分隔符

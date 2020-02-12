@@ -1,0 +1,102 @@
+<!--文档声明-->
+<!DOCTYPE html>
+<!-- 指定当前页面的语言 -->
+<html lang="en">
+<head>
+    <!--元数据-->
+    <!-- 用于描述数据的数据 -->
+    <!-- 描述网页信息-编码图标标题 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- 网页小图标 -->
+    <link rel="icon" type="image/x-icon" class="js-site-favicon" href="https://github.githubassets.com/favicon.ico">
+    <title>吴磊的第一个网页</title>
+    <!-- <base href="https://www.baidu.com"> -->
+    <style type="text/css">  
+        .wulei{
+            font-size: 20px;
+            color: red;
+            font-family: monospace;
+        } 
+        .p2{
+            text-indent: 2em;
+        } 
+        .new-price{
+            color: red;
+        }
+        .text{
+            color: red;
+        }
+    </style>
+</head>
+<!--网页内容-->
+<!--整个元素,单个标签-->
+<!-- ctrl / -用于标记注释 -->
+<!-- 注释不能嵌套 -->
+<body>
+    <!-- ctrl enter-直接进入下一行 -->
+    <!-- shift tab-删除缩进 -->
+    <!-- alt shift +向下键-复制上一行 -->
+    <!-- ctrl f-搜索 -->
+    <!-- &nbsp;-空格 -->
+    <!-- alt shift-选中多个 -->
+    <input type="text">
+    <h1 class="wulei">
+        hello world
+    </h1>
+    <code>function Sort(){}</code>
+    <!-- 换行 -->
+    <br>
+    <!-- 分割线 -->
+    <hr color="red">
+    <!-- 字符实体 -->
+    <p>&lt;span&gt;</p>
+    <!-- 
+        远程图片:
+        本地图片:绝对路径
+                相对路径
+                .当前目录
+                ..上一层目录  
+     -->
+    <img src="" alt="" width="400">
+    <!-- target _self当前页面打开 _blank新标签页打开 -->
+    <a href="https://www.baidu.com" target="_blank">百度一下</a>
+    <!-- 锚点链接 -->
+    <a href="#title1">标题一</a>
+    <a href="#title2">标题二</a>
+    <h2 id="title1">xxx</h2>
+    <h2 id="title2">xxx</h2>
+    <!-- 伪链接-不希望打开新的链接,而是干点别的事情
+        编写对应的JS代码
+        使用a链接模拟按钮
+    -->
+    <a href="#">跳回顶部</a>
+    <!-- a元素还可以和图片链接结合使用 -->
+    <p id="xxx">hello html</p>
+    <div title="hello">hell css</div>
+    <ul>
+        <li>css</li>
+        <li>js</li>
+        <li>html</li>
+    </ul>
+    <ol>
+        <li><strong>css</strong></li>
+        <li>js</li>
+        <li>html</li>
+    </ol>
+    <!-- 对普通文本进行归类 -->
+    <span class="new-price">dangerous</span>
+    <div class="text">
+        <h2>title1</h2>
+        <p class="p2">
+            xxxSEO-搜索引擎优化
+            百度/搜狗/Google/360/
+            爬虫,匹配最好的来显示
+            正则表达式匹配h1元素(权重最大)
+            建议最多只有1个h1元素,太多会被视为作弊,视为k站,作弊的网站
+        </p>
+    </div>
+    
+</body>
+</html>

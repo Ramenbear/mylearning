@@ -1,0 +1,2407 @@
+1.灵活的语言JS
+    1.1验证表单
+        function checkName(){
+            //验证姓名
+        }
+        创建了全局变量
+    1.2函数的另一种形式
+        var checkName = function(){
+            //验证姓名
+        }
+        别人定义相同的方法会覆盖掉原有的方法
+        放在一个变量中减少被覆盖的风险
+    1.3用对象收编变量
+        var CheckObject = {
+            checkName:function(){
+                //验证姓名
+            }
+        }
+        将函数作为一个对象的方法,使用点语法来进行访问
+    1.4对象的另一种形式
+        var CheckObject = function(){};
+        CheckObject.checkName = function(){
+            //验证姓名
+        }
+        别人想用你写的对象的方法就麻烦了,因为不能够复制一份
+    1.5真假对象
+        var CheckObject = function(){
+            return {
+                checkName:function(){
+                    //验证姓名
+                }
+            }
+        }
+        将之前的对象返回出来,别人调用时都返回一个新对象,每个人在使用时互不影响
+    1.6类也可以
+        var CheckObject = function (){
+            this.checkName = function(){
+                //验证姓名
+            }
+        }
+        既然是一个类就需要使用关键字new来创建
+    1.7检测类
+        新创建的对象会对类上的this属性进行复制,新创建的对象都拥有自己的一套方法
+        var CheckObject = function(){};
+        CheckObject.prototype.checkName = function(){
+            //验证姓名
+        }
+        这样创建出来的新对象所拥有的方法只有一个,因为都会依赖prototype原型进行寻找
+        最后找到的方法都是同一个,绑定在对象类的原型上
+    1.8方法还可以这样使用
+        this指向当前对象,我们在每次方法末尾将这个对象返回,就可以实现方法的链式调用
+    1.9函数的祖先
+        给每一个函数添加方法
+        Function.prototype.addMethod = function(name,fn){
+            this.[name] = fn;
+        }
+        var methods = new Function();
+        methods.addMethod('checkName', function(){
+            //验证姓名
+        })
+        同样可以链式添加使用
+    1.10同理可以改写为类式调用
+2.面向对象编程
+    2.1面向过程与面向对象
+        函数？对象？
+        如果按照传统流程编写一个个函数来解决需求,不利于团队开发,这是一种面向过程的实现
+        面向对象就是将你的需求抽象成为一个对象,对这个对象进行分析(属性和方法),称之为类
+        一个重要的特点就是封装,将你需要的功能放在一个对象中
+        比如你出门带上行李箱,将你所需都封装在了里面
+        而JS是一种解释性的弱类型语言,没有经典语言的class,通过一些特性模仿实现
+    2.2封装
+        创建一个类很容易,编程习惯,类变量名首字母大写,然后通过this来添加属性和方法
+        var Book = function(id, bookname, price){
+            this.id = id;
+            this.bookname = bookname;
+            this.price = price;
+        }
+        也可以通过prototype来对原型添加属性和方法
+        那么this和prototype有何区别
+            1.this  
+                在当前对象上添加
+            2.prototype 
+                JS是一种基于原型prototype的语言,每创建一个对象,都有一个原型prototype
+                用于指向所继承的属性、方法,并不是对象自己所拥有,需要通过prototype一级一级查找得到
+                constructor拥有整个原型对象的函数或对象
+        私有属性、私有方法、共有属性、共有方法、保护方法
+        JS的函数级作用域,声明在函数内部的变量以及方法在函数外部是访问不到的
+        而this创建的属性和方法,新创建对象每一个都拥有一份并且可以在外部访问到
+        this创建的属性可以看作是对象共有属性和对象共有方法
+        而且this方法可以访问到对象的共有属性与共有方法,还可以访问到自身的私有属性和私有方法
+        被称为特权方法
+        var Book = function(id, name, price){
+            //私有属性
+            var num = 1;
+            //私有方法
+            function checkId(){};
+            //特权方法
+            this.getName = function(){};
+            //公有属性
+            this.id = id;
+            //公有方法
+            this.copy = function(){};
+            //构造器
+            this.setName(name);
+        }
+        在类外面使用点语法添加的属性和方法没有执行到,新创建的对象无法获取他们,可以通过类来使用
+        这被称为静态共有属性和静态共用方法
+        通过prototype创建的属性或者方法可以通过this访问到
+        称之为共有属性和共有方法
+        安全模式
+        var Book = function(title, time, type){
+            if(this instanceof Book){
+                this.title = title;
+                this.time = time;
+                this.type = type;
+            }else{
+                return new Book(title, time, type);
+            }
+        }
+    2.3继承
+        1.类式继承
+            function SuperClass(){
+                this.superValue = true;
+            }
+            SuperClass.prototype.getSuperValue = function(){
+                return this.superValue;
+            }
+            function SubClass(){
+                this.subValue = false;
+            }
+            //继承父类
+            SubClass.prototype = new SuperClass();
+            SubClass.prototype.getSubValue = function(){
+                return this.subValue;
+            };
+            1.原理
+                类的原型对象就是为类的原型添加共有方法,但是类不能直接访问这些属性和方法
+                实例化一个父类,新创建的对象复制了父类的构造函数内的属性和方法
+                并且将原型指向了父类的原型对象,可以直接访问父类原型上的属性和方法
+                再赋值给子类的原型,那么子类的原型就可以访问到父类的原型的方法
+            2.缺点
+                父类中的共有属性要是引用类型,就会在子类中被所有实例共用
+                一个子类的实例更改子类原型从父类构造函数继承来的共有属性就会直接影响其他子类
+        2.构造函数继承
+            function SuperClass(id){
+                this.books = ['JS','html','css']
+                this.id = id;
+            }
+            SuperClass.prototype.showBooks = function(){
+                console.log(this.books);
+            }
+            function SubClass(id){
+                SuperClass.call(this, id);
+            }
+            1.原理
+                call可以更改函数的作用环境
+                对父类调用此方法就是将子类中的变量在父类中执行一遍
+                由于父类中是给this绑定属性的,子类也就继承父类共有属性
+            2.缺点
+                没有涉及原型
+                父类原型方法不会被子类继承
+                如果要被子类继承就得放在构造函数中,那么实例就会各自拥有一份
+        3.组合继承
+            function SuperClass(name){
+                this.books = ['JS','html','css']
+                this.name = name;
+            }
+            SuperClass.prototype.getName = function(){
+                console.log(this.name);
+            }
+            function SubClass(name, time){
+                SuperClass.call(this, name);
+                this.time = time;
+            }
+            SubClass.prototype = new SuperClass();
+            SubClass.prototype.getTime = function(){
+                console.log(this.time);
+            };
+            缺点:
+                父类构造函数调用了两遍
+        4.原型式继承
+            function inheritObject(o){
+                function F(){
+                    F.prototype = o;
+                    return new F();
+                }
+            }
+        5.寄生式继承
+            var book = {
+                name: "js book",
+                alikebook: ["css book","html book"]
+            };
+            function createBook(obj){
+                var o = new inheritObject(obj);
+                o.getName = function(){
+                    console.log(name);
+                };
+                return o;
+            }
+        6.寄生组合式继承
+            function inheritPrototype(subClass, superClass){
+                var p = inheritObject(superClass.prototype);
+                p.constructor = subClass;
+                subClass.prototype = p;
+            }
+            在构造函数继承已经调用了父类的构造函数,因此我们需要父类的原型对象的一个副本
+            通过原型链继承便可以得到
+            但是复制对象p中的constructor指向的不是subClass,因此再做一次增强
+            将p赋值给子类的原型
+            这样子类继承了父类的原型且没有执行父类的构造函数
+        7.多继承
+            单继承
+            var extend = function(target, source){
+                for(var property in source){
+                    target[property] = source[property];
+                }
+                return target;
+            };
+            对对象属性的一个复制过程,只能复制值类型的属性
+            多继承
+            Object.prototype.mix = function(){
+                var i = 0,
+                    len = arguments.length,
+                    arg;
+                for(;i < len; i++){
+                    arg = arguments[i];
+                    for(var property in arg){
+                        this[property] = arg[property];
+                    }
+                }
+            }
+        8.多态
+            对传入的参数做判断以实现多种调用方式
+3.创建型设计模式
+    处理对象创建的设计模式,控制对象的创建来避免基本对象创建时
+    可能导致设计上的问题或增加设计上的复杂度
+    1.简单工厂模式
+        静态工厂方法
+        由一个工厂对象决定创建某一种产品对象类的实例,创建同一类对象
+    2.类太多,提供一个
+        封装在一个函数中,只需要记住这个函数,不需要知道基类
+        这个函数被称为工厂函数,这个模式叫简单工厂模式
+        var LoginAlert = function(text){
+            this.content = text;
+        }
+        LoginAlert.prototype.show = function(){
+            //显示警示框
+        }
+        var LoginConfirm = function(text){
+            this.content = text;
+        }
+        LoginConfirm.prototype.show = function(){
+            //显示确认框
+        }
+        var LoginPrompt = function(text){
+            this.content = text;
+        }
+        LoginPrompt.prototype.show = function(){
+            //显示提示框
+        }
+        工厂:
+        var PopFactory = function(name){
+            switch(name){
+                case 'alert':
+                    return new LoginAlert();
+                case 'confirm':
+                    return new LoginConfirm();
+                case 'prompt':
+                    return new LoginPrompt();
+            }
+        }
+    3.上面是对不同的类进行实例化,简单工厂模式的理念是创建对象
+        提取相似的东西,不相似的针对性处理
+        function createPop(type, text){
+            var o = new Object();
+            o.content = text;
+            o.show = function(){
+                //显示方法
+            }；
+            if(type == 'alert'){
+                //警示框
+            }
+            if(type == 'confirm'){
+                //确认框
+            }
+            if(type == 'prompt'){
+                //提示框
+            }
+        }
+    4.区别
+        第一种是通过类实例化来创建
+            继承同一父类,父类原型上的方法是可以共用的
+        第二种是创建一个新对象然后包装增强其属性和功能来实现
+            创建了一个新个体,方法也就不能共用了
+    2.工厂方法模式
+        对产品类的抽象使其创建业务主要负责用于创建多类产品的实例
+        只需要添加一个类
+        看作一个实例化对象的工厂类,将创建对象的基类放在工厂方法类的原型当中
+        安全模式:避免错误,比如未使用new
+        var Factory = function(type, content){
+            if(this instanceof Factory){
+                var s = new this[type](content);
+                return s;
+            }else{
+                return new Factory(type, content);
+            }
+        } 
+        Factory.prototype = {
+            Java : function(content){
+                //...
+            },
+            JavaScript : function(content){
+                //...
+            }
+        };  
+    3.抽象工厂模式
+        对类的工厂抽象使其业务用于对产品类族的创建
+    4.建造者模式
+        将一个复杂对象的构建层与其表示层相互分离,同样的构建过程可采用不同的表示
+        关心于创建这个对象的整个过程,甚至每一个细节
+        var Human = function(param){
+            this.skill = param && param.skill || '保密'；
+            this.hobby = param && param.hobby || '保密'；
+        }
+        Human.prototype = {
+            getSkill : function(){
+                return this.skill;
+            },
+            getHobby : function(){
+                return this.hobby;
+            }
+        }
+        var Named = function(name){
+            var that = this;
+            (function(name, that){
+                that.wholeName = name;
+                if(name.indexOf('') > -1){
+                    that.FirstName = name.slice(0, name.indexOf(''));
+                    that.SecondName = name.slice(name.indexOf(''));
+                }
+            })(name, that);
+        }
+        var Work = function(work){
+            var that = this;
+            (function(work, that){
+                switch(work){
+                    case 'code':
+                        that.work = '工程师'；
+                        that.workDescript = '每天编程'；
+                        break;
+                    case 'UI':
+                    case 'UE':
+                        that.work = '设计师'；
+                        that.workDescript = '设计更似一种艺术'；
+                        break;
+                    default:
+                        that.work = work；
+                        that.workDescript = 'NOT FOUND'；
+                }
+            })(work, that);
+        }
+        Work.prototype.changeWork = function(work){
+            this.work = work;
+        }
+        Work.prototype.changeDescript = function(setence){
+            this.workDescript = sentence;
+        }
+        建造者类
+        var Person = function(name, work){
+            var _person = new Human();
+            _person.name = new Named(name);
+            _person.work = new Work(work);
+            return _person;
+        }
+    5.原型模式
+        用原型实例指向创建对象的类,使用于创建新的对象的类共享原型对象的属性和方法
+        将可复用、可共享、耗时大的从基类中提出来然后放在原型之中
+        然后子类将方法和属性继承下来,对于那些需要重写的方法进行重写
+        既有了自己的属性和方法又有了原型的属性和方法
+    6.单例模式
+        只允许实例化一次的对象类,只存在一个对象
+        为一个对象规划一个命名空间,来井井有条的管理对象上的属性和方法
+        为了代码易懂,采用语义化,但是能用的词是有限的,很容易重复
+        可以使用命名空间来约束每个人定义的变量
+        比如常见的jQuery使用它的方法必须使用它的命名空间
+        var A = {
+            Util : {
+                util_method1 : function(){},
+                util_method2 : function(){}
+                //...
+            },
+            Tool : {
+                tool_method1 : function(){},
+                tool_method2 : function(){}
+                //...
+            },
+            Ajax : {
+                get : function(){},
+                post : function(){}
+                //...
+            }
+        }
+3.结构型设计模式
+    如何将类或对象组合成更大、更复杂的结构,简化设计
+    1.外观模式
+        为一组复杂的子系统接口提供一个更高级的统一接口
+        通过这个接口对子系统接口的访问更容易
+        1.添加一个点击事件
+            document.onclick = function(e){
+                e.preventDefault();
+                if(e.target !== document.getElementById('myinput')){
+                    hidePageAlert();
+                }
+            }
+            function hidePageAlert(){
+                //隐藏提示框
+            }
+            为document绑定了一个onclick事件,onclick是DOM0级事件
+            也就是说为元素绑定一个事件方法
+            如果有人再次通过这种方式来绑定click,会覆盖你定义的事件方法
+            所以应该使用DOM2级事件addEventListener
+            但是老版本IE不支持这个方法,使用attachEvent
+            不支持DOM2级事件处理程序的浏览器,只能使用onclick
+        2.兼容模式
+            //外观模式
+            function addEvent(dom, type, fn){
+                //支持DOM2级事件处理程序addEventListener方法的浏览器
+                if(dom.addEventListener){
+                    dom.addEventListener(type, fn, false);
+                //不支持addEventListener,但是支持attachEvent方法的浏览器
+                }else if(dom.attachEvent){
+                    dom.attachEvent('on' + type, fn);
+                //以上都不支持
+                }else{
+                    dom['on' + type] = fn;
+                }
+            }
+    2.适配器模式
+        将一个类的接口转换成为另外一个接口
+        1.公司内部开发使用A框架,想引入jQuery
+            如果A框架和jQuery很类似
+            使用适配器来匹配
+            window.A = A = jQuery;
+            就可以使用jQuery来使用之前的代码
+        2.适配异类框架
+            如果框架之间差别太大,适配起来繁琐
+        3.参数适配器
+            参数太多,理清顺序很麻烦
+            以一个参数对象传入
+            function doSomeThing(obj){
+                var _adapter = {
+                    name : '雨夜清荷'，
+                    title : 'xgd',
+                    age : 24,
+                    color : 'red',
+                    size :　100,
+                };
+                for(var i in _adapter){
+                    _adapter[i] = obj[i] || _adapter[i];
+                }
+            }
+        4.数据适配
+            后端数据因为架构改变导致传递的数据结构发生变化
+            后端传来的数据不是我们想要的数据类型
+            我们可以写一个适配器,适配成我们想要的格式
+    3.代理模式
+        一个对象不能直接引用另一个对象,通过一个代理在两个对象之间起到中介的作用
+        1.用户相册模块上传的照片量越来越大,导致服务端需要将图片上传模块重新部署到
+          另外一个域(另一个服务器),对于前端来说,路径发生改变,导致跨域
+        2.因为JS中同源策略的限制,不同域名、端口号、协议,任何一个不同,就造成跨域
+        3.找一个代理对象来处理两个对象的通信
+        4.代理对象
+            1.站长统计
+                简单一点的,比如img标签通过src属性可以向其他域下的服务器发送请求
+                这类请求是get请求,并且是单向的,也就是没有响应数据
+                应用
+                    站长平台对你的页面统计项,当你的页面触发一些动作的时候
+                    向站长平台发送类似这类img的get请求,对你的请求进行统计
+                    然而你并不知道
+            2.JSONP
+                通过script标签,比如我们在CDN(内容分发网络,一种更接近用户的网络架构,就近获取内容)
+                在src中添加相应的字段信息,然后服务端相应生成一份内容
+            3.代理模板
+                不同域的调用是有限制的,那么自己域中的两个页面相互之间的调用是可以的
+                自己域:X域
+                    被代理页面:A页面
+                        1.发送请求的模块
+                            form表单提交,负责向Y域发送请求
+                            提供额外的两组数据:
+                            执行的回调函数名、X域中代理模板所在的路径并将target目标指向内嵌框架
+                        2.内嵌框架
+                            如iframe,负责提供第一部分中form表单的响应目标target的指向
+                            并将嵌入X域中的代理页面作为子页面
+                        3.回调函数
+                            处理返回来的数据
+                    代理页面:B页面
+                另外的域:Y域
+    4.装饰者模式
+        在不改变原对象的基础上,对其进行包装拓展,添加属性和方法
+        使原有对象可以满足用户更为复杂的需求
+        //装饰者
+            var decorator = function(input, fn){
+                //获取事件源
+                var input = document.getElementById(input);
+                //若事件源已经绑定事件
+                if(typeof input.onclick === 'function'){
+                    //缓存事件源原有回调函数
+                    var oldClickFn = input.onclick;
+                    //为事件源定义新的事件
+                    input.onclick = function(){
+                        //事件源原有回调函数
+                        oldClickFn();
+                        //执行事件源新增回调函数
+                        fn();
+                    }
+                }else{
+                    input.onclick = fn;
+                }
+                //其他
+            }
+        使用
+        decorator('tel_input', function(){
+            document.getElementById('tel_demo_text').style.display = 'none';
+        });
+    5.桥接模式
+        系统沿着多个维度变化的同时,不增加其复杂度并已达到解耦
+        1.提取共同点
+            对相同的逻辑做抽象提取处理,代码简洁、重用率更大、更可读
+        2.事件与业务逻辑之间的桥梁
+            先抽象提取共用部分,将实现与抽象通过桥接方法链接在一起,达到解耦
+        3.多元化对象
+            function Speed(x, y){
+                this.x = x;
+                this.y = y;
+            }
+            Speed.prototype.run = function(){
+                console.log('运动起来')；
+            }
+
+            function Color(cl){
+                this.color = cl;
+            }
+            Color.prototype.draw = function(){
+                console.log('绘制色彩');
+            }
+
+            function Shape(sp){
+                this.shape = sp;
+            }
+            Shape.prototype.change = function(){
+                console.log('改变形状');
+            }
+
+            function Speek(wd){
+                this.word = wd;
+            }
+            Speek.prototype.say = function(){
+                console.log('书写字体');
+            }
+            //球类
+            function Ball(x,y,c){
+                this.speed = new Speed(x,y);
+                this.color = new Color(c);
+            }
+            Ball.prototype.init = function(){
+                this.speed.run();
+                this.color.draw();
+            }
+            //人物类
+            function People(x,y,f){
+                this.speed = new Speed(x,y);
+                this.font = new Speek(f);
+            }
+            People.prototype.init = function(){
+                this.speed.run();
+                this.font.say();
+            }
+            实现一个人物
+            var p = new People(10, 12, 16);
+            p.init();
+    6.组合模式
+        部分-整体模式,将对象组合树形结构以表示"部分整体"的层次结构
+        对单个对象和组合对象的使用具有一致性
+        1.套餐服务
+            先拆分出个体,然后按需要寻找相应的个体合成新的整体的意思
+        2.每个成员都有祖先
+            要求:接口的统一
+            让所有的新闻继承至一个新闻虚拟父类News
+                var News = function(){
+                    //子组件容器
+                    this.children = [];
+                    //当前组件元素
+                    this.element = null;
+                }
+                News.prototype = {
+                    init : function(){
+                        throw new Error("请重写你的方法")；
+                    },
+                    add : function(){
+                        throw new Error("请重写你的方法")；
+                    },
+                    getElement : function(){
+                        throw new Error("请重写你的方法")；
+                    }
+                }
+            父类是虚拟父类,为何声明一些特权变量
+                因为后面的继承子类都要声明这两个变量,简化子类提前声明在父类中
+            拆分确定层次关系
+                最顶层是一个新闻模块的容器,再往下就是每一行新闻成员集合
+                每一行还可能是新闻组合体,最后一层就是新闻对象
+        3.组合要有一个容器类
+            //容器类构造函数
+            var Container = function(id, parent){
+                //构造函数继承父类
+                News.call(this);
+                //模块id
+                this.id = id;
+                //模块父容器
+                this.parent = parent;
+                //构建方法
+                this.init();
+            }
+            //寄生式继承父类原型方法
+            inheritPrototype(Container, news);
+            //构建方法
+            Container.prototype.init = function(){
+                this.element = document.createElement('ul');
+                this.element.id = this.id;
+                this.element.className = 'new-container';
+            };
+            //添加子元素方法
+            Container.prototype.add = function(){
+                //在子元素容器中插入子元素
+                this.children.push(child);
+                //插入当前组件元素树
+                this.element.appendChild(child.getElement());
+                return this;
+            }
+            //获取当前元素方法
+            Container.prototype.getElement = function(){
+                return this.element;
+            }
+            //显示方法
+            Container.prototype.show = function(){
+                this.parent.appendChild(this.element);
+            }
+            下一层级的行成员集合类以及后面的新闻组合体类实现的方式
+            var Item = function(classname){
+                News.call(this);
+                this.classname = classname || '';
+                this.init();
+            }
+            inheritPrototype(Item, News);
+            Item.prototype.init = function(){
+                this.element = document.createElement('li');
+                this.element.className = this.classname;
+            }
+            Item.prototype.add = function(){
+                this.children.push(child);
+                this.element.appendChild(child.getElement());
+                return this;
+            }
+            Item.prototype.getElement = function(){
+                return this.element;
+            }
+            var NewsGroup = function(classname){
+                News.call(this);
+                this.classname = classname || '';
+                this.init();
+            }
+            inheritPrototype(NewsGroup, News);
+            NewsGroup.prototype.init = function(){
+                this.element = document.createElement('div');
+                this.element.className = this.classname;
+            }
+            NewsGroup.prototype.add = function(child){
+                this.children.push(child);
+                this.element.appendChild(child.getElement());
+                return this;
+            }
+            NewsGroup.prototype.getElement = function(){
+                return this.element;
+            }
+        4.创建一个新闻类
+            var ImageNews = function(url, href, classname){
+                News.call(this);
+                this.url = url || '';
+                this.href = href || '#';
+                this.classname = classname || 'normal';
+                this.init();
+            }
+            inheritPrototype(ImageNews, News);
+            ImageNews.prototype.init = function(){
+                this.element = document.createElement('a');
+                var img = new Image();
+                img.src = this.url;
+                this.element.appendChild(img);
+                this.element.className = 'image-news' + this.classname;
+                this.element.href = this.href;
+            }
+            ImageNews.prototype.add = function(){}
+            ImageNews.prototype.getElement = function(){
+                return this.element;
+            }
+        5.创建新闻模块
+            var news1 = new Container('news', document.body);
+            news1.add(
+                new Item('normal').add(
+                    new IconNews('梅西', '#', 'video')
+                )
+            ).add(
+                new Item('normal').add(
+                    new NewsGroup('has-img'.add(
+                        new ImageNews('img/1.jpg', '#', 'small')
+                    ).add(
+                        new EasyNews('xx', '#')
+                    ).add(
+                        new EasyNews('xxx', '#')
+                    )
+                )
+            ).show();
+        6.应用在表单
+    7.享元模式
+        共享技术有效支持大量的细粒度的对象,避免拥有相同类容造成多余的开销
+        1.新闻翻页
+            所有新闻具有相同结构,当几百条新闻同时插入页面并操作造成的多余开销
+            在低版本IE浏览器中或严重影响其性能
+        2.享元模式
+            对其数据、方法共享分离,将数据和方法分成内部数据、内部方法、外部数据、外部方法
+            内部数据和内部方法指的是相似或者共有的数据和方法,需要一出来减少开销
+        3.享元对象
+            新闻个体具有共同的结构,作为内部方法
+            下一页绑定的事件不能再抽象了,作为外部方法
+            操作方法,操作这些提取出来的内部数据
+            var Flyweight = function(){
+                //已创建的元素
+                var created = [];
+                //创建一个新闻包装容器
+                function create(){
+                    var dom = document.createElement('div');
+                    //将容器插入新闻列表容器中
+                    document.getElementById('container').appendChild(dom);
+                    //缓存新创建的元素
+                    created.push(dom);
+                    //返回创建的新元素
+                    return dom;
+                }
+                return {
+                    //获取创建新闻元素方法
+                    getDiv : function(){
+                        //已创建的元素小于当前页元素总个数,则创建
+                        if(created.length < 5){
+                            return create();
+                        }else{
+                            //获取第一个元素,并插入到最后面
+                            var div = created.shift();
+                            created.push(div);
+                            return div;
+                        }
+                    }
+                }
+            }();
+        4.实现需求
+            创建一个享元类,由于每页只能显示5条新闻,所以我们创建5个元素
+            保存在享元类的内部,通过享元类提供的方法getDiv来获取创建的元素
+        5.享元动作
+            //横向移动和纵向移动
+            var FlyWeight = {
+                moveX : function(x){
+                    this.x = x;
+                },
+                moveY : function(y){
+                    this.y = y;
+                }
+            }
+            //其他任何角色都可以继承来实现这些方法
+            var Player = function(x, y, c){
+                this.x = x;
+                this.y = y;
+                this.color = c;
+            }
+            Player.prototype = FlyWeight;
+            Player.prototype.changeC = function(c){
+                this.color = c;
+            }
+4.行为型设计模式
+    不同对象之间职责划分或算法抽象,类或对象之间的交流模式并加以实现
+    1.模板方法模式
+        父类定义一组操作算法骨架,将实现步骤延迟到子类中
+        子类可以不改变父类算法结构的同时重新定义算法中某些实现步骤
+        1.提示框归一化
+            将多个模型抽象化归一,从中提取出来一个最基本的模板
+            可以作为实体对象也可以作为抽象对象
+            其他模板只需要继承这个模板方法,也可以拓展方法
+        2.创建基本提示框
+            //模板类 基础提示框 data 渲染数据
+            var Alert = function(data){
+                //没有数据则返回,防止后面数据执行
+                if(!data)
+                    return;
+                //设置内容
+                this.content = data.content;
+                //创建提示框面板
+                this.panel = document.createElement('div');
+                //创建提示内容组件
+                this.contentNode = document.createElement('p');
+                //创建确定按钮组件
+                this.confirmBtn = document.createElement('span');
+                //创建关闭按钮组件
+                this.closeBtn = document.createElement('b');
+                //为提示框面板添加类
+                this.panel.className = 'alert'
+                //为关闭按钮添加类
+                this.closeBtn.className = 'a-close';
+                //为确定按钮添加类
+                this.confirmBtn.className = 'a-confirm';
+                //为确定按钮添加文案
+                this.confirmBtn.innerHTML = data.confirm || '确认';
+                //为提示内容添加文本
+                this.contentNode.innerHTML = this.content;
+                //点击确定按钮执行方法 如果data中有success方法则为success方法,否则为空函数
+                this.success = data.success || function(){};
+                //点击关闭按钮执行方法
+                this.fail = data.fail || function(){};
+            }
+        3.模板的原型方法
+            基本提示框可创建,应该具有一些基本方法
+            init方法来组装提示框,bindEvent方法来绑定点击确定或关闭按钮事件
+            //提示框原型方法
+            Alert.prototype = {
+                //创建方法
+                init : function(){
+                    //生成提示框
+                    this.panel.appendChild(this.closeBtn);
+                    this.panel.appendChild(this.contentNode);
+                    this.panel.appendChild(this.confirmBtn);
+                    //插入页面中
+                    document.body.appendChild(this.panel);
+                    //绑定事件
+                    this.bindEvent();
+                    //显示提示框
+                    this.show();
+                },
+                bindEvent : function(){
+                    var me = this;
+                    //关闭按钮点击事件
+                    this.closeBtn.onclick = function(){
+                        //执行关闭取消方法
+                        me.fail();
+                        //隐藏弹层
+                        me.hide();
+                    }
+                    //确定按钮点击事件
+                    this.confirmBtn.onclick = function(){
+                        //执行关闭确认方法
+                        me.success();
+                        //隐藏弹层
+                        me.hide();
+                    }
+                },
+                //隐藏弹层方法
+                hide : function(){
+                    this.panel.style.display = 'none';
+                },
+                //显示弹层方法
+                show : function(){
+                    this.panel.display = 'block';
+                }
+            }
+        4.根据模板创建类
+            有了这个提示框基类,拓展其他类型则容易很多
+            //标题提示框
+            var TitleAlert = function(data){
+                //继承基本提示框构造函数
+                Alert.call(this, data);
+                //设置标题内容
+                this.title = data.title;
+                //创建标题组件
+                this.titleNode = document.createElement('h3');
+                //标题组件中写入标题内容
+                this.titleNode.innerHTML = this.title;
+            }
+            //继承基本提示框内容
+            TitleAlert.prototype = new Alert();
+            //对基本提示框创建方法拓展
+            TitleAlert.prototype.init = function(){
+                //插入标题
+                this.panel.insertBefore(this.titleNode, this.panel.firstChild);
+                //继承基本提示框init方法
+                Alert.prototype.init.call(this);
+            }
+        5.继承类也可以作为模板类
+        //带有取消按钮的弹出框
+            var CancelAlert = function(data){
+                //继承标题提示框构造函数
+                TitleAlert.call(this, data);
+                //取消按钮文案
+                this.cancel = data.cancel;
+                //创建取消按钮
+                this.cancelBtn = document.createElement('span');
+                //为取消按钮添加类
+                this.cancelBtn.className = 'cancel';
+                //设置取消按钮内容
+                this.cancelBtn.innerHTML = this.cancel || '取消';
+            }
+            //继承标题提示框原型方法
+            CancelAlert.prototype = new Alert();
+            CancelAlert.prototype.init = function(){
+                //继承标题提示框创建方法
+                TitleAlert.prototype.init.call(this);
+                //由于取消按钮要添加在末尾,创建完其他组件后添加
+                this.panel.appendChild(this.cancelBtn);
+            }
+            CancelAlert.prototype.bindEvent = function(){
+                var me = this;
+                //标题提示框绑定事件方法继承
+                TitleAlert.prototype.bindEvent.call(me);
+                //取消按钮绑定事件
+                this.cancelBtn.onclick = function(){
+                    //执行取消回调函数
+                    me.fail();
+                    //隐藏弹层
+                    me.hide();
+                }
+            }
+        6.创建一个提示框
+            new CancelAlert({
+                title : 'xx',
+                content : 'xx',
+                success : function(){
+                    console.log('ok');
+                },
+                fail : function(){
+                    console.log('cancel')
+                }
+            }).init();
+        7.创建多类导航
+    2.观察者模式
+        发布-订阅者模式或消息机制
+        定义了一种依赖关系,解决了主体对象与观察者之间功能的耦合
+        1.实现自己的需求,又不想新添加的代码影响其他人实现的功能
+        2.创建一个观察者
+            有一个消息容器,和三个方法:
+            订阅消息方法、取消订阅消息方法、发送订阅的消息方法
+            //将观察者放在闭包中,页面加载就立即执行
+            var Observer = (function(){
+                var _message = {};
+                return{
+                    //注册信息接口
+                    regist : function(){},
+                    //发布信息接口
+                    fire : function(){},
+                    //移除信息接口
+                    remove : function(){}
+                }
+            })();
+                1.注册信息接口
+                    将订阅者注册的消息推入到消息队列中
+                    接受两个参数:消息类型以及相应的处理动作
+                    regist : function(type, fn){
+                        //如果此消息不存在则创建一个消息类型
+                        if(typeof __message[type] === 'undefined'){
+                            //将动作推入到该消息对应的动作执行队列
+                            __message[type] [fn];
+                        }else{
+                            //如果消息存在,将动作推入到该消息对应的动作执行队列
+                            __message[type].push(fn);
+                        }
+                    }
+                2.发布信息接口  
+                    fire : function(type, args){
+                        //如果消息没有被注册则返回
+                        if(!__message[type])
+                            return;
+                        //定义消息内容
+                        var events = {
+                            type : type,
+                            args : args || {}
+                        },
+                        i = 0,
+                        len = __message[type].length;
+                        //遍历消息动作
+                        for(; i < len; i++){
+                            依次执行注册的消息对应的动作序列
+                            __message[type][i].call(this, events);
+                        }
+                    }
+                3.移除信息接口
+                    remove : function(type, fn){
+                        //如果消息动作队列存在
+                        if(__message[type] instanceof Array){
+                            //从最后一个消息动作遍历
+                            var i = __message[type].length - 1;
+                            for(; i >= 0; i--){
+                                //如果存在该动作则在消息动作序列中移除相应动作
+                                __message[type][i] === fn && __message[type].splice(i, 1);
+                            }
+                        }
+                    }
+        3.思考
+            发布留言与删除留言是用户主动触发,这是观察者发布消息
+            评论的追加和用户信息的增减都是被动触发的,是订阅者去注册消息
+        4.完成
+            //外观模式 简化获取元素
+            function $(id){
+                return document.getElementById(id);
+            }
+            //工程师A
+            (function(){
+                追加一条消息
+                function addMsgItem(e){
+                    var text = e.args.text,  //获取消息中用户添加的文本内容
+                        ul = $('msg'),  //留言容器元素
+                        li = document.createElement('li'),  //创建内容容器元素
+                        span = document.createElement('span');  //删除按钮
+                    li.innerHTML = text;  //写入评论
+                    //关闭按钮
+                    span.onclick = function(){
+                        ul.removeChild(li);  //移除留言
+                        //发布删除留言消息
+                        Observer.fire('removeCommentMessage', {
+                            num : -1
+                        });
+                    }
+                    //添加删除按钮
+                    li.appendChild(span);
+                    //添加留言节点
+                    ul.appendChild(li);
+                }
+                //注册添加评论信息
+                Observer.regist('addCommentMessage', addMsgItem);
+            })();
+            //工程师B
+            (function(){
+                //更改用户消息数目
+                function changeMsgNum(e){
+                    //获取需要增加的用户消息数目
+                    var num = e.args.num;
+                    //增加用户消息数目并写入页面
+                    $('msg_num').innerHTML = parseInt($('msg_num').innerHTML) + num;
+                }
+                //注册添加评论信息
+                Observer
+                    .regist('addCommentMessage', changeMsgNum)
+                    .regist('removeCommentMessage', changeMsgNum);
+            })();
+            //工程师C
+            (function(){
+                //用户点击提交按钮
+                $('user_submit').onclick = function(){
+                    //获取用户输入框中输入的信息
+                    var text = $('user_input');
+                    //消息为空则提交失败
+                    if(text.value === ''){
+                        return;
+                    }
+                    //发布一则评论消息
+                    Observer.fire('addCommentMessage', {
+                        text : text.value,
+                        num : 1
+                    });
+                    text.value = '';
+                    }
+                })();
+            解决了各个模块的耦合问题,属于哪个模块就写在原模块,不需要担心其他模块怎么实现
+            只需要收发消息即可
+        5.对象间解耦     
+    3.状态模式
+        当一个对象内部的状态发生了改变,导致其行为发生了改变,看起来像改变了对象
+        1.将条件判断的结果转化为状态对象的内部状态,提供一个可以调用状态对象内部状态的接口方法
+        2.
+            //创建超级玛丽状态类
+            var MarryState = function(){
+                //内部状态私有变量
+                var _currentState = {},
+                    states = {
+                        //动作与状态方法映射
+                        jump : function(){
+                            //跳跃
+                            console.log('jump');
+                        },
+                        move : function(){
+                            //移动
+                            console.log('move');
+                        },
+                        shoot : function(){
+                            //射击
+                            console.log('shoot');
+                        },
+                        squat : function(){
+                            //蹲下
+                            console.log('squat');
+                        }
+                    };
+                //动作控制类
+                var Action = {
+                    //改变状态方法
+                    changeState : function(){
+                        //组合动作通过传递多个参数实现
+                        var arg = arguments;
+                        //重置内部状态
+                        _currentState = {};
+                        //如果有动作则添加动作
+                        if(arg.length){
+                            //遍历动作
+                            for(var i = 0, len = arg.length; i < len; i++){
+                                //向内部状态中添加动作
+                                _currentState[arg[i]] = true;
+                            }
+                        }
+                        //返回动作控制类
+                        return this;
+                    },
+                    //执行动作
+                    goes : function(){
+                        console.log('触发一次动作');
+                        //遍历内部状态保存的动作
+                        for(var i in _currentState){
+                            //如果动作存在则执行
+                            states[i] && states[i]();
+                        }
+                        return this;
+                    }
+                }
+                //返回接口方法
+                return{
+                    change : Action.changeState,
+                    change : Action.goes
+                }
+            }
+        3.使用
+            var marry = new MarryState();
+            marry
+                .change('jump', 'shoot')
+                .goes();
+            改变一个状态,就改变了执行结果,好像改变了一个对象
+    4.策略模式
+        将定义的一组算法封装起来,相互之间可以替换
+        封装的算法有一定的独立性,不会随客户端变化而变化
+        1.结构上与状态模式很类似
+            不同在于不需要管理状态,状态之间没有依赖关系,策略之间可以相互替换,保存着相互独立的算法
+        2.策略对象
+            var PriceStrategy = function(){
+                //内部算法对象
+                var stragtegy = {
+                    //满100返30
+                    return30 : function(price){
+                        return +price + parseInt(price / 100) * 30;
+                    },
+                    //满100返50
+                    return50 : function(price){
+                        return +price + parseInt(price / 100) * 50;
+                    },
+                    //9折
+                    percent90 : function(price){
+                        return price * 100  *90 / 10000;
+                    }
+                }
+                //策略算法调用接口
+                return function(algorithm, price){
+                    //如果算法存在,则调用算法,否则返回false
+                    return stragtegy[algorithm] && stragtegy[algorithm](price)
+                }
+            }();
+    5.职责链模式
+        解决请求的发送者与请求的接收者之间的耦合
+        通过职责链上的多个对象对分解请求流程,实现请求在多个对象之间的传递
+        直到最后一个对象完成请求的处理
+        1."半成品"需求
+            需求不确定,以后还会修改
+        2.分解需求
+            将每件事情独立出一个模块对象去处理
+            分解成一部分相互独立的模块需求,通过这些对象的分工协作
+            每个对象只是做自己分内的事情,无关就传到下一个对象中去做,直到需求完成
+        3.第一站-请求模块
+        4.下一站-响应数据适配模块
+        5.终点站-创建组件模块
+        6.单元测试
+            对程序的每个独立单元在不同种运行环境下进行逻辑测试
+            比如可能接受哪些数据,并对结果进行预测
+        7.定义了请求的传递方向,通过多个对象对请求的传递,实现复杂的逻辑操作
+          对于每一个对象来说都可能是请求的发起者也可能是请求的接收者
+    6.命令模式
+        将请求与实现解耦并封装成独立对象,从而使不同的请求对客户端的实现参数化
+        1.将创建模块的逻辑封装在一个对象里,这个对象提供一个参数化数据接口
+        2.命令对象
+            //模块实现模块
+            var viewCommand = (function(){
+                //方法集合
+                var Action = {
+                    //创建方法
+                    create : function(){},
+                    //展示方法
+                    display : function(){}
+                }
+                //命令接口
+                return function excute(){}
+            })();
+        3.视图创建
+            //模块实现模块
+            var viewCommand = (function(){
+                var tpl = {
+                    //展示图片结构模板
+                    product : [
+                        '<div>',
+                            '<img src="{#src#}"/>',
+                            '<p>{#text#}</p>',
+                        '</div>'
+                    ].join(''),
+                    //展示标题结构模块
+                    title : [
+                        '<div class="title">',
+                            '<div class="main">',
+                                '<h2>{#title#}</h2>',
+                                '<p>{#tips#}</p>',
+                            '</div>',
+                        '</div>'
+                    ].join('')
+                },
+                //格式化字符串缓存字符串
+                html = '';
+                //格式化字符串
+                //'<div>{#content#}</div>'用{content: 'demo'}代替后可得到
+                //'<div>demo</div>'
+                    function formateString(str, obj){
+                        //替换'{#'与'#}'之间的字符串
+                        return str.replace(/\{#(\w+)#\}/g, function(match, key){
+                            return obj[key];
+                        })
+                    }
+                    //方法集合
+                    var Action = {}
+                    //命令接口
+                    return function excute(){}
+            })();
+            create : function(data, view){
+                //解析数据 如果数据是一个数组
+                if(data.length){
+                    //遍历数组
+                    for(var i = 0, len = data.length; i < len; i++){
+                        //将格式化之后的字符串缓存到html中
+                        html += formateString(tpl[view], data[i]);
+                    }
+                }else{
+                    //直接格式化字符串缓存到html中
+                    html += formateString(tpl[view], data);
+                }
+            }
+            //展示方法
+            display : function(container, data, view){
+                //如果传入数据
+                if(data){
+                    //根据给定数据创建视图
+                    this.create(data, view);
+                }
+                //展示模块
+                document.getElementById(container).innerHTML = html;
+                //展示后清空缓存的字符串
+                html = '';
+            }
+            //命令接口
+            return function excute(msg){
+                msg.param = Object.prototype.toString.call(msg.param) === "[object Array]" ?
+            msg.param : [msg.param];
+                Action[msg.command].apply(Action, msg.param)
+            }
+    7.访问者模式
+        针对于对象结构中的元素,定义在不改变该对象的前提下访问结构中元素的新方法
+        1.自娱自乐的IE
+            this指向的不是这个元素而是window
+        2.访问操作元素
+            不改变操作对象的同时,为它添加新的操作方法-事件
+            function bindIEEvent(dom, type, fn, data){
+                var data = data || {};
+                dom.attachEvent('on' + type, function(e){
+                    fn.call(dom, e, data);
+                });
+            };
+            call/apply可以更改函数执行时的作用域
+            让某个对象在其他作用域中运行
+            比如事件源对象在回调函数中的作用域运行,那么回调函数访问的this就是事件源对象
+        3.为对象添加属性数据没有次序,如果可以像处理数组一样来处理一个对象
+        4.对象访问器
+            //访问器
+            var Visitor = (function(){
+                return {
+                    //截取方法
+                    splice : function(){
+                        //splice方法参数,从原参数的第二个参数开始算起
+                        var args = Array.prototype.splice.call(arguments, 1);
+                        //对第一个参数对象执行splice方法
+                        return Array.prototype.splice.apply(arguments[0], args);
+                    },
+                    //追加数据方法
+                    push : function(){
+                        //强化类数组对象,使他拥有length属性
+                        var len = arguments[0].length || 0;
+                        //添加的数据从原参数的第二个参数算起
+                        var args = this.splice(arguments, 1);
+                        //校正length属性
+                        arguments[0].length = len + arguments.length - 1;
+                        //对第一个参数对象执行push方法
+                        return Array.prototype.push.apply(arguments[0], args);
+                    },
+                    //弹出最后一次添加的元素
+                    pop : function(){
+                        //对第一个参数对象执行pop方法
+                        return Array.prototype.pop.apply(arguments[0]);
+                    }
+                }
+            })();
+    8.中介者模式
+        中介者对象封装一系列对象之间的交互,使对象之间不再相互引用,降低耦合
+        1.消息收发机制
+            将消息系统封装在中介者对象内部,中介者对象只能是消息的发送者
+        2.中介者对象
+            //中介者对象
+            var Mediator = function(){
+                //消息对象
+                var _msg = {};
+                return {
+                    //订阅消息方法 消息名 消息回调函数
+                    register : function(type, action){
+                        //如果该消息存在
+                        if(_msg[type])
+                            //存入回调函数
+                            _msg[type].push(action);
+                        else{
+                            //不存在 则建立该消息容器
+                            _msg[type] = [];
+                            //存入新消息回调函数
+                            _msg[type].push(action);
+                        }
+                    },
+                    //发布消息方法 
+                    send : function(type){
+                        //如果该消息已经被订阅
+                        if(_msg[type]){
+                            //遍历已存储的消息回调函数
+                            for(var i = 0, len = _msg[type].length; i < len; i++){
+                                //执行该回调函数
+                                _msg[type][i] && _msg[type][i]();
+                            }
+                        }
+                    }
+                }
+            }();
+        3.订阅消息
+        4.发布消息
+    9.备忘录模式
+        在不破坏对象的封装性的前提下,在对象之外捕获并保存该对象内部状态
+        以便日后对象使用或者恢复到以前的某个状态
+        1.点击下一页后又点击上一页,请求多余,第一次已经获取了数据,不需要再发送多余请求
+        2.缓存数据
+            将请求过的数据做一次缓存,再次访问直接在缓存中查询
+        3.新闻缓存器
+            //Page备忘录类
+            var Page = function(){
+                //信息缓存对象
+                var cache = {};
+                return function(page, fn){
+                    //判断该叶数据是否在缓存中
+                    if(cache[page]){
+                        //恢复到该页状态 显示该页内容
+                        showPage(page, cache[page]);
+                        //执行成功回调函数
+                        fn && fn();
+                    }else{
+                        //若缓存Cache中无该页数据
+                        $.post('./data/getNewsData.php',{
+                            //请求携带数据page页码
+                            page : page
+                        }, function(res){
+                            //成功返回
+                            if(res.errNo == 0){
+                                //显示该页数据
+                                showPage(page, res.data);
+                                //将该页数据种入缓存中
+                                cache[page] = res.data;
+                                //执行成功回调函数
+                                fn && fn();
+                            }else{
+                                //处理异常
+                            }
+                        })
+                    }
+                }
+            }()
+    10.迭代器模式
+        在不暴露对象内部结构的同时,可以顺序访问聚合对象内部的元素
+        优化循环语句,使程序清晰可读
+        1.迭代器
+            顺序访问一个聚合对象内部的元素
+            比如焦点图其实就是一组聚合对象,创建一个迭代器,专门访问图片数据
+            比如前一张、后一张、第一张、最后一张,对每一张图片处理,对当前图片处理
+            //迭代器
+            var Iterator = function(items, container){
+                //获取父容器,若container参数存在,并且可以获取,否则获取document
+                var container = container && document.getElementById(container) || document,
+                    //获取元素
+                    items = container.getElementsByTagName(items),
+                    //获取元素长度
+                    length = items.length,
+                    //当前索引值,默认0
+                    index = 0;
+                    //缓存源生数组splice方法
+                var slice = [].splice;
+                return {
+                    //获取第一个元素
+                    first : function(){},
+                    //获取最后一个元素
+                    second : function(){},
+                    //获取前一个元素
+                    pre : function(){},
+                    //获取后一个元素
+                    next : function(){},
+                    //获取某一个元素
+                    get : function(){},
+                    //对每一个元素执行某一个方法
+                    dealEach : function(){},
+                    //对某一个元素执行某一个方法
+                    dealItem : function(){},
+                    //排他方式处理某一个元素
+                    exclusive : function()
+                }
+            }
+        2.方法的实现
+            first : function(){
+                index = 0;
+                return items[index];
+            },
+            second : function(){
+                index = length - 1;
+                return items[index];
+            },
+            pre : function(){
+                if(--index > 0){
+                    return items[index];
+                }else{
+                    index = 0;
+                    return null;
+                }
+            },
+            next : function(){
+                if(++index < length){
+                    return items[index];
+                }else{
+                    index = length - 1;
+                    return null;
+                }
+            },
+            get : function(num){
+                index = num >= 0 ? num % length : num % length + length;
+                return items[index];
+            },
+            dealEach : function(fn){
+                var args = splice.call(arguments, 1);
+                for(var i = 0; i < length; i++){
+                    fn.apply(items[i], args);
+                }
+            },
+            dealItem : function(num, fn){
+                fn.apply(this.get(num), splice.call(arguments, 2))
+            },
+            exclusive : function(num, allFn, numFn){
+                this.dealEach(allFn);
+                if(Object.prototype.toString.call(num) === "object Array"){
+                    for(var i = 0, len = num.length; i < len; i++){
+                        this.dealItem(num[i], numFn);
+                    }
+                }else{
+                    this.dealItem(num, numFn);
+                }
+            }
+        3.使用
+            var demo = new Iterator('li', 'container');
+            console.log(demo.first());
+        4.数组迭代器
+            var eachArray = function(arr, fn){
+                var i = 0,
+                    len = arr.length;
+                //遍历数组
+                for(; i < len; i++){
+                    //一次执行回调函数
+                    if(fn.call(arr[i], i, arr[i]) === false){
+                        break;
+                    } 
+                }
+            }
+            //试用
+            eachArray(arr, function(i, data){
+                console.log(i, data);
+            });
+        5.对象迭代器
+            var eachObject = function(obj, fn){
+                //遍历对象中的每一个属性
+                for(var i in obj){
+                    //一次执行回调函数
+                    if(fn.call(obj[i], i, obj[i]) === false){
+                        break;
+                    } 
+                }
+            }
+        6.同步变量迭代器
+            操作页面中的同步变量(页面加载时打印到页面中的变量)内的某些属性值
+            不知道服务器是否将该属性值或者该属性的上级属性正确的打印到页面中
+            校验需要一层一层的安全校验,迭代器可以减少编写校验代码
+            //同步变量
+                var A = {
+                    //所有用户共用
+                    common : {},
+                    client : {
+                        user : {
+                            username : '雨夜清荷',
+                            uid : '123'
+                        }
+                    },
+                    server : {}
+                };
+            //同步变量取值器
+                AGetter = function(key){
+                    if(!A)
+                        return undefined;
+                    var result = A;
+                    key = key.split('.');
+                    for(var i = 0, len = key.length; i < len; i++){
+                        if(result[key[i]] !== undefined){
+                            result = result[key[i]];
+                        }else{
+                            return undefined;
+                        }
+                    }
+                    return result;
+                }
+                console.log(AGetter('client.user.username'));
+            //同步变量赋值器
+                ASetter = function(key, val){
+                    if(!A)
+                        return false;
+                    var result = A;
+                    key = key.split('.');
+                    for(var i = 0, len = key.length; i < len - 1; i++){
+                        if(result[key[i]] === undefined){
+                            result[key[i]] = {};
+                        }
+                        if(!(result[key[i]] instanceof Object)){
+                            throw new Error('A.' + key.splice(0,i+1).join('.') + 'is not Object');
+                            return false;
+                        }
+                        result = result[key[i]];
+                    }
+                    return result[key[i]] = val;
+                }
+        7.分支循环嵌套问题          
+    11.解释器模式
+        对于一种语言,给出其文法表示形式,并定义一种解释器
+        通过使用这种解释器来解释语言中定义的句子
+        1.获取button相当于整个页面文档的XPath路径为HTML>BODY|HEAD>BUTTON
+        2.冒泡遍历整个文档树
+            //XPath解释器
+            var Interpreter = (function(){
+                //获取兄弟元素名称
+                function getSublingName(node){
+                    //....
+                }
+                return function(node, wrap){
+                    //路径数组
+                    var path = [],
+                    //如果不存在容器节点,默认为document
+                        wrap = wrap || document;
+                    //如果当前目标节点等于容器节点
+                    if(node === wrap){
+                        //容器节点为元素
+                        if(wrap.nodeType == 1){
+                            //路径数组中输入容器节点名称
+                            path.push(wrap.nodeName.toUpperCase());
+                        }
+                        //返回最终路径数组结果
+                        return path;
+                    }
+                    //如果当前节点的父节点不等于容器节点
+                    if(node.parentNode !== wrap){
+                        //对当前节点的父节点执行遍历操作
+                        path = arguments.callee(node.parentNode, wrap);
+                    }
+                    //如果当前节点的父元素节点与容器节点相等
+                    else{
+                        //容器节点为元素
+                        if(wrap.nodeType == 1){
+                            //路径数组中输入容器节点名称
+                            path.push(wrap.nodeName.toUpperCase());
+                        }
+                    }
+                    //获取元素的兄弟元素名称统计
+                    var sublingNames = getSublingName(node);
+                    //如果节点为元素
+                    if(node.nodeType == 1){
+                        //输入当前节点元素名称及其前面兄弟元素名称统计
+                        path.push(node.nodeName.toUpperCase() + sublingNames);
+                    }
+                    //返回最终路径数组结果
+                    return path;
+                }
+                //立即执行方法
+            })();
+            //获取兄弟元素名称
+            function getSublingName(node){
+                //如果存在兄弟元素
+                if(node.previousSibling){
+                    var name = '',  //返回的兄弟元素名称字符串
+                        count = 1,  //紧邻兄弟元素中相同名称元素个数
+                        nodeName = node.nodeName,  //原始节点名称
+                        sibling = node.previousSibling; //前一个兄弟元素
+                    //如果存在前一个兄弟元素
+                    while(sibling){
+                    //如果节点为元素,且节点类型与前一个兄弟元素类型相同,且前一个兄弟元素名称存在
+                        if(sibling.nodeType == 1 && sibling.nodeType === node.nodeType &&
+                        sibling.nodeName){
+                            //如果节点名称和前一个兄弟元素名称相同
+                            if(nodeName == sibling.nodeName){
+                                //节点名称后面添加计数
+                                name += ++count;
+                            }else{
+                                //重置相同紧邻节点名称节点个数
+                                count = 1;
+                                //追加新的节点名称
+                                name += '|' + sibling.nodeName.toUpperCase();
+                            }
+                        }
+                        //向前获取前一个兄弟元素
+                        sibling = sibling.previousSibling;
+                    }
+                    return name;
+                //不存在兄弟元素
+                }else{
+                    return '';
+                }
+            }
+        3.使用
+            var path = new Interpreter(document.getElementById('span7'));
+            console.log(path.join('>'));
+5.技巧型设计模式
+    通过特定技巧来解决组件某些方面的问题
+    1.链模式
+        在当前对象方法中将当前对象返回,实现对同一个对象多个方法的链式调用
+        1.深究jQuery
+            链模式基于原型继承,在每一个原型方法的实现上都返回当前对象this
+            使当前对象一直处于原型链作用域的顶端
+        2.原型式继承
+            var A = function(){}
+            A.prototype = {
+                length : 2;
+                size : function(){
+                    return this.length;
+                }
+            }
+            这里我们要访问size方法
+            var a = new A();
+            console.log(a.size());
+            size绑定在A的原型上,没有绑定在自己身上
+            A函数对象执行的结果没有返回值
+        3.找一位助手
+            var A = function(){
+                return B;
+            }
+            var B = A.prototype = {
+                length : 2;
+                size : function(){
+                    return this.length;
+                }
+            }
+            这时候访问console.log(A().size());
+            jQuery中为了减少变量的创建,索性将B对象看做事A的一个属性设置
+            var A = function(){
+                return A.fn;
+            }
+            A.fn = A.prototype = {}
+        4.获取元素
+            jQuery的目的是为了获取元素,返回元素簇(元素的聚合对象)
+            这里返回一个A.fn对象,如果可以添加一个init方法获取元素
+            然后在A中返回获取到的元素
+            var A =function(selector){
+                return A.fn.init(selector);
+            }
+            A.fn = A.prototype = {
+                init : function(selector){
+                    return document.getElementById(selector)
+                },
+                length : 2,
+                size : function(){
+                    return this.length;
+                }
+            }
+            console.log(A('demo'));//<div id="demo"></div>
+        5.一个大问题
+            A对象返回的结果还能够拥有A.fn中的方法,比如这里的size
+            this指代当前对象,直接在init中将this返回即可
+            对象可以设置属性,通过this对象将元素设置成为当前对象的一个属性
+            像访问数组一样可以将它们的属性值顺序设置为数字索引
+            var A =function(selector){
+                return A.fn.init(selector);
+            }
+            A.fn = A.prototype = {
+                init : function(selector){
+                    //作为当前对象的属性值保存
+                    this[0] = document.getElementById(selector);
+                    //校正length属性
+                    this.length = 1;
+                    //返回当前对象
+                    return this;
+                },
+                length : 2,
+                size : function(){
+                    return this.length;
+                }
+            }
+        6.覆盖获取
+            后面的元素覆盖前面的元素
+            因为我们每次在A的构造函数中返回的A.fn.init(selector);
+            对象指向同一个对象造成的
+            var A =function(selector){
+                return new A.fn.init(selector);
+            }
+        7.方法丢失
+        8.丰富元素获取
+            获取某类元素
+            var A =function(selector, context){
+                return new A.fn.init(selector);
+            }
+            A.fn = A.prototype = {
+                constructor : A,
+                init : function(selector, context){
+                    //获取元素长度
+                    this.length = 0,
+                    //默认获取元素的上下文为document
+                    context = context || document;
+                    if(~selector.indexOf('#')){
+                        this.[0] = document.getElementById(selector.slice(1));
+                        this.length = 1;
+                    }else{
+                        var doms = context.getElementsByTagName(selector),
+                            i = 0,
+                            len = doms.length;
+                        for(; i < len; i++){
+                            this[i] = doms[i];
+                        }
+                        this.length = len;
+                    } 
+                    this.context = context;
+                    this.selector = selector;
+                    return this; 
+                },
+                ......
+            }
+    2.委托模式
+        多个对象接受并处理同一请求,将请求委托给另一个对象统一处理请求
+        1.委托父元素
+            从事件捕获开始,到触发该事件,再到事件冒泡阶段
+            可以将子元素的事件委托给更高层面上的父元素去绑定执行
+            ul.onclick = function(e){
+                var e = e || window.event,
+                    tar = e.target || e.srcElement;
+                if(tar.nodeName.toLowerCase() === 'li'){
+                    tar.style.backgroundColor = 'grey';
+                }
+            }
+            li元素共有一个ul父元素,将点击事件绑定给父元素
+            通过事件冒泡就可以实现事件的传递,子元素的点击事件可以传到父元素
+            我们只需要监听父元素的点击事件,然后判断元素是不是我们寻找的元素
+            事件委托:将子元素的事件委托给父元素,通过事件冒泡就可以实现事件的传递
+        2.预言未来
+            当前页面不存在,在未来会添加,将未来元素事件绑定给现有父元素
+        3.内存外泄
+            老版本IE采用计数式垃圾回收机制,那些对DOM元素的引用没有显性清除的数据会遗留在内存中
+            除非关闭浏览器
+        4.数据分发
+            与后端处理数据,各个模块都需要发起请求,浪费资源,等待时间长
+            我们将所有请求打包,委托一个对象发送
+            委托对象再拆包发给每一个模块
+    3.数据访问对象模式
+        抽象和封装对数据源的访问与存储,DAO通过对数据源链接的管理方便对数据的访问与存储
+        1.数据访问对象类
+            对本地数据的一次封装,创建DAO类
+            别人想使用本地存储,会知道你保存的那些数据?
+            本地存储数据库不同于服务器端关系型数据库
+            将数据保存在localStorage这个对象中,这是一个大容器,对于同一个站点
+            里面没有分割库,别人和你使用的是一个库
+            所以你需要将每次存储的数据字段前面添加前缀标识'分割'localStorage存储
+            本地存储对数据的保存实际上是localStorage的一个字符串属性
+            对于本地存储来说了解存储时间很有必要,方便日后对数据的管理,比如定时清除
+            可以添加时间戳,每个人存储的数据内容不同
+            时间戳与将要存储的数据都是属性字符串,所以需要一个拼接符
+        2.创建DAO类
+            var BaseLocalStorage = function(preId, timeSign){
+                //本地存储数据库前缀
+                this.preId = preId;
+                //定义时间戳与存储数据之间的拼接符
+                this.timeSign = timeSign || '-';
+            }
+        3.数据操作状态
+            在内部保存操作返回状态供以后使用
+            //本地存储类原型方法
+            BaseLocalStorage.prototype = {
+                //操作状态
+                status : {
+                    SUCCESS : 0,     //成功
+                    FAILURE : 1,     //失败
+                    OVERFLOW : 2,    //溢出
+                    TIMEOUT : 3      //过期
+                },
+                //保存本地存储链接
+                storage : localStorage || window.localStorage,
+                getKey : function(key){
+                    return this.preId + key;
+                },
+                set : function(key, value, callback, time){
+                    //...
+                },
+                get : function(key, callback){
+                    //...
+                },
+                remove : function(key, callback){
+                    //...
+                }
+            }
+        4.增添数据
+            set : function(key, value, callback, time){
+                //默认操作状态为成功
+                var status = this.status.SUCCESS,
+                //获取真实字段
+                    key = this.getKey(key);
+                try{
+                    //参数事件参数时获取事件戳
+                    time = new Date(time).getTime() || time.getTime();
+                }catch(e){
+                    //为传入时间参数或者时间参数有误获取默认时间:一个月
+                    time = new Date().getTime() + 1000 * 60 * 60 * 24 * 31;
+                }
+                try{
+                    //向数据库添加数据
+                    this.storage.setItem(key, time + this.timeSign + value);
+                }catch(e){
+                    //溢出失败,返回溢出状态
+                    status = this.status.OVERFLOW;
+                }
+                //有回调函数则执行回调函数并传入参数操作状态,真实数据字段标识以及存储数据值
+                callback && callback.call(this, status, key, value);
+            }
+        5.查找数据
+            get : function(key, callback){
+                var status = this.status.SUCCESS,
+                    key = this.getKey(key),
+                    value = null,
+                    timeSignLen = this.timeSign.length,
+                    that = this,
+                    index,
+                    time,
+                    result;
+                try{
+                    value = that.storage.getItem(key);
+                }catch(e){
+                    result = {
+                        status : that.status.FAILURE,
+                        value : null
+                    };
+                    callback && callback.call(this, result.status, result.value);
+                    return result;
+                }
+                if(value){
+                    index = value.indexOf(that.timeSign);
+                    time = +value.slice(0, index);
+                    if(new Date(time).getTime() > new Date().getTime() || time == 0){
+                        value = value.slice(index + timeSignLen);
+                    }else{
+                        value = null,
+                        status = that.status.TIMEOUT;
+                        that.remove(key);
+                    }
+                }else{
+                    status = that.status.FAILURE;
+                }
+                result = {
+                    status : status,
+                    value : value
+                };
+                callback && callback.call(this, result.status, result.value);
+                return result;
+            }
+        6.删除数据
+            remove : function(key, callback){
+                var status = this.status.FAILURE,
+                    key = this.getKey(key),
+                    value = null;
+                try{
+                    value = this.storage.getItem(key);
+                }catch(e){}
+                if(value){
+                    try{
+                        this.storage.removeItem(key);
+                        status = this.status.SUCCESS;
+                    }catch(e){}
+                }
+                callback && callback.call(this, status, status > 0 ? null :
+            value.slice(value.indexOf(this.timeSign) + this.timeSign.length))
+            }
+        7.检验DAO
+            有些方法默认操作状态是成功,有些默认操作状态是失败
+    4.节流模式
+        对重复的业务逻辑进行节流控制,执行最后一次操作并取消其他操作,以提高性能
+        1.屏蔽重复的事情(业务逻辑)只执行最后一次
+            比如浏览器触发scroll事件而执行了多次该事件回调函数
+        2.节流器
+            //节流器
+            var throttle = function(){
+                //获取第一个参数
+                var isClear = arguments[0], fn;
+                //如果第一个参数是boolean类型那么第一个参数则表示是否清除计时器
+                if(typeof isClear === 'boolean'){
+                    //第二个参数则为函数
+                    fn = arguments[1];
+                    //函数的计时器句柄存在,则清除该计时器
+                    fn.__throttleID && clearTimeout(fn.__throttleID);
+                //通过计时器延迟函数的执行
+                }else{
+                    //第一个参数为函数
+                    fn = isClear;
+                    //第二个参数为函数执行时的参数
+                    param = arguments[1];
+                    //对执行时的参数适配默认值,这里使用extend
+                    var p = extend({
+                        context : null,  //执行函数执行时的作用域
+                        args : [],       //执行函数执行时的相关参数
+                        time : 300       //执行函数延迟执行的时间
+                    , param);
+                    //清除执行函数计时器句柄
+                    arguments.callee(true, fn);
+                    //为函数绑定计时器句柄,延迟执行函数
+                    fn.__throttleID = setTimeout(function(){
+                        //执行函数
+                        fn.apply(p.context, p.args)
+                    }, p.time)
+                }
+            } 
+            两件事情
+                1.清除要执行的函数,传递两个参数(是否清除, 执行函数)
+                  第一个参数为true表示清除,同时判断第二个有木有计时器句柄
+                  有也就清除
+                2.延迟执行函数,传递两个参数(执行函数, 相关参数)
+                   为执行函数绑定一个计时器句柄,来保存执行函数的计时器
+                   相关参数,执行时的作用域、执行函数的参数、执行函数延迟执行的时间  
+    5.简单模板模式
+        通过格式化字符串拼凑出视图避免创建视图时大量节点操作
+        1.创建模板,用数据去格式化字符串来渲染视图并插入到容器里
+          就像卡片拼图游戏,首先得有一个渲染方法,想渲染模板就要一个渲染器
+          比如数据对象'{demo:"this is a demo"}'去格式化
+          '<a>{#demo#}</a>+'字符串模板,得到最后的'<a>this is a demo</a>'
+          然后可以插入到页面中,的需要一个渲染模板引擎方法
+          将{#demo#}替换成数据对象中demo的属性值
+          var A = A || {};
+          A.root = document.getElementById('container');
+          A.stragtegy = {
+              'listPart' : function(){},
+              'codePart' : function(){},
+              'onliTitle' : function(){},
+              'guide' : function(){}
+              //...
+          }
+          //创建视图入口
+          A.init = function(data){
+              this.stragtegy[data.type](data);
+          }
+        2.模板渲染方法
+            A.formateString = function(str, data){
+                return str.replace(/\{#(\w+)#\}/g, function(match, key){
+            return typeof data[key] === undefined ? '' : data[key]});
+            }
+            //文字列表展示
+        4.模板生成器
+    6.惰性模式
+        减少每次代码执行时的重复性分支判断,通过对对象重定义来屏蔽原对象中的分支判断
+        1.第一次执行时已经判断过了,以后的执行是不必要的,那么在第一次执行后重新定义它
+            1.文件加载进来时通过闭包执行该方法并重新定义,会占用一定资源
+            2.在第一种的基础上做一次延迟
+    7.参与者模式
+        在特定的作用域中执行给定函数,并将参数原封不动的传递
+        1.函数绑定
+        //函数绑定bind
+        function bind(fn, context){
+            return function(){
+                return fn.apply(context, arguments);
+            }
+        }
+        //测试对象
+        var demoObj = {
+            title : '这是一个例子'
+        }
+        //测试方法
+        function demoFn(){
+            console.log(this.title);
+        }
+        //让demoObj参与demoFn的执行
+        var bindFn = bind(demoFn, demoObj);
+        demoFn();        //undefined
+        bindFn();        //这是一个例子
+        demoFn在执行时,demoObj参与进来并提供了作用域
+        bindFn只是让demoFn寄生其中,在执行的时候才让demoObj加入
+        那么这两个还是不同的函数
+        2.函数柯里化
+            是对函数的参数进行分割,有点像多态
+            根据传递参数的不同,让一个函数存在多个状态
+            函数柯里化处理的是函数,以函数为基础
+            借助函数柯里化伪造其他函数,让伪造函数调用这个基函数完成不同功能
+    8.等待者模式
+        通过对多个异步进程监听,来触发未来发生的动作
+        1.解决不确定先后完成的异步逻辑
+          等待所有异步逻辑的完成,自动执行成功回调函数
+          一个失败就执行失败回调函数
+        2.等待者对象
+            var Waiter = function(){
+                var dfd = [],
+                failArr = [],
+                slice = Array.prototype.slice,
+                that = this;
+            var Primise = function(){
+                this.resolved = false;
+                this.rejected = false;
+            }
+            Primise.prototype = {
+                resolve : function(){},
+                reject : function(){}
+            }
+            that.Defered = function(){
+                return new Primise();
+            }
+            function _exec(arr){}
+            that.when = function(){};
+            that.done = function(){};
+            that.fail = function(){}
+        }
+            内部定义了三个数组:监控对象容器、成功与失败回调函数容器
+            一个类-监控对象:监控解决成功状态与监控解决失败状态
+            两个方法:解决成功方法与解决失败方法
+            一个私有方法_exec来处理成功失败回调函数方法
+            三个共有方法接口:when方法监控异步逻辑、done/fail添加成功/失败回调函数
+        3.监控对象
+            Primise.prototype = {
+                resolve : function(){
+
+                }
+            }
+6.架构型设计模式
+    一类框架结构,通过提供一些子系统,指定他们的职责,并将它们条理清晰的组织在一起
+    1.同步模块模式
+        模块化:将复杂的系统分解成高内聚、低耦合的模块,使系统开发变得可控、可维护、可拓展、复用率更高
+        同步模块模式(SMD),请求发出后,无论模块是否存在,立即执行后续的逻辑,对模块的立即引用
+        1.排队开发
+            多人实现,某一处耦合了多人的实现代码,出现排队开发
+        2.模块化开发
+            工程师独立的去开发自己的模块,模块之间也可相互调用
+            首先得有一个模块管理器,管理着模块的创建和调度
+            调度:同步模块调度  异步模块调度
+        3.模块管理器
+            定义一个模块管理对象,再为其创建一个模块定义方法define
+            //定义模块管理器单体对象
+            var F = F || {};
+            //模块方法按理应该放在闭包中,这里为了更清晰明白
+            F.define = function(str, fn){
+                var parts = str.split('.'),
+                    old = parent = this,
+                    i = len = 0;
+                if(parts[0] === 'F'){
+                    parts = parts.slice(1);
+                }
+                if(parts[0] == 'define' || parts[0] === 'module'){
+                    return;
+                }
+                for(len = parts.length; i < len; i++){
+                    if(typeof parent[parts[i]] === 'undefined'){
+                        parent[parts[i]] = {};
+                    }
+                    old = parent;
+                    parent = parent[parts[i]];
+                }
+                if(fn){
+                    old[parts[--i]] = fn();
+                }
+                return this;
+            }
+        4.模块调用方法
+            要使用模块,需要一个'使用'模块方法-module
+            F.module = function(){
+                var args = [].slice.call(arguments),
+                    fn = args.pop(),
+                    parts = args[0] && args[0] instanceof Array ? args[0] : args,
+                    modules = [],
+                    modIDs = '',
+                    i = 0,
+                    ilen = parts.length,
+                    parent, j, jlen;
+                while(i < ilen){
+                    if(typeof parts[i] === 'string'){
+                        parent = this;
+                        modIDs = parts[i].replace(/^F./, '').split('.');
+                        for(j = 0, jlen = modIDs.length; j < jlen; j++){
+                            parent = parent[modIDs[j]] || false;
+                        }
+                        modules.push(parent);
+                    }else{
+                        modules.push(parts[i]);
+                    }
+                    i++;
+                }
+                fn.apply(null, modules);
+            }
+        5.调用模块
+            参数分为两部分,依赖模块与回调执行函数(最后一个参数)
+            首先遍历并获取所有的依赖模块,并一次保存在依赖模块列表
+            然后将这些依赖模块作为参数传入执行函数中执行
+            F.module(['dom', document], function(dom, doc){
+                dom('test').html('new add!');
+                doc.body.style.background = 'red';
+            });
+    2.异步模块模式
+        异步模块模式(AMD):请求发出后,继续其他业务逻辑,知道模块加载完成执行后续的逻辑
+        实现模块开发中对模块加载完成后的引用
+        1.异步加载文件中的模块
+            浏览器中加载文件是异步加载的,也就是说文件开始加载,还可以继续做其他的事情
+            同步模块模式会立即引用这个模块,加载未完成,是引用不到该模块
+        2.给定依赖模块,耐心等待所有模块加载完成再执行
+    3.Widget模式
+        一块可以在任意页面中执行的代码块
+        将页面分解成部件,针对部件开发,最终组合成为完整的页面
+    4.MVC模式
+        模型(model)-视图(view)-控制器(controller)
+        用一种将业务逻辑、数据、视图分离的方式组织架构代码
+        组件式架构开发,常常将视图、数据、业务逻辑写在一个模块内
+        组件内容过多会造成层次混乱,增加开发与维护的成本
+        1.混乱
+            当看别人组件的时候,缺少注释,很难追踪数据,代码块不清晰
+        2.MVC模式
+            分层:数据层、视图层、控制层
+            视图层可以调用数据层创建视图
+            控制器层可以调用数据层数据与视图层内视图创建页面增添逻辑
+            //页面加载后创建MVC对象
+            $(function(){
+                //初始化MVC对象
+                var MVC = MVC || {};
+                MVC.model = function(){};
+                MVC.view = function(){};
+                MVC.ctrl = function(){};
+            });
+        3.数据层
+            每个对象是一个自动执行的函数
+            3个层次对象可被调用,声明的函数在执行之前不能被调用
+            执行一遍是为了为其他对象调用提供接口方法
+            MVC.model = function(){
+                var M = {};
+                M.data = {};
+                M.conf = {};
+                return {
+                    getData : function(m){
+                        return M.data[m];
+                    },
+                    getConf : function(c){
+                        return M.conf[c]
+                    },
+                    setData : function(m, v){
+                        M.data[m] = v;
+                        return this;
+                    }
+                    setConf : function(c. v){
+                        M.conf[c] = v;
+                        return this;
+                    }
+                }
+            }();
+            通过model接口对象返回的4个操作方法即可对model内部的服务器端数据与配置数据做
+            增删改查,这样我们就可以在视图对象和控制器对象内部轻松处理数据模型内部数据
+        4.视图层
+            MVC.view = function(){
+                var M = MVC.model;
+                var V = {}
+                return function(v){
+                    V[v]();
+                }
+            }();
+        5.控制器
+            MVC.ctrl = function(){
+                var M = MVC.model;
+                var V = MVC.view;
+                var C = {};
+            }();
+        6.侧边导航栏数据模型层
+            MVC.model = function(){
+                var M = {};
+                M.data = {
+                    slideBar : [
+                        {
+                            text : 'xxx',
+                            icon : 'left.png',
+                            content : 'xxx',
+                            img : 'xxx.png',
+                            href : 'xxx.com'
+                        }
+                    ]
+                }
+                M.conf = {
+                    slideBarCloseAnimate : false
+                }
+                return {/*接口方法*//}
+            }();
+        7.侧边导航栏视图层
+        8.侧边导航栏控制器层
+        9.执行控制器
+    5.MVP模式
+        模型(model)-视图(view)-管理器(presenter)
+        view层不直接引用model层内的数据,而是通过presenter来实现数据访问
+        所有层次的交互都发生在presenter中
+        在MVC中视图层因为渲染直接去数据层拿数据,而contrl常常不知道
+        1.MVP模式
+            ~(function(window){
+                var MVP = function(){};
+                MVP.model = function(){};
+                MVP.view = function(){};
+                MVP.presenter = function(){};
+                MVP.init = function(){}
+                window.MVP = MVP;
+            })(window)
+        2.数据层
+            在数据层修改不大,在视图层大刀阔斧
+        3.视图层
+            MVP.view = MVP.view = function(){
+                return function(str){
+                    return html;
+                }
+            }();
+        4.管理器
+            MVP.presenter = function(){
+                var V = MVP.view;
+                var M = MVP.model;
+                var C = {};
+                return {
+                    init : function(){
+                        for(var i in C){
+                            C[i] && C[i](M, V, i);
+                        }
+                    }
+                };
+            }();
+        5.将数据层与视图层完全解耦,互不影响
+    6.MVVM模式
+        模型(model)-视图(view)-视图模型(viewmodel)
+        为视图层量身定做一套视图模型,在视图模型中创建属性和方法
+        为视图层绑定数据并实现交互
+        1.MVP需要创建管理器,一些开发者对JS了解的不是很深入,操作管理器成本太大
+          能否通过html来创建视图实现页面需求?
+        2.视图层的思考
+            创建视图也就是创建页面内的视图,本质就是写HTML代码
+            如果将视图作用提升,通过直接书写HTML代码创建视图组件
+            让控制器或管理器去监听这些视图组件,并进行处理完成预期功能
+            这对那些只懂HTML代码的开发者,轻松完成功能需求
+        3.视图模型层
+            //~屏蔽压缩报错
+            ~(function(){
+                //在闭包中获取全局变量
+                var window = this || (0, eval)('this');
+                //获取页面字体大小,作为创建页面UI尺寸参照物
+                var FONTSIZE = function(){
+                    //获取页面body元素字体大小并转换成整数
+                    return parseInt(document.body.currentStyle ? document.body.currentStyle
+                    ['fontSize'] : getComputedStyle(document.body, false)['fontSize']);
+                }();
+                //视图模型对象
+                var VM = function(){
+                    //组件创建策略对象
+                    var Method = {
+                        //进度条组件创建方法
+                        progressbar : function(){},
+                        slider : function(){}
+                    }
+                }();
+                //将视图模型对象绑定在window上,供外部获取
+                window.VM = VM;
+            })();
+        4.创建进度条
+            progressbar : function(dom, data){
+                //进度条进度完成容器
+                var progressbar = document.createElement('div'),
+                    param = data.data;
+                progress.style.width = (param.position || 100) + '%';
+                dom.className += ' ui-progressbar';
+                dom.appendChild(progress);
+            }
+        5.创建滑动条
+            slider : function(dom, data){
+                var bar = document.createElement('span'),
+                    progress = document.createElement('div'),
+                    totleText = null,
+                    progressText = null,
+                    param = data.data,
+                    width = dom.clientWidth,
+                    left = dom.offsetLeft,
+                    realWidth = (param.position || 100) * width /100;
+                dom.innerHTML = '';
+                if(param.totle){
+                    text = document.createElement('b');
+                    progressText = document.createElement('em');
+                    text.innerHTML = param.totle;
+                    dom.appendChild(text);
+                    dom.appendChild(progressText);
+                }
+                setStyle(realWidth);
+                dom.className += ' ui-slider';
+                dom.appendChild(progress);
+                dom.appendChild(bar);
+                function setStyle(w){
+                    progress.style.width = w+ 'px';
+                    bar.style.left = w - FONTSIZE / 2 + 'px';
+                    if(progressText){
+                        progressText.style.left = w - FONTSIZE / 2 * 2.4 + 'px';
+                        progressText.innerHTML = parseFloat(w / width * 100).tofixed(2) + '%';
+                    };
+                }
+            }
+        6.让滑动条动起来
+            slider : function(dom, data){
+                bar.onmousedown = function(){
+                    document.onmousemove = function(event){
+                        var e = event || window.event;
+                        var w = e.clientX - left
+                        setStyle(w < width ? (w > 0 ? w : 0) : width);
+                    }
+                    document.onselectstart = function(){
+                        return false;
+                    }
+                }
+                document.onmouseup = function(){
+                    document.onmousemove = null;
+                    document.onselectstart = null;
+                }
+            }
+        7.为组件添睛
+            获取数据的方法getBindData,通过元素中给定的数据映射标识获取对应数据来渲染我们的视图
+            //视图模型对象
+                var VM = function(){
+                    //组件创建策略对象
+                    var Method = {
+                        //....
+                    }
+                function getBindData(dom){
+                    var data = dom.getAttribute('data-bind');
+                    return !!data && (new Function("return ({" + data +"})");
+                }
+            }();
+        8.查找组件
+        获取需要渲染的组件
+            //视图模型对象
+                var VM = function(){
+                    //组件创建策略对象
+                    var Method = {
+                        //....
+                    }
+                function getBindData(dom){}
+                return function(){
+                    var doms = document.body.getElementsByTagName('*'),
+                        ctx = null;
+                    for(var i = 0; i < doms.length; i++){
+                        ctx = getBindData(doms[i]);
+                        ctx.type && Method[ctx.type] && Method[ctx.type](doms[i], ctx);
+                    }
+                }
+            }();
+        9.展现组件
+            var demo1 ={
+                position : 60,
+                totle : 200
+            },
+            demo2 = {
+                position : 20
+            },
+            demo3 = {position : 50};
+
+            window.onload = function(){
+                //渲染组件
+                    VM();
+            }
+
+    
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
