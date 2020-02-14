@@ -44,3 +44,25 @@
 module:侧重于设计和开发阶段,关注与runtime
 component:独立部署的软件单元,面向runtime,侧重于功能性
 通俗的来讲,一个轮子上的螺钉就是一个module,整个轮子就是一个组件
+
+##模块化开发
+
+js原始功能:开发一些脚本
+伴随着ajax异步请求的出现,形成了前后端分离
+客户端需要完后的事情越来越多
+为了应对代码的剧增,我们采用多个js文件
+但是这种维护也会带来灾难性问题
+例如全局变量同名
+使用匿名函数来解决,各自加上自己的作用域,但是减少了代码的复用性
+
+常见的模块化规范:CommonJS/AMD/CMD/Modules
+#CommonJS
+导出
+module.exports = {
+
+}
+导入
+let {test, demo} = require('moduleA')
+#ES6
+export
+import {} from

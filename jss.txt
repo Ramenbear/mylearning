@@ -222,10 +222,6 @@
     22.JS监听对象属性的改变
         ES5:Object.defineProperty
         ES6:Proxy
-    23.理解定时器
-        定时器是JS动画的核心技术
-        1.setTimeout()
-            用来指定某个函数或字符串在指定的毫秒数之后执行,也可以用clearTimeout()取消
     24.this机制
         1.默认绑定
             全局环境中this默认绑定到window
