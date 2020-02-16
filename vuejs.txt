@@ -116,7 +116,7 @@
         var vm = new Vue({
             // 选项
         })
-        虽然没有完全遵循 MVVM 模型,但是 Vue 的设计也受到了它的启发
+        虽然没有完全遵循MVVM模型,但是 Vue 的设计也受到了它的启发
         因此在文档中经常会使用 vm (ViewModel 的缩写) 这个变量名表示 Vue 实例
         所有的 Vue 组件都是 Vue 实例
     6.数据方法
@@ -866,27 +866,193 @@
         node依赖各种包
         npm包管理工具
         npm install webpack@3.6.0 -g
+        npm install webpack@3.6.0 --save-dev
+        开发依赖/运行依赖
     3.起步
+        cd 指定文件夹
+        webpack ./src/main.js ./dist/bundle.js
         webpack最重要的两项是入口(Entry)和出口(Output)
         入口的作用是告诉用户,webpack从何处开始寻找依赖,并且编译
         出口的作用是配置编译后文件存储的位置和文件名
     4.配置
-        加载器(loaders)
-        安装不同的加载器来对各种后缀名文件进行处理,比如CSS样式、支持图片、字体文件
-    5.使用
-        插件(plugins)
-        拓展webpack功能,解决加载器没有的功能
+        webpack.config.js
+            const path = require('path')
+            module.exports = {
+                entry: '',
+                output: {
+                    path: path.resolve(__dirname, 'dist'),
+                    filename: 'bundle.js'
+                },
+            }      
+    5.使用loader
+        通过npm安装需要使用的loader
+        在webpack.config.js中的modules关键字下进行配置
+            module: {
+                rules: [
+                    {
+                        test: /\.css$/,
+                        //从右向左读取
+                        use: ['style-loader', 'css-loader']
+                    }
+                ]
+            }
     6.配置vue
+        运行时依赖
+        npm install vue --save
+        同时存在el和template,那么就会用template替换掉el
     7.plugin的使用
+        插件,对现有功能的扩展
     8.搭建本地服务器
-##推送至仓库
-    1.本地代码编写完成后
-        git init
-        git status
-        git add .
-        git commit -m "init my project"
-    2.远程新建一个空仓储
-        利用命令,将本地代码推送至远程空仓储
+        提供了一个可选的本地服务器,基于node.js搭建,内部使用express框架
+        npm install --save-dev webpack-dev-server@2.9.1
+        devServer: {
+            contentBase: './dist',
+            inline: true,         
+        }
+##vue-router
+    1.vue程序运行
+        首先template解析(parse)成为抽象语法树(ast),编译(compile)成为一个render函数
+        然后通过render函数翻译成虚拟DOM,最后将虚拟DOM渲染成为真实DOM
+        runtime-only:直接通过render函数进行渲染
+        runtime-compile
+        template通过vue-template-compiler解析成为render函数
+    2.render
+        render: function(createElement) {
+            //1.createElement('标签', {标签属性}, [''])
+            //return createElement('h2', {class: 'box'}, ['hello world'])
+
+            //2.传入一个组件对象
+        }
+    3.箭头函数与this指向
+        一个参数
+            const power = num => {
+                return num * num;
+            }
+        两个参数
+            const sum = (num1, num2) => {
+                return num1 + num2;
+            }
+        返回值只有一行代码
+            const mul = (num1, num2) => num1 + num2
+        使用情况
+            将一个函数作为另外一个函数的参数
+        this指向
+            向外层作用域一层层查找this,直到有this的定义
+    4.router
+        1.路由:互联的网络把信息从源地址传输到目的地址的活动
+            公网IP:唯一标识
+            内网IP:通过路由分发,每个内网IP分配一个电脑mac地址
+        2.后端路由:
+            后端渲染:服务器端直接生产渲染好的HTML页面,返回给客户端进行显示
+            后端路由:后端来处理URL和页面的映射关系
+        3.前端路由:
+            前端渲染:服务器提供数据接口,网页在前端渲染出来
+            前端路由:前端映射URL和页面的关系,页面切换不会刷新
+        4.单页面富应用阶段:
+            SPA:在前后端分离的基础上加上了一层前端路由
+                前端来维护一套路由规则,整个页面只有一个html页面
+        5.怎么让页面切换不会刷新
+            也就是URL改变不会向服务器请求数据
+                1.URL的hash
+                    URL的hash也就是锚点(#),本质上是改变window.location的href属性
+                2.HTML5的history模式:pushState-压栈,replaceState,go
+        6.动态路由
+            this.$router:大的这个router对象
+            this.$route:当前活跃的这个router对象
+        7.路由的懒加载
+            打包构建应用时,JS包会变得非常大,影响页面加载
+            将不同路由对应的组件分割成不同的代码块,当路由被访问的时候才加载相应的组件
+            一般情况下,所有页面的JS代码都在一个JS文件中,一次性请求这个下来,需要花费一定的时间
+            懒加载就是将每个页面的逻辑代码分开,用到时再去加载
+        8.嵌套路由
+        9.参数传递
+            params
+            query
+        10.导航守卫
+            //前置钩子(hook)
+            router.beforeEach = (to, from, next) => {
+                //从from跳转到to
+                document.title = to.meta.title
+                next()
+            }
+            //后置钩子
+            router.afterEach = (to, from) => {
+
+            }
+        11.keep-alive
+            包在keep-alive里,所有路径匹配到的视图组件都会被缓存,保留状态,避免重新渲染
+        12.tabbar
+            1.自定义tabbar组件,在App使用
+                出现在底部,设置样式
+                显示的内容不写死,定义插槽
+                flex布局平分tabbar
+                自定义tabbarItem,并且具有两个插槽:图片,文字
+                给插槽包装div,用于设置样式
+                填充插槽实现效果
+##promise
+    1.promise是异步编程的一种解决方案
+        处理异步事件
+            封装一个网络请求的函数,不能立即拿到结果
+            这时候我们会传入另外一个函数,在数据请求成功后,将数据通过传入的函数回调出去
+            当网络请求十分复杂的时候,这时候就容易出现回调地狱
+    2.对异步操作进行封装
+        //参数->函数(resolve, reject)
+        //resolve和reject本身也是函数
+            new Promise((resolve, reject) => {
+                setTimeout((data) => {
+                    resolve(data);
+                    reject('error message');
+                }, 1000)
+            }).then((data) => {
+                console.log('hello world');
+                            ...
+
+                return new Promise((resovle, reject) => {
+                    setTimeout(() => {
+                        resolve();
+                    }, 1000)
+                })
+            }).catch(err => {
+
+            })
+    3.使用
+        一般情况下有异步操作时,使用Promise对这个异步操作进行封装
+    4.三种状态
+        1.pending:等待状态,正在进行网络请求,定时器没有到时间
+        2.fulfill:满足状态,主动回调resolve时,回调.then()
+        3.reject:拒绝状态,主动回调reject,回调.catch
+    5.all方法
+        每个请求都满足才成功
+##axios
+##vuex  
+    1.vuex一个vue的状态管理模式
+        采用集中式存储管理应用的所有组件状态,并以相应的规则保证状态以一种可预测的方式发生的变化
+        可以简单理解为把需要多个组件共享的变量全部存在一个对象中
+        然后将这个对象放在顶层,让其他组件可以使用,那么多个组件就可以共享
+    2.什么状态需要我们在多个组件共享
+        用户登录状态,用户名称,商品收藏...
+    3.使用
+        Vue.use(Vuex)
+        export default new Vuex.Store({
+            state: {
+                counter: 1000
+            },
+            mutations: {
+                increment(默认state) {
+                    state.counter++
+                }
+            },
+            actions,
+            getters
+        })
+        state:保存共享状态
+            
+        actions:做一些异步操作
+        mutations:含一个devtools插件可以记录具体是哪个地方修改state,做一些同步操作
+        getters:
+
+
+
 ##Vue工程项目实战
     1.项目分析
         使用Vue.js开发一个手机单词本WebApp
