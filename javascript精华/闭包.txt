@@ -1,0 +1,46 @@
+1.作用域和作用域链
+    1.作用域:规定变量和函数的可使用范围
+    2.作用域链:每个函数都有一个作用域,查找变量和函数
+        由局部作用域到全局作用域依次查找,这些作用域的集合就叫作用域链
+2.内存回收机制
+    1.不再使用的内存,系统自动进行回收,清理出空间供其他程序使用
+    2.规则:
+        function Fn() {
+            var b = 2;
+            return function() {
+                console.log(b)
+            }
+        }
+        在这里内部函数引用着外部函数的变量,外部函数即使执行完毕也不会被销毁
+        形成了不销毁的私有作用域,不会对正在引用的变量或对象进行回收
+    3.作用域继承:
+        子作用域可以去父作用域获取东西,反过来则不行
+        函数中再声明一个函数,只能内部函数去访问外部函数作用域的变量
+3.闭包
+    1.定义:
+        函数执行,形成一个私有的作用域,保护里面的私有变量不受外界干扰
+        还可以保存一些内容
+        作用:保护/保存
+    2.保护的应用:
+        1.每个开发者将自己的代码放在一个私有的作用域中,防止命名冲突
+            通过return或者window.xxx将方法暴露出去
+        2.jQuery就是利用这种机制
+        3.封装私有变量
+    3.保存的应用:
+        选项卡闭包的解决方案
+        var btnBox = document.getElementById('btnBox');
+            inputs = btnBox.getElementsByTagName('input');
+        var len = inputs.length;
+        for(var i = 0; i < len; i++){
+            inputs[i].onclick = function () {
+                alert(i);
+            }
+        }
+        所有事件绑定都是异步的,触发点击事件,执行方法的时候,循环早就结束了
+        结果都是len的数值
+        var len = inputs.length;
+        for(let i = 0; i < len; i++){
+            inputs[i].onclick = function() {
+                alert(i)
+            }
+        }

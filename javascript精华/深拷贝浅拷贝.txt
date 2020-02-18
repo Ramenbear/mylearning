@@ -1,0 +1,19 @@
+1.对基本类型的拷贝就是对值复制进行一次拷贝
+    对引用类型,拷贝的不是值,而是值的地址,最终两个变量的地址指向同一个值
+2.断开对象的关系:不让他指向同一个地址
+    浅拷贝:只进行一层关系的拷贝
+    深拷贝:进行无限层次的拷贝
+3.自己实现浅拷贝
+    function shallowClone(o) {
+        const obj = {};
+        for(let i in o){
+            if(o.hasOwnProperty(i)) {
+                obj[i] = o[i];
+            }
+        }
+        return obj;
+    }
+4.深拷贝
+    function cloneJSON(source) {
+        return JSON.parse(JSON.stringgify(source));
+    }

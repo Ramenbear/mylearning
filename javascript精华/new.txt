@@ -1,0 +1,28 @@
+1.在java中声明一个构造函数,通过new 类名()来创建一个实例,这个构造函数是一个特殊的函数
+    在js中只要new一个函数,就可以new一个对象,函数和构造函数没有什么区别
+2.new内部经历了啥
+    1.创建一个新对象
+    2.这个新对象的__prototype__属性指向原函数的prototype属性,(继承原函数的原型)
+    3.将这个新对象绑定到次函数的this上
+    4.返回新对象,如果这个函数没有返回其他对象
+3.自己实现new
+    //Con:接收一个构造函数
+    //args:传入构造函数的参数
+    function create(Con, ...args) {
+        let obj = {};
+        obj._prototype_ = Con.prototype;
+        let result = Con.apply(obj, args);
+        return result instanceof Object ? result : obj;
+    }
+    function Test(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+4.创建对象的方式
+    1.new构造函数
+    2.字面量
+    3.Object.create()
+    4.区别:
+        1.new和字面量创建的对象的原型会指向Object.prototype,会继承Object的属性和方法
+        2.Object.create()创建的对象,原型指向null,null作为原型链的顶端,没有不会继承任何属性和方法
+        

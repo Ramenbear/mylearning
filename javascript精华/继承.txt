@@ -1,0 +1,63 @@
+1.经典继承(构造函数)
+    function Father() {
+        this.colors = ["red", "blue"];
+    }
+    function Son() {
+        //调用call方法,这里的this指代Son
+        //Father中的构造函数中的this指向Son
+        //Son有了colors属性
+        //每new一个Son,都会产生不同的对象,每个对象的属性都是相互独立的
+        Father.call(this);
+    }
+    1.基本思想:在子类构造函数内部调用父类构造函数
+    2.优点:保证了原型链中引用类型的独立,不被所有实例共享
+        子类创建可以向父类传参
+    3.缺点:继承的方法都在构造函数中定义,构造函数不能复用了
+        父类中定义的方法对于子类型而言是不可见的
+2.组合继承
+    function Father(name) {
+        this.name = name;
+        this.colors = ["red", "blue"];
+    }
+    //方法定义在原型对象上(共享)
+    Father.prototype.sayName = function() {
+        alert(this.name);
+    };
+    function Son(name, age) {
+        //子类继承父类的属性
+        Father.call(this, name); //继承实例属性,第一次调用Father()
+        //每个实例都有自己的属性
+        this.age = age;
+    }
+    //子类和父类共享的方法(实现了父类属性和方法的复用)
+    Son.prototype = new Father();//继承父类方法,第二次调用Father()
+    Son.prototype.sayAge = function() {
+        alert(this.age);
+    }
+    1.基本思想:原型链的继承和构造函数的继承
+    2.优点:实现了函数的复用,每个实例都有属于自己的属性
+    3.缺点:调用了两次父类的构造函数
+3.原型继承
+    function object(o) {
+        function F() {
+            F.prototype = o;
+            //每次返回的new都是不同的
+            return new F();
+        }
+    }
+    1.基本思想:创建临时性的构造函数(无任何属性),将传入的对象作为该构造函数的原型对象
+        然后返回这个新构造函数的实例
+    2.浅拷贝:object产生的对象是不相同的,原型对象都是person对象
+        所改变存在原型对象的属性被所有生成的实例所共享,不仅被person拥有,还被子类实例共享
+    3.ES5新增:object.create()
+4.寄生式继承
+    function createAnother(original) {
+        var clone = object(original);//通过object函数创建一个新对象
+        clone.sayHi = function() {//以某种方式加强这个对象
+            alert("hi");
+        };
+        return clone;//返回这个对象
+    }
+    1.基本思想:避免了第二次调用构造函数
+
+
