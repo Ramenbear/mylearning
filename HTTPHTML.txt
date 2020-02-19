@@ -70,13 +70,6 @@
     3.TCP是面向字节流,UDP面向报文,并且网络出现阻塞不会降低发送速率
     4.TCP是1对1的,UDP支持1对1,1对多
     5.TCP首部较大为20字节,UDP为8字节
-3.WebSocket
-    http不支持持久性连接,WebSocket是H5中的协议,支持持久连接
-    HTTP中的生命周期是通过Request来界定,也就是Request一个Response
-    在Http1.0协议中,这次请求就结束了
-    在HTTP1.1中,改进了一个connection:keep-alive
-    也就是,可以发起多次请求,接收回来多个响应,但一个请求对应了一个响应
-    WebSocket是基于HTTP协议的,或者说一部分握手就是借用HTTP协议
 4.HTTP请求的方式
     head:类似于get请求,只不过返回的响应中没有具体的内容,用户获取报头
     options:允许客户端查看服务器性能,比如支持的请求方式

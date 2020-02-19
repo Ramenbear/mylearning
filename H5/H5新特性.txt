@@ -84,6 +84,12 @@
         5.H5 poatMessage
         6.websocket
             websocket根本就不是基于HTTP协议,位于TCP/IP之上,跟HTTP协议同层的通信协议
+12.WebSocket
+    http不支持持久性连接,WebSocket是H5中的协议,支持持久连接
+    HTTP中的生命周期是通过Request来界定,也就是Request一个Response
+    在Http1.0协议中,这次请求就结束了,在HTTP1.1中,改进了一个connection:keep-alive
+    也就是,可以发起多次请求,接收回来多个响应,但一个请求对应了一个响应
+    WebSocket是基于HTTP协议的,或者说一部分握手就是借用HTTP协议
 
         
 
