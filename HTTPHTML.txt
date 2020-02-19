@@ -80,8 +80,6 @@
 4.HTTP请求的方式
     head:类似于get请求,只不过返回的响应中没有具体的内容,用户获取报头
     options:允许客户端查看服务器性能,比如支持的请求方式
-5.一个图片url访问直接下载
-    请求的返回头里,用于浏览器解析的重要参数是OSS的API文档里面返回HTTP头,决定用户下载行为的参数
 7.BOM浏览器对象
     1.location对象
         location.herf返回或设置当前文档的URL
@@ -94,17 +92,6 @@
     3.navigator对象
         navigator.userAgent返回用户代理头的字符串表示
         navigator.cookieEnabledd返回是否支持cookie
-8.H5 drag api
-    1.设置元素为可拖放
-        <img draggable="true"/>
-    2.拖放开始
-        dragstart开始拖放被拖放元素时触发
-        drag(event)规定被拖放元素的数据
-    3.放到何处
-        默认下不允许将元素数据放入其他元素,所以需要阻止默认事件event.preventDefault()
-        dragover被拖放元素在某元素内移动
-    4.进行放置
-        drop被目标元素完全接受被拖放元素
 9.HTTP2.0
     提升访问速度
     允许多路复用,同时通过单一的HTTP连接发送多重请求响应信息
@@ -118,30 +105,6 @@
 11.fetch
     fetch发送post请求时,第一次是发送一个options请求,询问是否支持修改的请求头
     待服务器支持,第二次发送真正的请求
-12.cookie/sessionStorage/localStorage
-    1.共同点:
-        都保存在浏览器端,并且都是同源的
-    2.不同点:
-        cookie始终在同源的http请求中携带,即cookie在浏览器和服务器间来回传递
-        sessionStorage/localStorage不会自动将数据发给服务器,仅在本地保存
-        cookie还有路径,可以限制在某个路径下,存储大小只有4K左右
-        sessionStorage仅在浏览器窗口关闭前有效,不能持久保存
-        localStorage始终有效,窗口或浏览器关闭也一直存在,持久数据
-        cookie只是在设置的cookie过期时间之前一直有效
-        session回话过程,关闭浏览器后消失,当页面不同即使同一页面打开两次也视为一次回话
-        cookie/localStorage在所有同源窗口都是共享的,不管浏览器关闭与否都生效
-    3.cookie
-        保存用户登录状态
-        存储ID在cookie中,下次登录就不需要再登陆了,设置过期时间,超过某个时间期限,cookie失效
-13.web worker
-    在HTML页面中,如果执行脚本时,页面的状态是不可响应的,直到脚本执行完成后,页面才变成可响应的
-    web worker是运行在后台的js,独立于其他脚本,不会影响页面的性能
-    并且通过postMessage将结果回传给主线程
-    这样在进行复杂操作的时候,就不会阻塞主线程
-    如何创建web worker
-        1.检测浏览器对于web worker的支持性
-        2.创建web worker文件
-        3.创建web worker对象
 15.iframe
     创建包含另一个文档的内联框架
     可以将提示文字放在<iframe></iframe>来提示某些不支持iframe的浏览器
@@ -316,13 +279,6 @@
     4.GET产生一个TCP数据包,POST产生两个TCP数据包
     5.GET默认将属性拼接到URL上作为query,URL长度有限制
     6.POST请求放在一个请求体
-27.H5新增
-    为了更好地实现web语义化,新增了header,footer,nav,aside,section语义化标签
-    表单上,为input新增了color,data,range,email等类型
-    在存储上新增了sessionStorage/localStorage和离线数据
-    在多媒体方面规定了音频和视频元素audio和vedio
-    地理定位,canvas画布,拖放
-    多线程编程的web worker和web WebSocket协议
 29.浏览器生成页面的时候,会生成哪两棵树
     DOM树,辨析节点
     CSSOM规则树,解析CSS文件
@@ -337,8 +293,6 @@
     2.cookie不是很安全,别人可以分析存放在本地的,考虑到安全,应该使用session
     3.session会在一定时间内保存在服务器上,当访问增多,会占用服务器的性能
     4.单个cookie保存的数据有限制4k,限制一个站点最多只能保存20个cookie
-32.ajax
-    创建XMLHttpRequest对象,设置请求方式,调用回调函数,发送请求
 33.静态链接和动态链接
     链接的时机不一样,静态链接在形成可执行程序之前,动态链接在程序执行时
     动态链接解决空间浪费和更新困难
@@ -402,38 +356,6 @@
             4.第四次挥手
                 客户端收到FIN后,一样发送一个ACK报文作为应答,把服务端序列号值+1作为自己ACK报文的序列号值
                 客户端处于TIME_WAIT状态,确保服务端收到了自己的ACK报文才会进入CLOSED状态
-35.为浏览器兼容做出的处理
-    1.不同浏览器的内边距和外边距不一致
-        在CSS里加入通配符*{margin:0;padding:0}
-    2.IE6设置了float的同时设置了margin,出现双边距问题
-        设置display:inline
-    3.在IE6/7中标签的高度设置小于10px,会超出自己设置的高度
-        超出高度的标签设置overflow:hidden
-        设置line-height的值小于设置高度
-    4.图片默认存在间距
-        使用float为img布局
-    5.边距重叠
-        给子元素加上一个父元素并设置overflow:hidden
-    6.手型
-        cursor:pointer
-36.深浅拷贝
-    1.浅拷贝
-        只复制指向某一个对象的指针,不复制对象本身,新旧对象共享同一块内存
-    2.深拷贝
-        创造一个一模一样的对象,不共享内存,修改彼此互不影响
-38.SPA单页面应用
-    SPA仅在页面初始化时加载相应的HTML、CSS、JS,一旦页面加载完成
-    不会因为用户的操作而进行页面的重新加载或跳转
-    取而代之是利用路由机制实现HTML内容的变换,UI与用户的交互
-    避免页面重新加载
-        1.优点
-            用户体验好,内容的改变不需要重新加载整个页面
-            避免了不必要的跳转和重复渲染
-            对服务器压力小,前后端职责分离,前端进行交互逻辑,后端负责数据处理
-        2.缺点
-            初次加载耗时太多
-            前进后退路由管理
-            SEO难度较大
 39.浏览器引擎前缀
     浏览器厂商们有时会给实验性的或者非标准的CSS属性和JavaScript API添加前缀
     这样开发者就可以用这些新的特性进行试验（理论上地）防止他们的实验被依赖导致在标准化生产过程中

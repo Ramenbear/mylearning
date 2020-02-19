@@ -161,26 +161,6 @@
     25.数组去重
         1.indexOf去重
         2.ES6中的Array.from(new Set(array))
-    26.JS实现跨域
-        1.什么是跨域
-            协议，域名，端口，其中一个不一样，就代表跨域
-            不是一个源的文档无法操作另一个源的文档，受限如下：
-                1.Cookie、LocalStorage和IndexDB无法读取
-                2.DOM无法获得
-                3.AJAX请求不能发送
-            可以跨域加载资源的三个标签
-                1.img-src（图片提供方也可以做下防止盗用链接的处理)
-                2.link- href  可以使用CDN
-                3.script-src 可以使用CDN，也可以用用于JSONP
-        2.解决方案：
-            1.前端：
-                1.jsonp
-                2.Hash
-                3.postMessage（H5新增的）
-                4.WebSocket（不受同源策略限制）
-                5.CORS（支持跨域通信的ajax，浏览器识别到ajax跨域后，会在http头中加一个origin允许跨域）
-            2.服务端:
-                设置http header
     27.事件监听
     30.document.write和innerHTML的区别
         1.document.write
