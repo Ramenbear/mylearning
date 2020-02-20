@@ -1,10 +1,5 @@
 www.w3.org/mdn/caniuse
 ##css笔记
-    2.link标签和@import标签的区别
-        link属于html标签,而@import是css提供的
-        页面加载时link同时被加载,@import要页面加载结束后才加载
-        link没有兼容性,@import要IE5以上才支持
-        link方式样式的权重高于@import
     7.设置一个背景颜色,会填充哪些区域
         元素的content、padding、border
     9.inline-block、inline、block区别
@@ -49,10 +44,6 @@ www.w3.org/mdn/caniuse
             使得整体浮动,影响布局,不推荐使用
         5.使用邻接元素
             什么都不做,给浮动元素后面的元素添加clear属性
-    13.元素消失的方法
-        visibility:hidden依然占据空间,不可以触发点击事件
-        display:none删除了一样
-        opacity:0不改变页面布局,可以触发点击事件
     14.BFC
         BFC(块级格式化上下文,用于清除浮动,防止margin重叠)
         块级格式化上下文,是一个独立的渲染区域,并且有一定的布局规则
@@ -85,31 +76,6 @@ www.w3.org/mdn/caniuse
         6.网格布局
             兼容性不太好
             将页面分割成多个区域
-    20.水平居中
-        1.普通文本
-            text-align: center;
-        2.行内元素
-            text-align: center;
-        3.图片-行内替换元素
-            text-align: center;
-        4.行内块级元素-inline-blcok
-            text-align: center;
-        5.块级元素
-            margin: 0 auto;
-    21.垂直居中
-        1.margin:auto
-            定位为上下左右为0,margin:0可以实现脱离文档流的居中
-        2.margin负值法
-            margin-top:-190px;高的一半
-            margin-left:-240px;宽的一半
-            补充:
-            transform:translateX(-50%)
-            transform:translateY(-50%)
-        3.未脱离文档流 table-cell
-            为父元素设置diaplay:table-cell,vertical-align:middle
-            子元素就可以实现垂直居中
-        4.利用flex
-            父元素设置diaplay:flex,align-items:center,justify-content:center
     22.transition和animation的区别
         大部分属性是相同的,都是随时间改变元素的属性值
         transition需要触发一个事件才能改变属性,2帧
@@ -125,55 +91,6 @@ www.w3.org/mdn/caniuse
             对帧速表现不好的低版本浏览器,css3可以实现自然降级
             css动画有天然事件支持
             css3有兼容性问题
-    26.css3新特性
-        1.css3边框
-            1.border-radius圆角边框
-            2.box-shadow边框阴影
-            3.border-image边框图片
-        2.css3背景
-            1.background-size规定背景图片的尺寸
-            2.background-origin背景图片的定位区域,比如content-box padding-box border-box
-        3.css3文字效果
-            1.text-shadow文本应用阴影
-            2.word-wrap允许对长单词进行拆分,换行到下一行p{word-wrap:break-word};
-        4.css3 2D转换
-            transfrom:通过css3转换,我们可以对元素进行移动、缩放、转动、拉长、拉伸
-            1.translate()从当前位置移动,根据给定的left/top位置参数
-                transform: translate(50px,100px);
-            2.rotate()旋转给定的角度,负值则为逆时针旋转
-                transform: rotate(30deg);
-            3.scale()元素的尺寸会增加或减少,根据给定的宽度和高度
-                transform: scale(2,4);
-            4.skew()转动给定的角度,根据给定的水平线和垂直线
-                transform: skew(20deg,30deg);
-            5.matrix:
-                将所有2D转换方法组合在一起,需要六个参数,包含数学函数
-        5.css3 3D转换
-            rotateX()元素围绕其X轴给定的度数进行旋转
-            rotateY()元素围绕其Y轴给定的度数进行旋转
-        6.css3过渡
-            当从一个样式转换为另一种样式时元素添加的效果
-        7.css3动画
-            可以取代动画图片,Flash动画以及js
-        8.css3多列
-            column-count:规定元素应该被分列的列数
-            column-gap:列之间的间隔
-            column-rule:列之间的宽度、样式和颜色规则
-        9.css3用户界面
-            resize:属性规定用户是否可以自己调整元素大小
-            box-sizing:以确切的方式定义适应某个区域的具体内容
-            outline-offset:属性对轮廓进行偏移,并在超出边框边缘的位置绘制轮廓   
-    28.css动画
-        1.创建动画序列,需要使用animation属性及其子属性,该属性允许配置动画时间、时长、以及其他动画细节
-            但是该属性不能配置动画的实际表现,动画的实际表现由@keyframes规则实现
-        2.transition也可以实现动画,强调过渡,是元素的一个或多个属性发生变化时产生的过渡效果
-            同一个元素通过两个不同的途径获取样式,而当第二个途径当某种改变发生时才能获取样式
-            这样就会产生过渡动画
-    29.css3对溢出的处理
-        text-overflow:
-            clip:修剪文本
-            ellipsis:替换为省略符号
-            string:用指定字符串来表示
     30.三栏布局的实现方式
         三列布局又分为两种:
             1.两列定宽一列自适应
@@ -186,8 +103,6 @@ www.w3.org/mdn/caniuse
             5.使用flex
             6.使用grid
         2.两侧定宽中间自适应
-    31.calc
-        用户动态计算长度
     32.display:table 和 table的区别
         相对应,diaplay:table的css声明能够让一个html元素和它的子节点像table元素一样,基于表格的css布局
         能够轻松定义一个单元格的边界、背景等样式,而不会因为使用table制表标签而出现语义化问题
@@ -206,105 +121,7 @@ www.w3.org/mdn/caniuse
         减少http请求,减轻服务器压力,加快网页响应速度
         通过background-position来选择相应的图片
     40.背景居中
-        background-position: center -81px;
-##引用CSS
-        1.引用CSS
-            css样式代码必须放入.css文本文件，或者网页<style>标签中，或插入网页标签style属性值
-            设置编码
-                @charset "utf-8";
-            css样式应用
-                1.行内样式
-                    直接放入代码行的标签中,一般是style属性中
-                2.内嵌式
-                    写在网页源文件的头部,<head><head>之间
-                    只能在此页使用,由type来决定定义css样式还是js脚本
-                    (css)type="text/css"    (js脚本)type="text/javascript"
-                    title属性，为不同样式设置标题，根据标题切换，IE不支持，火狐支持
-                3.链接式
-                    html的<link>标签，将外部样式表文件链接导入HTML文档中
-                    将html文档和css文档完全分离，结构样式的分离
-                    增强了网页结构的可扩展性和css的可维护性
-                    <link href:文件地址 type:文档类型 rel:关联类型>
-                4.导入式
-                    @import导入外部样式表
-##选择器
-    1.css3选择器
-        1.基本选择器
-            even:偶数 odd:奇数
-            * 通用元素选择器，匹配任何元素,可以用于清除浏览器默认样式
-            E 标签选择器，匹配所有使用E标签的元素
-            类选择器: class="text1" .匹配相应class元素,一个元素可以有多个类
-            ID选择器: id="text2" #匹配相应id元素,id名在同一页面中不要重复
-        2.组合选择器
-                1.后代选择器
-                    E F 匹配所有属于E元素后代的F元素
-                2.子选择器
-                    E>F 匹配所有E元素的直接子元素F(类也适用)
-                3.相邻兄弟选择器
-                    E+F 匹配所有紧随E元素之后的同级F元素
-                4.全兄弟选择器
-                    E~F E元素后面的F元素,且为兄弟关系
-                5.并集选择器
-                    E,F 同时匹配所有E元素和F元素
-                6.交集选择器
-                    div.one <div class="one"></div>
-        3.属性选择器
-            [title] 属性包含title
-            [title="div元素"] 属性是div元素
-            [title^="div"] 属性att的值以"div"开头的元素
-            [title$="div"] 属性att的值以"div"结尾的元素
-            [title*="div"] 属性att的值包含"div"的元素
-        4.伪类/伪元素
-            1.动态伪类
-                a:link 未访问的链接
-                a:visited 已访问的链接
-                a:focus 获取焦点-去除tabindex="-1"
-                a:hover 鼠标悬浮
-                a:active 被激活
-                女朋友看见lv f ha
-            2.目标伪类
-                target
-            3.语言伪类
-                lang()
-            4.元素状态伪类
-                :enabled 
-                :disabled 
-                :checked 
-                :selection 
-            5.结构伪类
-                :root 匹配文档根元素，对于HTML文档，就是HTML元素
-                :nth-child(n) 匹配其父元素的第n个子元素，第一个编号为1,元素都会考虑
-                :nth-last-child(n) 匹配其父元素的倒数第n个子元素，第一个编号为1
-                :nth-of-type(n) 和nth-child()类似，但是仅匹配使用同种标签的元素
-                :nth-last-of-type(n) 仅匹配使用同种标签的元素
-                :first-child 匹配父元素的第一个子元素
-                :last-child 匹配父元素的最后一个子元素，等同于nth-last-child()
-                :first-of-type 匹配父元素使用同种标签的第一个元素，等同于nth-of-type(1)
-                :last-of-type 匹配父元素使用同种标签的最后一个元素，等同于nth-last-of-type(1)
-                :only-child 匹配父元素下仅有的一个子元素
-                :only-of-type 匹配父元素下使用同种标签的唯一一个子元素
-                :empty 元素内没有内容
-            6.否定伪类
-                :not()
-            7.伪元素
-                形内元素
-                ::first-line 第一行
-                ::first-letter 第一个字母
-                ::before
-                ::after      
-    2.Emmet语法
-        快速生成代码
-        div>p>span>strong 子代
-        div+a+p+span 兄弟
-        * 多个
-        ^ 上一个层级
-        () 组合
-        {} 内容
-        $*4
-        w100
-        h200
-        m20
-        p30
+        background-position: center -81px;  
     3.CSS特性
         1.继承(inherited)
             一个元素没有设置某属性的值,跟随父元素的值
@@ -324,178 +141,6 @@ www.w3.org/mdn/caniuse
                 !import:样式级最高
             作者>用户>浏览器>HTML
             行内>内嵌,内部>外部
-##文字文本
-    1.字体样式
-        1.font-family
-            定义字体类型
-        2.font-size
-            字体大小
-        3.字体颜色
-            color:为字体定义颜色
-        4.字体字形
-            font-weight:字体粗细
-            font-style:字体倾斜
-                normal正常
-                italic斜体
-                oblique没有斜体变量的特殊字体
-        5.间距
-            letter-spacing:字母之间的间距
-            word-spacing:单词之间的间距
-        6.font
-            缩写属性
-    2.定义文本样式
-        1.text-align
-            元素内容在元素中的水平对齐方式
-            left、right、center、justify
-            文本等行内元素，对块元素无能为力-inline-block
-            解决不同浏览器都能定义块状元素居中显示:
-                定义margin，左右边距都为自动
-                margin-left:auto
-                margin-right:auto
-            justify:两端对齐，当段落文本不满一行时，强制分散进行满行显示,最后一行无效
-        2.块状元素左右对齐
-            i.设置元素浮动显示
-                float:left/right
-            ii.通过绝对定位
-                position:absolute绝对定位元素精确定位在网页中的位置，不受其他元素影响
-                right:0定义绝对定位元素坐标值，这里表示向右看齐
-        3.文本垂直对齐
-            vertical-align
-        4.设置绝对居中显示
-            为绝对定位元素包裹一个相对定位元素，然后再设置包含元素居中对齐，就可以让绝对定位元素居中显示
-        5.line-height
-            行高:两行文字基线之间的间距(baseline)
-            可以用于设置垂直居中,上下行距相等
-        6.text-index
-            文本第一行缩进,2em
-        7.隐藏
-            overflow:hidden超出该容器的内容隐藏
-            visibility:hidden不改变页面布局，不可以触发点击事件
-            display:none删除了一样
-            opacity:0不改变页面布局，可以触发点击事件
-        8.文本阴影
-            text-shaow
-                none:无阴影
-                <length>第一个长度值用来设置对象的阴影水平偏移值，可以为负
-                <length>第二个长度值用来设置对象的阴影垂直偏移值，可以为负
-                <length>第三个长度值用来设置对象的阴影模糊值，不可以为负
-                <color>设置对象的阴影的颜色
-        9.定义溢出文本
-            text-overflow:设置超文本省略显示
-        10.文本换行
-            word-break:定义文本自动换行
-        11.恢复默认样式
-            initial:直接取消对某个元素的样式指定
-        12.text-decoration
-            设置文字的装饰线
-                none:无任何装饰线
-                underline:下划线
-                overline:上划线
-                line-through:删除线
-        13.text-transform
-            设置文字的大小写转换
-                capitalize:首字母大写
-                uppercase:都大写
-                lowercase:都小写
-                none:无效果
-        14.和文本相关的一般会继承
-##边框
-    1.设计边框样式
-        dotted:显示为点线
-        dashed:显示为虚线
-        solid:显示为实线
-    2.定义多色边框
-        border-color:可以设置边框的颜色
-    3.定义边框背景
-        border-image
-    4.设计圆角
-        border-radius:第一个表示圆角的水平半径，第二个表示圆角的垂直半径
-        如果只包括一个参数值，第二个值和第一个值相等，表示一个四分之一圆角
-        如果参数中包含0，这个角就是矩形
-    5.设计椭圆图形
-    6.设置背景图像
-        background和background-repeat
-    7.边框实现三角形
-        border-top:50px solid #f00;
-        border-left:50px solid #0f0;
-        border-right:50px solid #00f;
-        border-bottom:50px solid #ff0;
-        width:0;
-        height:0;  
-    8.outline
-        不占据空间
-    9.box-shaow  
-##表格
-    1.基础表格
-        <table><tr><td>
-    2.优化表格
-        <caption><thead><th><tbody><tfoot>
-    3.合并表格边框
-        border-collapse: collapse;
-        table/caption/thead/th/tbody/tfoot
-    4.单元格合并
-        colspan/rowspan
-    5.border-spacing
-        设置单元格的水平,垂直间距
-##盒子模型
-    1.用来装页面的元素的矩形区域
-        content(元素) padding(内边距) border(边框) margin(外边距)
-        1.IE盒子模型
-            box-sizing:border-box
-            宽高加上了border和padding
-        2.标准的W3C盒子模型
-            box-sizing:content-box
-            宽高都指content的宽高
-    2.margin传递
-        左右不会传递
-        上传递,发生重叠,子元素的margin-top传递给父元素
-        下传递,父元素高度为auto,子元素的margin-bottom传递给父元素
-        防止传递:给父元素设置padding-top/padding-bottom
-                给父元素设置border
-                触发BFC-结界
-    3.margin折叠
-        垂直方向上的2个margin有可能合并成为一个margin
-            取比较大的值
-        防止折叠:只设置一个margin
-    4.box-sizing
-        1.事先定义盒模型的尺寸解析方式
-            box-sizing默认content-box,适用于所有能够定义宽高的元素
-            content-box:宽高只是指定内容的宽高
-            border-box:width/height=border+padding+content
-        3.强调
-            margin和padding都是透明的，padding受背景影响，能够显示背景色或背景图像，border不透明、
-            margin可以定义负值，但border和padding不支持负值
-            margin、border、padding都是可选的,margin和padding默认值为0,border默认不显示
-##元素分类
-    1.显示类型(能不能在同一行显示)
-        1.块级元素
-            独占父元素一行,可以随意设置宽高,默认由内容决定
-                div h1~h6 p
-                ul ol li dl dt dd table form 
-                article aside footer header hgroup main nav section
-                address blockquote fieldset hr 
-                noframes noscript pre legend
-        2.行内级元素
-            多个行内级元素可以在父元素同一行显示,非替换元素不可以设置宽高,宽高由内容决定
-            中间产生空格-浏览器解析换行为空格
-                a img span strong code iframe label input button
-                canvas embed object video audio
-    2.内容类型(是否被浏览器替换掉)
-        1.替换元素
-            可以设置宽高
-        2.非替换元素
-##块级元素的由来           
-    任何元素本身没有样式,而是通过display属性改变默认显示类型
-        block:块级元素
-        none:隐藏显示
-        inline:行内级元素
-        inline-block:同时具备
-        compact:紧凑的块状显示
-        marker:在容器对象前或之后显示
-        table
-        inline-table:行内级元素的表格显示
-        list-item:块级元素的列表项目显示
-        run-in:块状显示或基于内容之上的行内显示
 ##定位(normal flow)
     1.标准流
     2.position
@@ -581,11 +226,6 @@ www.w3.org/mdn/caniuse
                 v.align-content:多根轴线的对齐方式,如果只有一根轴线,那么该属性不起作用
                 vii.order:定义项目的排列顺序,数值越小,排列越靠前,默认情况下为0
                 viii.flex-grow:放大比例 flex-shrink:缩小比例
-##CSS兼容
-    1.css兼容
-        浏览器存在不兼容性问题,主要是因为他们使用的渲染引擎不同,不同渲染引擎在解释标准时会有部分差异
-        渲染引擎主要负责解释web页面上的所有代码,然后把代码完美的呈现出来
-        主要通过打补丁或过滤的方式设计不同浏览器能够显示相同的效果
 ##第十三章
     1.css3动画
         css3动画分为Transitions和Animations
@@ -629,14 +269,6 @@ www.w3.org/mdn/caniuse
         animations-direction
         animations-play-state
         animations-fill-mode
-##Bootstrap
-##第十七章
-    1.css栅格系统
-        也称网格系统,运用固定的格子设计版面布局,以规则的网格阵列来指导和规范网页中的版面布局以及信息分布
-        网页设计中,把网页宽度平均分为N个网格单元,每个单元之间预留一定的空隙
-        BS2栅格系统有两种
-            1.固定式(fix):列宽固定为60px,列间距为20px
-            2.流式的(fluid)
 ##第十八章
     1.css响应式设计
         弹性网格、液态布局、弹性图片
@@ -652,33 +284,3 @@ www.w3.org/mdn/caniuse
                     小尺寸的响应式图片,并进行相应的反馈输出,对于小屏幕的移动设备,原始尺寸不会被用到
             3.定义设备类型
                 css3加入了Media Queries模块,允许添加媒体查询表达式
-##第二十章
-    1.CSS动态样式
-        LESS扩展了CSS语言功能,在CSS的语法基础上,引入了变量、混合、运算和函数等特性
-        LESS受SASS影响而创建的开源项目,SASS采用缩进作为分隔符来区分代码块,而不是CSS常用的括号,所以有了LESS
-        1.LESS概述
-            网页设计常常不是一个用过一次就丢的东西,可能经常需要去修改它
-            LESS可以提供很多方便的工具,过去需要写5行样式声明,现在只需要1行,过去需要改N个地方,现在只需要改一个地方,无遗漏
-        2.使用LESS
-            提前将LESS文件编译生成静态的css文件,然后在HTML文档中应用
-            在客户端只需要下载less.js文件,然后在需要的地方导入
-            在服务端的使用主要是借助于LESS的编译器,将LESS源文件编译生成最终的css文件
-        3.LESS组成
-            LESS包含一套自定义的语法和一个解析器,没有裁剪CSS原有特性,更不会取代CSS,对CSS加入程序式语言特性
-            拥有四大特性:变量、混合、嵌套、运算
-            1.变量
-                通过@的方式声明变量,甚至可以通过算法操作对变量进行运算,这样有利于对全局变量的重复运用,实现全局配置
-            2.混合
-                把A引入B中,B继承A的所有属性
-            #参数混合
-                像声明函数一样,定义一个带参数的样式,可以想象为一个js函数
-            3.嵌套
-                让css的层级更有归属感,用&声明伪类属性
-            4.运算
-            5.作用域
-            6.命名空间
-            7.JS表达式:通过反引号来使用
-        4.LESS和SASS和SCSS
-            SASS:采用缩进作为分隔符来区分代码块
-            LESS:平滑的过渡CSS到LESS
-            SCSS:采用大括弧作为分隔符

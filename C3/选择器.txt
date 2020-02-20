@@ -1,0 +1,64 @@
+1.css3选择器
+    1.基本选择器
+        even:偶数 odd:奇数
+        * 通用元素选择器，匹配任何元素,可以用于清除浏览器默认样式
+        E 标签选择器，匹配所有使用E标签的元素
+        类选择器: class="text1" .匹配相应class元素,一个元素可以有多个类
+        ID选择器: id="text2" #匹配相应id元素,id名在同一页面中不要重复
+    2.组合选择器
+            1.后代选择器
+                E F 匹配所有属于E元素后代的F元素
+            2.子选择器
+                E>F 匹配所有E元素的直接子元素F(类也适用)
+            3.相邻兄弟选择器
+                E+F 匹配所有紧随E元素之后的同级F元素
+            4.全兄弟选择器
+                E~F E元素后面的F元素,且为兄弟关系
+            5.并集选择器
+                E,F 同时匹配所有E元素和F元素
+            6.交集选择器
+                div.one <div class="one"></div>
+    3.属性选择器
+        [title] 属性包含title
+        [title="div元素"] 属性是div元素
+        [title^="div"] 属性att的值以"div"开头的元素
+        [title$="div"] 属性att的值以"div"结尾的元素
+        [title*="div"] 属性att的值包含"div"的元素
+    4.伪类/伪元素
+        1.动态伪类
+            a:link 未访问的链接
+            a:visited 已访问的链接
+            a:focus 获取焦点-去除tabindex="-1"
+            a:hover 鼠标悬浮
+            a:active 被激活
+            女朋友看见lv f ha
+        2.目标伪类
+            target
+        3.语言伪类
+            lang()
+        4.元素状态伪类
+            :enabled 
+            :disabled 
+            :checked 
+            :selection 
+        5.结构伪类
+            :root 匹配文档根元素，对于HTML文档，就是HTML元素
+            :nth-child(n) 匹配其父元素的第n个子元素，第一个编号为1,元素都会考虑
+            :nth-last-child(n) 匹配其父元素的倒数第n个子元素，第一个编号为1
+            :nth-of-type(n) 和nth-child()类似，但是仅匹配使用同种标签的元素
+            :nth-last-of-type(n) 仅匹配使用同种标签的元素
+            :first-child 匹配父元素的第一个子元素
+            :last-child 匹配父元素的最后一个子元素，等同于nth-last-child()
+            :first-of-type 匹配父元素使用同种标签的第一个元素，等同于nth-of-type(1)
+            :last-of-type 匹配父元素使用同种标签的最后一个元素，等同于nth-last-of-type(1)
+            :only-child 匹配父元素下仅有的一个子元素
+            :only-of-type 匹配父元素下使用同种标签的唯一一个子元素
+            :empty 元素内没有内容
+        6.否定伪类
+            :not()
+        7.伪元素
+            形内元素
+            ::first-line 第一行
+            ::first-letter 第一个字母
+            ::before
+            ::after    

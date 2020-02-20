@@ -1,0 +1,29 @@
+盒子模型
+    1.用来装页面的元素的矩形区域
+        content(元素) padding(内边距) border(边框) margin(外边距)
+        1.IE盒子模型
+            box-sizing:border-box
+            宽高加上了border和padding
+        2.标准的W3C盒子模型
+            box-sizing:content-box
+            宽高都指content的宽高
+    2.margin传递
+        左右不会传递
+        上传递,发生重叠,子元素的margin-top传递给父元素
+        下传递,父元素高度为auto,子元素的margin-bottom传递给父元素
+        防止传递:给父元素设置padding-top/padding-bottom
+                给父元素设置border
+                触发BFC-结界
+    3.margin折叠
+        垂直方向上的2个margin有可能合并成为一个margin
+            取比较大的值
+        防止折叠:只设置一个margin
+    4.box-sizing
+        1.事先定义盒模型的尺寸解析方式
+            box-sizing默认content-box,适用于所有能够定义宽高的元素
+            content-box:宽高只是指定内容的宽高
+            border-box:width/height=border+padding+content
+        3.强调
+            margin和padding都是透明的，padding受背景影响，能够显示背景色或背景图像，border不透明、
+            margin可以定义负值，但border和padding不支持负值
+            margin、border、padding都是可选的,margin和padding默认值为0,border默认不显示

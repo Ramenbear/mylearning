@@ -15,5 +15,5 @@
     }
 4.深拷贝
     function cloneJSON(source) {
-        return JSON.parse(JSON.stringgify(source));
+        return JSON.parse(JSON.stringfify(source));
     }

@@ -1,0 +1,26 @@
+边框
+    1.设计边框样式
+        dotted:显示为点线
+        dashed:显示为虚线
+        solid:显示为实线
+    2.定义多色边框
+        border-color:可以设置边框的颜色
+    3.定义边框背景
+        border-image
+    4.设计圆角
+        border-radius:第一个表示圆角的水平半径，第二个表示圆角的垂直半径
+        如果只包括一个参数值，第二个值和第一个值相等，表示一个四分之一圆角
+        如果参数中包含0，这个角就是矩形
+    5.设计椭圆图形
+    6.设置背景图像
+        background和background-repeat
+    7.边框实现三角形
+        border-top:50px solid #f00;
+        border-left:50px solid #0f0;
+        border-right:50px solid #00f;
+        border-bottom:50px solid #ff0;
+        width:0;
+        height:0;  
+    8.outline
+        不占据空间
+    9.box-shaow 

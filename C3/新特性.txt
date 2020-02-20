@@ -1,0 +1,49 @@
+css3新特性
+    1.css3边框
+        1.border-radius圆角边框
+        2.box-shadow边框阴影
+        3.border-image边框图片
+    2.css3背景
+        1.background-size规定背景图片的尺寸
+        2.background-origin背景图片的定位区域,比如content-box padding-box border-box
+    3.css3文字效果
+        1.text-shadow文本应用阴影
+        2.word-wrap允许对长单词进行拆分,换行到下一行p{word-wrap:break-word};
+    4.css3 2D转换
+        transfrom:通过css3转换,我们可以对元素进行移动、缩放、转动、拉长、拉伸
+        1.translate()从当前位置移动,根据给定的left/top位置参数
+            transform: translate(50px,100px);
+        2.rotate()旋转给定的角度,负值则为逆时针旋转
+            transform: rotate(30deg);
+        3.scale()元素的尺寸会增加或减少,根据给定的宽度和高度
+            transform: scale(2,4);
+        4.skew()转动给定的角度,根据给定的水平线和垂直线
+            transform: skew(20deg,30deg);
+        5.matrix:
+            将所有2D转换方法组合在一起,需要六个参数,包含数学函数
+    5.css3 3D转换
+        rotateX()元素围绕其X轴给定的度数进行旋转
+        rotateY()元素围绕其Y轴给定的度数进行旋转
+    6.css3过渡
+        当从一个样式转换为另一种样式时元素添加的效果
+    7.css3动画
+        可以取代动画图片,Flash动画以及js
+    8.css3多列
+        column-count:规定元素应该被分列的列数
+        column-gap:列之间的间隔
+        column-rule:列之间的宽度、样式和颜色规则
+    9.css3用户界面
+        resize:属性规定用户是否可以自己调整元素大小
+        box-sizing:以确切的方式定义适应某个区域的具体内容
+        outline-offset:属性对轮廓进行偏移,并在超出边框边缘的位置绘制轮廓   
+2.css动画
+    1.创建动画序列,需要使用animation属性及其子属性,该属性允许配置动画时间、时长、以及其他动画细节
+        但是该属性不能配置动画的实际表现,动画的实际表现由@keyframes规则实现
+    2.transition也可以实现动画,强调过渡,是元素的一个或多个属性发生变化时产生的过渡效果
+        同一个元素通过两个不同的途径获取样式,而当第二个途径当某种改变发生时才能获取样式
+        这样就会产生过渡动画
+3.css3对溢出的处理
+    text-overflow:
+        clip:修剪文本
+        ellipsis:替换为省略符号
+        string:用指定字符串来表示

@@ -1,0 +1,5 @@
+隐藏
+    overflow:hidden超出该容器的内容隐藏
+    visibility:hidden不改变页面布局，不可以触发点击事件
+    display:none删除了一样
+    opacity:0不改变页面布局，可以触发点击事件

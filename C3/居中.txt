@@ -1,0 +1,25 @@
+1.水平居中
+    1.普通文本
+        text-align: center;
+    2.行内元素
+        text-align: center;
+    3.图片-行内替换元素
+        text-align: center;
+    4.行内块级元素-inline-blcok
+        text-align: center;
+    5.块级元素
+        margin: 0 auto;
+2.垂直居中
+    1.margin:auto
+        定位为上下左右为0,margin:0可以实现脱离文档流的居中
+    2.margin负值法
+        margin-top:-190px;高的一半
+        margin-left:-240px;宽的一半
+        补充:
+        transform:translateX(-50%)
+        transform:translateY(-50%)
+    3.未脱离文档流 table-cell
+        为父元素设置diaplay:table-cell,vertical-align:middle
+        子元素就可以实现垂直居中
+    4.利用flex
+        父元素设置diaplay:flex,align-items:center,justify-content:center

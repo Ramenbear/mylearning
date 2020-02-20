@@ -1,0 +1,30 @@
+1.元素分类
+    1.显示类型(能不能在同一行显示)
+        1.块级元素
+            独占父元素一行,可以随意设置宽高,默认由内容决定
+                div h1~h6 p
+                ul ol li dl dt dd table form 
+                article aside footer header hgroup main nav section
+                address blockquote fieldset hr 
+                noframes noscript pre legend
+        2.行内级元素
+            多个行内级元素可以在父元素同一行显示,非替换元素不可以设置宽高,宽高由内容决定
+            中间产生空格-浏览器解析换行为空格
+                a img span strong code iframe label input button
+                canvas embed object video audio
+    2.内容类型(是否被浏览器替换掉)
+        1.替换元素
+            可以设置宽高
+        2.非替换元素
+2.块级元素的由来           
+    任何元素本身没有样式,而是通过display属性改变默认显示类型
+        block:块级元素
+        none:隐藏显示
+        inline:行内级元素
+        inline-block:同时具备
+        compact:紧凑的块状显示
+        marker:在容器对象前或之后显示
+        table
+        inline-table:行内级元素的表格显示
+        list-item:块级元素的列表项目显示
+        run-in:块状显示或基于内容之上的行内显示

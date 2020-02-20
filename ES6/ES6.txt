@@ -583,6 +583,8 @@
             遇到yield就暂停,等执行权返回,再从暂停的地方继续往后执行
     7.Thunk函数
         自动执行Generator的一种方法
+    8.迭代器生成函数,被调用不会立即被执行,而是返回一个迭代器,然后可以进行异步调用
+        同时还可以挂起操作
 ##async函数
     1.ES7提供了async函数，该函数就是Generator函数的语法糖。
     2.Async函数就是将Generator函数的*替换成async，将yield替换成await。
