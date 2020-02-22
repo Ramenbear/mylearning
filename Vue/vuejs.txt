@@ -1097,6 +1097,7 @@
                 1.common:下一个项目也可以使用
                 2.content:当前项目相关的组件
             3.views:大视图
+                首页/分类/购物车/我的
             4.router:路由
             5.store:vuex
             6.network:网络相关
@@ -1114,63 +1115,44 @@
     7.network
         首先封装一个大的网络请求
         再封装每个页面独有的网络请求
+    8.首页商品数据请求
+        1.确定数据结构:
+            goods: {
+                'pop': {page: 1, list: []},
+                'new': {page: 1, list: []},
+                'sell' {page: 1, list: []}
+            }
+            请求过来的数据分别放在各自空间
+        2.数据显示
+            goodsList
+            goodsItem
+    9.上拉加载更多
+        1.bug:有时候滚动一部分就无法滚动了
+            这是因为图片异步加载过来,事先计算好了滚动区域的长度
+            当图片真正加载过来,滚动区域远远长于之前的长度
+            每加载完成一次图片,这是需要refresh一下,重新计算滚动区域的高度
+        2.通过scroll对象监听滚动到底部,然后请求新的数据
+    10.点击切换数据
+        内部组件发生点击事件
+        通过this.$emit向外部传递事件,然后外部更新数据
+    11.利用浏览器的滚动,移动端端非常卡顿
+        better-scroll:解决方案
+    12.返回顶部
+        backtop:
+    13.防抖和节流
+        比如搜索框:我们本意是输入yifu,但是每输入一个字母就发送一次请求
+        防抖函数(debounce):把多个顺序的调用合并成为一次,也就是在一定时间内,规定事件被触发的次数
+                            this.debounce(this.$refs.refresh, 500)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-            2.项目资源准备
-                1.img目录主要存放图片,同样内容的图片,设计师会设计不同的尺寸
-                    一般移动端需要切2x、3x图片,适应不同DPR(设备像素比)的手机
-                    DPR指设备上的物理像素和设备独立像素(dips)之比
-                    dips与屏幕密度有关,可以用来辅助区分是视网膜设备还是非视网膜设备
-                2.为什么将图片切成单张的图片,通常我们会使用精灵图来减少图片的请求个数
-                    在webpack项目中,建议使用单张图,url-loader会将引入的图片编码,生成dataURL
-                    相当于将图片数据翻译成一串字符,再将这串字符打包到JS文件中
-                    最终只需要引入JS文件就可以访问图片,甚至连一个图片资源的请求都没有
-                    但是当图片过大,编程会消耗性能,因此url-loader提供了一个limit参数
-                    小于这个参数字节的文件就会被转为dataURL,大于的会使用file-loader进行copy
-                3.一般在移动端PDR不为1,在PC端显示1px的边框,在移动端就会显示为2px
-                    使用伪元素设置1px边框,然后使用媒体查询,根据PDR的大小,对边框进行缩放
-                    使用伪元素设置1px的边框,再使用媒体查询适用2x、3x的图片
-                    根据PDR的大小,对边框进行缩放,再使用媒体查询根据设备像素比设计缩放比例
-                4.制作一个页面,如果页面内容很少,不足以填充一屏的窗口区域
-                    按照普通布局,底部内容没有位于底部窗口,留下很大的空白
-                    使用CSS Sticky Footer完美的CSS绝对底部,解决了这个问题
-            5.模拟后台数据(mock数据)
-                现在流行的方式是前后端分离的方式,也就是前后端各司其职,各自开发
-                在一个SPA单页应用中,前端后端的交互方式主要通过发送Ajax请求去获取数据
-                那么前端有一个很重要的环节就是设置mock数据,简单来说就是模拟假数据
-                对于那些不容易构造或者不容易获取的对象,用一个虚拟的对象来代替一边测试
-                这个虚拟对象就是mock对象
-                它是一个真实对象在调试期间的代替品,一般使用一个接口来描述这个对象
-                使用express启动服务来配置访问接口,需要在webpack.dev.conf.js文件中配置
-                    const express = require('express')
-                    const app = express()
-                    var appData = require('../mock/words.json')//加载本地数据文件
-                    var apiRoutes = express.Router()
-                    app.use('/api', apiRoutes)
-
-                    before(app) {
-                        app.get('/api/appData',function(req,res) {
-                            res.json({
-                                errno: 0,
-                                data: appData
-                        })//接口返回json数据，上面配置的数据appData就赋值给data请求后调用
-                    })
-                }
-            6.组件化开发
-                将整个页面看作App.vue的一个大组件,结合设计稿把页面拆分成小的组件
-                页面之间切换使用vue-router实现
-        
-
-
+                            debounce(func, delay) {
+                                let timer = null
+                                return function(...args) {
+                                    if(timer) clearTimeout(timer)
+                                    timer = setTimeout(() => {
+                                        func.apply(this, args)
+                                    }, delay)
+                                }
+                            }
+        节流(throttle):
+    14.吸顶效果:
+   

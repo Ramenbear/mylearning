@@ -67,10 +67,10 @@
     17.JS的节流和防抖
         1.滚动优化
             滚动优化不仅仅指滚动事件(scroll事件),还包括resize这类频繁触发的事件
-            var i = 0;
-            window.addEventListener('scroll',function(){
-                console.log(i++);
-            },false);
+                var i = 0;
+                window.addEventListener('scroll',function(){
+                    console.log(i++);
+                },false);
             在绑定scroll、resize这类事件的时候,当它发生时,触发的频次非常高,间隔近,如果事件中涉及
             大量的位置计算、DOM操作、元素重绘等工作且这些工作无法在下一个scroll事件触发前完成,就会
             造成浏览器掉帧,而且鼠标滚动是连续的,就会持续触发scroll事件,掉帧继续扩大,浏览器CPU使用率
@@ -95,26 +95,17 @@
             拥有复杂操作,例如DOM操作
             1.防抖
                 把多个顺序的调用合并成为一次,也就是在一定时间内,规定事件被触发的次数
-                //防抖动函数:如果500ms内没有连续触发两次scroll事件,就执行我们真正想触发的操作
-                function debounce(func, wait, immediate){
-                    var timeout;
-                    return function(){
-                        var context = this,args = arguments;
-                        var later = function(){
-                            timeout = null;
-                            if(!immediate) func.apply(context, args);
-                        };
-                        var callNow = immediate && !timeout;
-                        clearTimeout(timeout);
-                        timeout = setTimeout(later, wait);
-                        if (callNow) func.apply(context, args);
-                    };
-                };
-                var myEfficientFn = debounce(function(){
-                    //滚动中真正的操作
-                },250);
-                //绑定监听
-                window.addEventListener('resize', myEfficientFn);
+                    this.debounce(this.$refs.refresh, 500)
+
+                    debounce(func, delay) {
+                        let timer = null
+                        return function(...args) {
+                            if(timer) clearTimeout(timer)
+                            timer = setTimeout(() => {
+                                func.apply(this, args)
+                            }, delay)
+                        }
+                    }
             2.节流
                 防抖:类似于我停止下滑,图片被加载出来,希望可以一直不断加载,或者数据的ajax请求
                 页面在不断的滚动,我们希望滚动handler可以以一定的频率触发
