@@ -1,11 +1,4 @@
-##读书笔记
-    1.get请求传参长度的误区
-        误区:我们常说,get请求参数大小存在限制,post请求的参数无限制
-        实际上,HTTP协议从未规定GET/POST的请求长度限制是多少
-        GET的最大长度显示是因为浏览器和web服务器限制了URL的长度
-    2.get/post请求在缓存方面的区别
-        get请求类似于查找的一个过程,用户获取数据,可以不用每次都和数据库建立连接,可以使用缓存
-        post一般是修改删除操作,必须和数据库进行交互,不能使用缓存,get更适合请求缓存
+##读书笔记 
     6.前端的事件流
         HTML和JS交互是靠事件驱动来实现的,例如鼠标点击事件,页面滚动事件等
         向文档或者文档中的元素添加事件侦听器来预订事件
@@ -29,9 +22,6 @@
         不在事件的发生地(直接DOM)上设置监听函数,而是在其父元素上设置监听函数,通过事件冒泡
         父元素可以监听到子元素上事件的触发,最后通过事件发生元素DOM的类型来做出不同的反应
         比较适合动态元素绑定,新添加的子元素也可以拥有监听函数,也拥有了事件触发机制
-    9.图片的懒加载和预加载
-        1.预加载:提前加载,当用户需要查看时,直接从本地缓存中渲染,增加服务器前端压力
-        2.懒加载:为服务器前端的优化,减少请求数或延迟请求数,迟缓甚至不加载
     10.mouseover/mouseenter的区别
         mouseover:当鼠标移入元素或者子元素都会触发事件,有一个重复触发、冒泡的过程:mouseout
         mouseenter:当鼠标移除元素本身(不包含元素的子元素)触发,不冒泡:mouseleave
@@ -136,23 +126,12 @@
                 如果一段时间scroll触发的间隔一直短于500ms,那么我们希望调用的handler会至少在
                 1000ms内触发一次
         4.使用rAF触发滚动事件
-    21.对象深度克隆的实现
-        function deepClone(obj){
-            var newObj = obj instanceof Array ? [] : {};
-            for (var item in obj){
-                var temple = typeof obj[item] == 'object' ? deepClone(obj[item]) : obj[item];
-                newObj[item] = temple;
-            }
-            return newObj;
-        }
-        数组是对象但是和对象又有一定的区别
     22.JS监听对象属性的改变
         ES5:Object.defineProperty
         ES6:Proxy
     25.数组去重
         1.indexOf去重
         2.ES6中的Array.from(new Set(array))
-    27.事件监听
     30.document.write和innerHTML的区别
         1.document.write
             直接写入页面的内容流,如果在写之前没有调用document.open
@@ -168,6 +147,3 @@
         然后给img标签设置自定义属性data-src
         将真正的图片地址存储在data-src
         当JS监听到该图片元素进入可视窗口,将自定义属性中的地址属性存储到src属性中       
-
-
-

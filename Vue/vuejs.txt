@@ -979,6 +979,10 @@
             router.afterEach = (to, from) => {
 
             }
+            to:即将要进入的目标
+            from:正要离开的路由
+            next:一定要调用这个方法来resolve这个钩子
+            实际应用:在即将要跳转,判断是否登录,是否拿到相应权限
         11.keep-alive
             包在keep-alive里,所有路径匹配到的视图组件都会被缓存,保留状态,避免重新渲染
         12.tabbar
@@ -1155,4 +1159,55 @@
                             }
         节流(throttle):
     14.吸顶效果:
-   
+        1.滚动到多少的时候,开始有吸顶效果
+            offsetTop:
+            所有组件都有一个$el:用于获取组件中的元素
+            再图片加载完后再继续计算offsetTop
+        2.为了不多次发出事件,使用isLoad进行状态记录
+        3.判断tabControl是否吸顶,position:fixed
+        4.动态改变样式:
+            下面的商品会上移,跟着better-scroll一起滚了上去
+        4.使用两个tabControl,下面这个上来的时候,上面这个出来替换
+    15.详情页
+        跳转页面,详情页布局
+            1.navbar
+            2.店铺信息
+            3.商品介绍
+                首先抽离数据,封装到一个类,整合成为一个对象,再交给组件去展示
+            4.商品详情数据
+            5.参数
+    16.购物车
+        客服 店铺 加入购物车 购买
+    17.Toast弹窗
+        出现以下,然后消失
+        封装成一个插件:
+            import Toast from './Toast'
+            const obj = {}
+            obj.install = function(Vue) {
+                document.body.appendChild(Toast.$el)
+                vue.prototype.$toast = 对象;
+            }
+            export default obj
+        封装Toast:this.$toast.show
+        1.创建组件构造器
+            const toastContrustor = Vue.extend(Toast)
+        2.new的方式,根据组件构造器,创建一个组件对象
+            const toast = new toastContrustor()
+        3.将组件对象,手动挂载到某一个元素上
+            toast.$mount(document.createElement('div'))
+        4.toast.$el对应的就是div
+    18.fastClick减少移动端300ms延迟
+    19.图片懒加载
+        图片需要显示再加载-vue-lazyload
+    20.px2vw-css
+        单位:px
+        适配:将px全部转成vw
+    21.nginx在window下部署
+        服务器:没有显示器,24小时开着,为用户提供服务
+                自己选择装操作系统,一般选择linux
+    22.nginx在linux下部署
+    23.响应式原理
+
+    
+        
+

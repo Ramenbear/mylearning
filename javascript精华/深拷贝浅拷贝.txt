@@ -14,6 +14,16 @@
         return obj;
     }
 4.深拷贝
-    function cloneJSON(source) {
+    1.function cloneJSON(source) {
         return JSON.parse(JSON.stringfify(source));
     }
+    2.对象深度克隆的实现
+        function deepClone(obj){
+            var newObj = obj instanceof Array ? [] : {};
+            for (var item in obj){
+                var temple = typeof obj[item] == 'object' ? deepClone(obj[item]) : obj[item];
+                newObj[item] = temple;
+            }
+            return newObj;
+        }
+
