@@ -61,4 +61,23 @@
             ::first-line 第一行
             ::first-letter 第一个字母
             ::before
-            ::after    
+            ::after 
+2.继承(inherited)
+    一个元素没有设置某属性的值,跟随父元素的值
+    自己有属性,就不会继承,而是用自己的
+    color,font-size,font-weight可继承
+    width,border,padding,margin,height不可继承
+    不可继承的可以inherit强制继承
+    继承计算值,而不是字面量
+3.层叠
+    基本层叠:相同选择器,后面层叠前面
+    权重:
+        通配符选择器:0
+        元素选择符/伪元素选择器/关系选择器:1
+        类选择器/属性选择器/伪类选择器:10
+        ID选择器:100
+        内联样式:1000
+        !import:样式级最高
+    作者>用户>浏览器>HTML
+    行内>内嵌,内部>外部  
+    !import>id>class>tag 

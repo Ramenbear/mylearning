@@ -1,14 +1,24 @@
 css3新特性
-    1.css3边框
-        1.border-radius圆角边框
-        2.box-shadow边框阴影
-        3.border-image边框图片
-    2.css3背景
-        1.background-size规定背景图片的尺寸
-        2.background-origin背景图片的定位区域,比如content-box padding-box border-box
-    3.css3文字效果
-        1.text-shadow文本应用阴影
-        2.word-wrap允许对长单词进行拆分,换行到下一行p{word-wrap:break-word};
+1.过渡
+2.动画
+3.形状转换
+4.选择器
+5.阴影
+6.边框
+    1.border-radius圆角边框
+    2.box-shadow边框阴影
+    3.border-image边框图片
+7.背景
+    1.background-size规定背景图片的尺寸
+    2.background-origin背景图片的定位区域,比如content-box padding-box border-box
+8.文字
+    1.text-shadow文本应用阴影
+    2.word-wrap允许对长单词进行拆分,换行到下一行p{word-wrap:break-word};
+9.渐变
+10.弹性布局/栅格布局/多列布局
+11.媒体查询
+    
+        
     4.css3 2D转换
         transfrom:通过css3转换,我们可以对元素进行移动、缩放、转动、拉长、拉伸
         1.translate()从当前位置移动,根据给定的left/top位置参数

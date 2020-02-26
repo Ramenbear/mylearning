@@ -1,0 +1,21 @@
+1.BFC?
+    块级格式化上下文:页面中的一块渲染区域,有自己的渲染规则,决定了子元素如何布局,以及其他元素的关系
+2.原理
+    1.内部的box在垂直方向一个个放着
+    2.box垂直上的距离由margin决定,属于同一个BFC的相邻两个box的margin会重叠
+    3.BFC就是页面上一个隔离的独立容器,容器里的子元素不会影响外面的元素
+    4.计算BFC高度,浮动元素也计算在内
+    5.BFC不会和float box重叠
+    6.每个元素的margin box的左边,与包含块border box的左边相接触
+3.创建BFC
+    1.根元素,即HTML元素
+    2.float的值不为none
+    3.overflow的值不为visible
+    4.display的值为inline-block,table-cell,table-caption
+    5.position为fixed,absolute
+4.使用场景
+    1.去除边距重叠现象
+    2.去除浮动(让父元素的高度包含子浮动元素)
+    3.避免某个元素被浮动元素覆盖
+    4.避免多列布局由于宽度计算四舍五入而自动换行
+    

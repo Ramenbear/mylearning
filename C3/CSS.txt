@@ -1,14 +1,5 @@
 www.w3.org/mdn/caniuse
 ##css笔记
-    7.设置一个背景颜色,会填充哪些区域
-        元素的content、padding、border
-    9.inline-block、inline、block区别
-        1.block 
-            块级元素,前后都有换行符,能设置宽高,margin padding都有效
-        2.inline
-            前后无换行符,设置宽高无效,margin在竖直上无效,padding都有效
-        3.inline-block
-            前后无换行符,能设置宽高,margin padding都有效
     10.重绘和重排,怎么减少,如何让文档脱离文档流
         DOM变化影响到了几何属性,浏览器重新计算,其他元素也会受到影响,这时需要重新构造渲染:重排
         重绘:浏览器将受到影响的部分重新绘制到屏幕上的过程称为重绘
@@ -22,39 +13,8 @@ www.w3.org/mdn/caniuse
                 2.使用csstext,className一次性改变属性
                 3.使用fragment
         对于多次重排的元素,比如说动画,使用绝对定位脱离文档流,使其不影响其他元素
-    11.overflow的原理
-        BFC块级格式化上下文,是css可视化渲染的一部分,它是一块区域,规定了内部块盒的渲染方式
-        以及浮动相互的联系,当元素设置了overflow样式且值不为visible时,该元素就构建了一个BFC,
-        BFC在计算高度时,内部浮动元素的高度也要计算在内,也就是说BFC只有一个浮动元素,高度也不会发生坍塌
-        所以达到了清除浮动的目的
-    12.清除浮动的方法
-        1.使用带clear属性的空元素
-            在浮动元素后面使用一个空元素<div class="clear"></div>
-            并在css中赋予.clear{clear:both};属性即可清理浮动
-        2.使用css的after伪元素
-            伪元素和IEhack,可以完美兼容当前主流的各大浏览器,IEhack指的是触发hasLayout
-            给浮动元素的容器添加一个clearfix的class,然后给这个class添加一个:
-            after伪元素实现元素末尾添加一个看不见的块元素清理浮动
-        3.overflow/overflow-x/overflow-y
-            处理超出的内容
-                visible: 默认
-                scorll: 裁剪可以通过滚动来查看
-                auto: 有超出部分滚动,没有正常显示
-        4.给浮动元素的容器添加浮动
-            使得整体浮动,影响布局,不推荐使用
-        5.使用邻接元素
-            什么都不做,给浮动元素后面的元素添加clear属性
-    14.BFC
-        BFC(块级格式化上下文,用于清除浮动,防止margin重叠)
-        块级格式化上下文,是一个独立的渲染区域,并且有一定的布局规则
-        BFC区域不会与float box重叠
-        BFC是页面上的一个独立容器,子元素不会影响到外面
-        计算BFC高度时,浮动元素也会参与计算
-            以下元素会生成BFC:
-            float不为none的元素
-            position为fixed absolute
-            overflow不为visible
-            display为flex inline-flex inline-block table-cell table-caption
+    
+    
     15.两个嵌套的div,position都是absolute,子div设置top属性,top相对于哪个位置定位
         margin的外边缘
     19.css布局
@@ -122,25 +82,7 @@ www.w3.org/mdn/caniuse
         通过background-position来选择相应的图片
     40.背景居中
         background-position: center -81px;  
-    3.CSS特性
-        1.继承(inherited)
-            一个元素没有设置某属性的值,跟随父元素的值
-            自己有属性,就不会继承,而是用自己的
-            color,font-size,font-weight可继承
-            width不可继承
-            不可继承的可以inherit强制继承
-            继承计算值,而不是字面量
-        2.层叠
-            基本层叠:相同选择器,后面层叠前面
-            权重:
-                通配符选择器:0
-                元素选择符/伪元素选择器/关系选择器:1
-                类选择器/属性选择器/伪类选择器:10
-                ID选择器:100
-                内联样式:1000
-                !import:样式级最高
-            作者>用户>浏览器>HTML
-            行内>内嵌,内部>外部
+        
 ##定位(normal flow)
     1.标准流
     2.position

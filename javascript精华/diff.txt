@@ -1,0 +1,26 @@
+1.设计原理
+    Vue:渐进式框架,采用自底向上增量式开发的设计
+    React:主张函数式编程,纯组件,数据不可变,单向数据流,也可以通过onChange/setState来实现双向数据流
+2.编写语法
+    Vue:webpack+vue-loader的单文件组件格式,保留了html,css,js分离的写法
+    React:没有模板,直接就是渲染函数,中间返回的就是一个虚拟DOM树,使用JSX+inline style(all in js)
+3.构建工具
+    Vue:CLI脚手架
+    React:create-react-app
+4.数据绑定
+    Vue:实现双向绑定的MVVM框架,视图改变更新模型层,模型层改变更新视图层
+    React:单向数据流,属性不允许更改,状态允许更改(setState)
+            setState是异步的,获取DOM可能拿到的还是之前的内容
+            需要在第二个参数(回调函数)中获取更新后的新内容
+5.diff算法
+    Vue:1.在内存中构建虚拟DOM树
+        2.将内存中的虚拟DOM渲染成真实DOM结构
+        3.数据发生改变,新的数据结合之前的虚拟DOM树生成新的虚拟DOM树
+        4.在新的DOM树和上一次的虚拟DOM树进行比对(diff算法),来更新只需要被替换的DOM
+            而不是全部重绘,在diff算法中,平层比较前后两颗DOM树的节点,没有深层遍历
+        5.将对比出来的差异进行重新渲染
+    React:1.DOM结构发生变化,直接卸载并重新create
+          2.DOM结构一样,不会卸载,update变化的内容
+          3.对于同一层级的子节点,可以通过key来区分
+          4.vue跟踪每一个组件的依赖关系,不需要重新渲染整个组件
+            react每当应用的状态被改变时,全部组件重新渲染(shouldComponentUpdate)

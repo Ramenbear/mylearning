@@ -1,3 +1,12 @@
+##vue原理
+    采用数据劫持配合发布者订阅者模式,通过Object.definedProperty来劫持各个属性的getter/setter
+    数据发送变化,发布信息给依赖收集器,然后通知观察者去做出对应回调函数去更新视图
+    具体:
+        MVVM作为绑定的入口,整合observe,compil,watcher三者
+        observe来监听model的变化,compil来解析编译模板指令
+        watcher搭建observe和compil之间的通信桥梁
+        从而实现数据变化=>更新视图
+        视图交互变化=>数据model变更的双向绑定
 ##vue前言
     1.Vue.js是一套响应式系统,前端开发库
     2.Vue.js是一套构建用户界面的渐进式框架,采用自底向上增量开发的设计

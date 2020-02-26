@@ -18,13 +18,13 @@
         2.非替换元素
 2.块级元素的由来           
     任何元素本身没有样式,而是通过display属性改变默认显示类型
-        block:块级元素
-        none:隐藏显示
-        inline:行内级元素
-        inline-block:同时具备
+        *block:块级元素*
+        *none:隐藏显示*
+        *inline:行内级元素*
+        *inline-block:内联块*
         compact:紧凑的块状显示
         marker:在容器对象前或之后显示
         table
         inline-table:行内级元素的表格显示
-        list-item:块级元素的列表项目显示
+        *list-item:项目列表*
         run-in:块状显示或基于内容之上的行内显示

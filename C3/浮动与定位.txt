@@ -1,0 +1,18 @@
+清除浮动的方法
+    1.overflow:hidden(离开这个区域的会被隐藏)
+    2.使用额外标签 .clear(clear: both),增加页面的标签结构紊乱
+    3.使用伪元素
+        .clearfix:after {
+            content: "";
+            height: 0;
+            line-height: 0;
+            display: block;
+            visiblity: hidden;
+            clear: both;
+            zoom: 1; //兼容IE
+        }
+2.overflow的原理
+    BFC块级格式化上下文,是css可视化渲染的一部分,它是一块区域,规定了内部块盒的渲染方式
+    以及浮动相互的联系,当元素设置了overflow样式且值不为visible时,该元素就构建了一个BFC
+    BFC在计算高度时,内部浮动元素的高度也要计算在内,也就是说BFC只有一个浮动元素,高度也不会发生坍塌
+    所以达到了清除浮动的目的
