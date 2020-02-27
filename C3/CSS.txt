@@ -1,5 +1,4 @@
 www.w3.org/mdn/caniuse
-##css笔记
     10.重绘和重排,怎么减少,如何让文档脱离文档流
         DOM变化影响到了几何属性,浏览器重新计算,其他元素也会受到影响,这时需要重新构造渲染:重排
         重绘:浏览器将受到影响的部分重新绘制到屏幕上的过程称为重绘
@@ -12,30 +11,9 @@ www.w3.org/mdn/caniuse
                 1.不在布局信息改变时做DOM查询
                 2.使用csstext,className一次性改变属性
                 3.使用fragment
-        对于多次重排的元素,比如说动画,使用绝对定位脱离文档流,使其不影响其他元素
-    
-    
+        对于多次重排的元素,比如说动画,使用绝对定位脱离文档流,使其不影响其他元素 
     15.两个嵌套的div,position都是absolute,子div设置top属性,top相对于哪个位置定位
         margin的外边缘
-    19.css布局
-        1.圣杯布局
-            从上到下分为header container footer
-            container部分定位三栏布局同样分为header container footer
-            缺陷:center在container的padding中,宽度较小时会出现混乱
-        2.双飞翼布局
-            给center部分包裹了一个main通过设置margin主动将页面撑开
-        3.flex布局:css3提供
-        4.绝对定位布局
-            container设置position:relative和overflow:hidden
-            因为绝对定位的元素的参照物为第一个positon不为static的祖先元素
-            left左浮动 right右浮动
-            center使用绝对定位,通过设置left和right将吧两边撑开
-            center使用top:0;bottom:0;将其高度撑开
-        5.表格布局
-            好处在于可以使得三栏布局的高度统一
-        6.网格布局
-            兼容性不太好
-            将页面分割成多个区域
     22.transition和animation的区别
         大部分属性是相同的,都是随时间改变元素的属性值
         transition需要触发一个事件才能改变属性,2帧
@@ -72,17 +50,8 @@ www.w3.org/mdn/caniuse
             1.会阻塞主页面的onload事件,搜索引擎的检索程序无法解读这种页面,不利于SEO
             2.与主页面共享连接池,而浏览器对相同域的连接有限制,影响页面的并行加载
             解决方案:通过JS动态给iframe加上src属性
-    38.em
-        参考物是父元素的font-size
-        如果自身定义了font-size按自身来计算
-        整个页面em不是一个固定的值
-    39.sprite
-        精灵图,多个图片合成为一个图片(背景图)
-        减少http请求,减轻服务器压力,加快网页响应速度
-        通过background-position来选择相应的图片
     40.背景居中
-        background-position: center -81px;  
-        
+        background-position: center -81px;    
 ##定位(normal flow)
     1.标准流
     2.position
@@ -90,7 +59,7 @@ www.w3.org/mdn/caniuse
         2.relative:相对定位,占据原来空间
         3.absolute:绝对定位,相对于已定位的父元素,没有则相对于视口,脱离标准流,不占据空间
         4.fixed:固定定位,脱离标准流,不占据空间
-        5.粘性定位:sticky,
+        5.粘性定位:sticky
             元素先按照普通文档流进行定位,然后相对于该元素在流中的BFC和最近的块级祖先元素定位
             而后元素定位表现为在跨越特定阈值前为相对定位,之后为固定定位
         6.inherit:
@@ -120,54 +89,6 @@ www.w3.org/mdn/caniuse
     5.初衷是实现文本环绕
     6.行内级元素,inline-block元素浮动后,其顶部将与所在行的顶部对齐
     7.浮动元素不能层叠
-##flex布局
-    1.css3布局
-        1.多列布局
-            columns:<column-width>||<column-count>;
-            column-width:定义每列的宽度
-            column-count:定义列数
-            column-gap:定义列间距
-            column-rule:<length>|<style>|<color>|<transparent>
-            column-span:跨列显示
-        3.伸缩盒布局
-            1.display:flex|inline-flex(行内元素)
-                Webkit内核的浏览器,必须加上-webkit前缀
-                ！设定为flex布局后,子元素的float、clear、vertical-align属性都将失效
-            2.采用flex布局的元素，称为flex容器,子元素自动成为成员，称为项目
-                main axis:主轴
-                cross axis:交叉轴
-                main start:主轴开始
-                main end:主轴结束
-                cross start:交叉轴开始
-                cross end:交叉轴结束
-                单个项目占据的主轴空间:main size
-                占据的交叉轴空间:cross size
-            3.容器属性
-                i.flex-direction:决定主轴的方向
-                    row:主轴为水平,起点在左端
-                    row-reverse:主轴为水平,起点在右端
-                    column:主轴为垂直,起点在上沿
-                    column-reverse:主轴为垂直,起点在下沿
-                ii.flex-wrap:换行
-                    nowrap(默认):不换行
-                    wrap:换行,第一行在上方
-                    wrap-reverse:换行,第一行在下方
-                    flex-flow是flex-direction和flex-wrap的简写,默认为 row nowrap
-                iii.justify-content:项目在主轴上的对齐方式
-                    flex-start:左对齐
-                    flex-end:右对齐
-                    center:居中
-                    space-between:两端对齐,项目间隔相等
-                    space-around:每个项目两侧间隔相等
-                iv.align-items:项目在交叉轴上如何对齐
-                    flex-start:交叉轴的起点对齐
-                    flex-end:交叉轴的终点对齐
-                    center:交叉轴的中点对齐
-                    baseline:项目的第一行文字的基线对齐
-                    stretch(默认值):auto将占满整个容器的高度
-                v.align-content:多根轴线的对齐方式,如果只有一根轴线,那么该属性不起作用
-                vii.order:定义项目的排列顺序,数值越小,排列越靠前,默认情况下为0
-                viii.flex-grow:放大比例 flex-shrink:缩小比例
 ##第十三章
     1.css3动画
         css3动画分为Transitions和Animations

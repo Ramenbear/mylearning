@@ -3,9 +3,9 @@
 var twoSum = function(nums, target) {
     var result = [];
     var len = nums.length;
-    for(var i=0;i<len;i++){
+    for(var i = 0;i < len; i++){
         // j从 i+1 开始 确保不重复利用同一个元素
-        for(var j =i+1;j<len;j++){
+        for(var j = i+1; j < len; j++){
             if(nums[i] + nums[j] == target){
                 result.push(i);
                 result.push(j);

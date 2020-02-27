@@ -1,6 +1,67 @@
-1.grid布局
+1.grid布局(栅格布局)
+    1.Grid布局则是将容器划分成"行"和"列",产生单元格,然后指定"项目所在"的单元格,可以看作是二维布局
+    2.最外层就是容器,容器的顶层子元素就是项目,grid布局只对项目起作用
+    3.行与列交叉的就是单元格
+    4.容器属性:
+        1.display:display: grid;display: inline-grid
+            设为网格布局以后，容器子元素（项目）的float、display: inline-block
+            display: table-cell、vertical-align和column-*等设置都将失效
+        2.grid-template-columns属性定义每一列的列宽,grid-template-rows属性定义每一行的行高
+    5.项目属性
 2.layout布局
+    左边或右边固定,边上自适应
 3.flex布局
+    1.多列布局
+        columns:<column-width>||<column-count>;
+        column-width:定义每列的宽度
+        column-count:定义列数
+        column-gap:定义列间距
+        column-rule:<length>|<style>|<color>|<transparent>
+        column-span:跨列显示
+    3.伸缩盒布局
+        1.display:flex|inline-flex(行内元素)
+            Webkit内核的浏览器,必须加上-webkit前缀
+            ！设定为flex布局后,子元素的float、clear、vertical-align属性都将失效
+        2.采用flex布局的元素，称为flex容器,子元素自动成为成员，称为项目
+            main axis:主轴
+            cross axis:交叉轴
+            main start:主轴开始
+            main end:主轴结束
+            cross start:交叉轴开始
+            cross end:交叉轴结束
+            单个项目占据的主轴空间:main size
+            占据的交叉轴空间:cross size
+        3.容器属性
+            i.flex-direction:决定主轴的方向
+                row:主轴为水平,起点在左端
+                row-reverse:主轴为水平,起点在右端
+                column:主轴为垂直,起点在上沿
+                column-reverse:主轴为垂直,起点在下沿
+            ii.flex-wrap:换行
+                nowrap(默认):不换行
+                wrap:换行,第一行在上方
+                wrap-reverse:换行,第一行在下方
+                flex-flow是flex-direction和flex-wrap的简写,默认为 row nowrap
+            iii.justify-content:项目在主轴上的对齐方式
+                flex-start:左对齐
+                flex-end:右对齐
+                center:居中
+                space-between:两端对齐,项目间隔相等
+                space-around:每个项目两侧间隔相等
+            iv.align-items:项目在交叉轴上如何对齐
+                flex-start:交叉轴的起点对齐
+                flex-end:交叉轴的终点对齐
+                center:交叉轴的中点对齐
+                baseline:项目的第一行文字的基线对齐
+                stretch(默认值):auto将占满整个容器的高度
+            v.align-content:多根轴线的对齐方式,如果只有一根轴线,那么该属性不起作用
+            vii.order:定义项目的排列顺序,数值越小,排列越靠前,默认情况下为0
+            viii.flex-grow:放大比例 flex-shrink:缩小比例
 4.双飞翼
+    给center部分包裹了一个main通过设置margin主动将页面撑开
 5.圣杯布局
+    从上到下分为header container footer
+    container部分定位三栏布局同样分为header container footer
+    缺陷:center在container的padding中,宽度较小时会出现混乱
 6.流式布局
+    标准流
