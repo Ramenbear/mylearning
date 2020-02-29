@@ -1,0 +1,6 @@
+then方法注册了后续需要执行的代码,真正要执行的是resolve方法里面
+主要是使用了设计者模式中的观察者模式
+通过Promise.prototype.then和Promise.prototype.catch方法将观察者方法注册到被观察
+者Promise对象中,同时返回一个新的Prpmise对象,以便可以链式调用
+被观察者管理内部pending,fulfilled,rejected的状态变化
+同时通过构造函数中传递的resolve,reject方法主动触发状态改变和通知观察者
