@@ -4,7 +4,7 @@
 4.vw:viewport width,视窗宽度,1vw相当于视窗宽度的1%
 5.vh:viewport height,视窗高度,1vh相当于视窗高度的1%
 6.vmin/vmax:vw/vh中较小/较大的一个
-7.%:百分比
+7.%:百分比,相对父元素不唯一
 
 8.viewport和移动端布局
     前端开发中,响应式布局通常需要适应不同分辨率的设备

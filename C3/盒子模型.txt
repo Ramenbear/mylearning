@@ -27,3 +27,4 @@
             margin和padding都是透明的，padding受背景影响，能够显示背景色或背景图像，border不透明、
             margin可以定义负值，但border和padding不支持负值
             margin、border、padding都是可选的,margin和padding默认值为0,border默认不显示
+    5.在css中，padding-top或padding-bottom的百分比值是根据容器的width来计算的

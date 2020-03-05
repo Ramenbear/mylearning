@@ -1,8 +1,29 @@
 css3新特性
 1.过渡
+    让交互效果(hover动画),变得更加生动
 2.动画
 3.形状转换
+    2D/3D转换
 4.选择器
+    结构伪类
+            :root 匹配文档根元素，对于HTML文档，就是HTML元素
+            :nth-child(n) 匹配其父元素的第n个子元素，第一个编号为1,元素都会考虑
+            :nth-last-child(n) 匹配其父元素的倒数第n个子元素，第一个编号为1
+            :nth-of-type(n) 和nth-child()类似，但是仅匹配使用同种标签的元素
+            :nth-last-of-type(n) 仅匹配使用同种标签的元素
+            :first-child 匹配父元素的第一个子元素
+            :last-child 匹配父元素的最后一个子元素，等同于nth-last-child()
+            :first-of-type 匹配父元素使用同种标签的第一个元素，等同于nth-of-type(1)
+            :last-of-type 匹配父元素使用同种标签的最后一个元素，等同于nth-last-of-type(1)
+            :only-child 匹配父元素下仅有的一个子元素
+            :only-of-type 匹配父元素下使用同种标签的唯一一个子元素
+            :empty 元素内没有内容
+    属性选择器
+        [title] 属性包含title
+        [title="div元素"] 属性是div元素
+        [title^="div"] 属性att的值以"div"开头的元素
+        [title$="div"] 属性att的值以"div"结尾的元素
+        [title*="div"] 属性att的值包含"div"的元素
 5.阴影
 6.边框
     1.border-radius圆角边框
@@ -34,10 +55,6 @@ css3新特性
     5.css3 3D转换
         rotateX()元素围绕其X轴给定的度数进行旋转
         rotateY()元素围绕其Y轴给定的度数进行旋转
-    6.css3过渡
-        当从一个样式转换为另一种样式时元素添加的效果
-    7.css3动画
-        可以取代动画图片,Flash动画以及js
     8.css3多列
         column-count:规定元素应该被分列的列数
         column-gap:列之间的间隔

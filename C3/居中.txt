@@ -1,25 +1,50 @@
 1.水平居中
-    1.普通文本
-        text-align: center;
-    2.行内元素
-        text-align: center;
-    3.图片-行内替换元素
-        text-align: center;
-    4.行内块级元素-inline-blcok
-        text-align: center;
-    5.块级元素
-        margin: 0 auto;
+    1.行内元素
+        首先看父元素是不是块级元素,如果不是则改成块级元素,再给父元素添加text-align: center;
+    2.块级元素
+        1.方法一
+            1.定宽度
+                谁居中,给谁设置margin: 0 auto;
+            2.不定宽度
+                默认子元素的宽度和父元素一样,这时需要设置子元素为display: inline-block; 
+                或display: inline;给父元素设置 text-align: center
+                转换成行内元素,内容的高度撑起了高度,设置高度无用
+        2.方法二
+            父元素设置相对定位,子元素设置绝对定位,子元素left: 50%,让子元素的左上角水平居中
+            1.定宽度
+                设置绝对子元素的 margin-left: -元素宽度的一半px;
+                或者设置transform: translateX(-50%)
+            2.不定宽度  
+                transform: translateX(-50%)
+        3.方案三
+            给待处理的块状元素的父元素添加属性 display: flex; justify-content: center;
 2.垂直居中
-    1.margin:auto
-        定位为上下左右为0,margin:0可以实现脱离文档流的居中
-    2.margin负值法
-        margin-top:-190px;高的一半
-        margin-left:-240px;宽的一半
-        补充:
-        transform:translateX(-50%)
-        transform:translateY(-50%)
-    3.未脱离文档流 table-cell
-        为父元素设置diaplay:table-cell,vertical-align:middle
-        子元素就可以实现垂直居中
-    4.利用flex
-        父元素设置diaplay:flex,align-items:center,justify-content:center
+    1.行内元素
+        1.单行行内元素
+            设置单行行内元素的行高等于盒子的高
+        2.多行的行内元素
+            父元素设置display: table-cell;和vertical-align: middle;
+    2.块级元素
+        1.方法一    
+            父元素为相对定位,子元素为绝对定位，设置子元素的top: 50%让子元素的左上角垂直居中
+            1.定高度
+                绝对子元素的 margin-top: -元素高度的一半px;
+                或者设置transform: translateY(-50%)
+            2.不定高度
+                transform: translateY(-50%);
+        2.方法二
+            给待处理的块状元素的父元素添加属性 display: flex; align-items: center;
+3.水平垂直居中
+    1.已知宽度和高度的元素
+        1.方案一
+            设置父元素为相对定位，给子元素设置绝对定位
+            top: 0; right: 0; bottom: 0; left: 0; margin: auto
+        2.方案二
+            设置父元素为相对定位，给子元素设置绝对定位
+            left: 50%; top: 50%; margin-left: 元素宽度的一半px; margin-top: 元素高度的一半px
+    2.未知宽度和高度的元素
+        1.定位属性
+            设置父元素为相对定位，给子元素设置绝对定位
+            left: 50%; top: 50%; transform: translateX(-50%) translateY(-50%)
+        2.flex
+            设置父元素为flex定位，justify-content: center; align-items: center
