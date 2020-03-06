@@ -1,0 +1,59 @@
+webpack
+    1.认识webpack
+        模块/打包
+        grunt/gulp:
+            配置一系列的task,定义task要处理的事物
+            之后依次执行这些task,而且让整个流程自动化
+            前端自动化任务管理工具
+        webpack:
+            更加强调模块化开发管理,文件压缩合并,预处理都是附加的功能
+        工作方式:把项目当做一个整体,从一个给定的主文件开始,webpack将找到项目的所有依赖文件
+        再使用loaders处理它们,最后打包为一个或者多个浏览器可识别的JS文件
+    2.安装webpack
+        依赖于node环境 
+        node依赖各种包
+        npm包管理工具
+        npm install webpack@3.6.0 -g
+        npm install webpack@3.6.0 --save-dev
+        开发依赖/运行依赖
+    3.起步
+        cd 指定文件夹
+        webpack ./src/main.js ./dist/bundle.js
+        webpack最重要的两项是入口(Entry)和出口(Output)
+        入口的作用是告诉用户,webpack从何处开始寻找依赖,并且编译
+        出口的作用是配置编译后文件存储的位置和文件名
+    4.配置
+        webpack.config.js
+            const path = require('path')
+            module.exports = {
+                entry: '',
+                output: {
+                    path: path.resolve(__dirname, 'dist'),
+                    filename: 'bundle.js'
+                },
+            }      
+    5.使用loader
+        通过npm安装需要使用的loader
+        在webpack.config.js中的modules关键字下进行配置
+            module: {
+                rules: [
+                    {
+                        test: /\.css$/,
+                        //从右向左读取
+                        use: ['style-loader', 'css-loader']
+                    }
+                ]
+            }
+    6.配置vue
+        运行时依赖
+        npm install vue --save
+        同时存在el和template,那么就会用template替换掉el
+    7.plugin的使用
+        插件,对现有功能的扩展
+    8.搭建本地服务器
+        提供了一个可选的本地服务器,基于node.js搭建,内部使用express框架
+        npm install --save-dev webpack-dev-server@2.9.1
+        devServer: {
+            contentBase: './dist',
+            inline: true,         
+        }

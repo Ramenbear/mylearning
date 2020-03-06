@@ -1,0 +1,84 @@
+vue-router
+    1.vue程序运行
+        首先template解析(parse)成为抽象语法树(ast),编译(compile)成为一个render函数
+        然后通过render函数翻译成虚拟DOM,最后将虚拟DOM渲染成为真实DOM
+        runtime-only:直接通过render函数进行渲染
+        runtime-compile
+        template通过vue-template-compiler解析成为render函数
+    2.render
+        render: function(createElement) {
+            //1.createElement('标签', {标签属性}, [''])
+            //return createElement('h2', {class: 'box'}, ['hello world'])
+
+            //2.传入一个组件对象
+        }
+    3.箭头函数与this指向
+        一个参数
+            const power = num => {
+                return num * num;
+            }
+        两个参数
+            const sum = (num1, num2) => {
+                return num1 + num2;
+            }
+        返回值只有一行代码
+            const mul = (num1, num2) => num1 + num2
+        使用情况
+            将一个函数作为另外一个函数的参数
+        this指向
+            向外层作用域一层层查找this,直到有this的定义
+    4.router
+        1.路由:互联的网络把信息从源地址传输到目的地址的活动
+            公网IP:唯一标识
+            内网IP:通过路由分发,每个内网IP分配一个电脑mac地址
+        2.后端路由:
+            后端渲染:服务器端直接生产渲染好的HTML页面,返回给客户端进行显示
+            后端路由:后端来处理URL和页面的映射关系
+        3.前端路由:
+            前端渲染:服务器提供数据接口,网页在前端渲染出来
+            前端路由:前端映射URL和页面的关系,页面切换不会刷新
+        4.单页面富应用阶段:
+            SPA:在前后端分离的基础上加上了一层前端路由
+                前端来维护一套路由规则,整个页面只有一个html页面
+        5.怎么让页面切换不会刷新
+            也就是URL改变不会向服务器请求数据
+                1.URL的hash
+                    URL的hash也就是锚点(#),本质上是改变window.location的href属性
+                2.HTML5的history模式:pushState-压栈,replaceState,go
+        6.动态路由
+            this.$router:大的这个router对象
+            this.$route:当前活跃的这个router对象
+        7.路由的懒加载
+            打包构建应用时,JS包会变得非常大,影响页面加载
+            将不同路由对应的组件分割成不同的代码块,当路由被访问的时候才加载相应的组件
+            一般情况下,所有页面的JS代码都在一个JS文件中,一次性请求这个下来,需要花费一定的时间
+            懒加载就是将每个页面的逻辑代码分开,用到时再去加载
+        8.嵌套路由
+        9.参数传递
+            params
+            query
+        10.导航守卫
+            //前置钩子(hook)
+            router.beforeEach = (to, from, next) => {
+                //从from跳转到to
+                document.title = to.meta.title
+                next()
+            }
+            //后置钩子
+            router.afterEach = (to, from) => {
+
+            }
+            to:即将要进入的目标
+            from:正要离开的路由
+            next:一定要调用这个方法来resolve这个钩子
+            实际应用:在即将要跳转,判断是否登录,是否拿到相应权限
+        11.keep-alive
+            包在keep-alive里,所有路径匹配到的视图组件都会被缓存,保留状态,避免重新渲染
+        12.tabbar
+            1.自定义tabbar组件,在App使用
+                出现在底部,设置样式
+                显示的内容不写死,定义插槽
+                flex布局平分tabbar
+                自定义tabbarItem,并且具有两个插槽:图片,文字
+                给插槽包装div,用于设置样式
+                填充插槽实现效果

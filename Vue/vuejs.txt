@@ -1,73 +1,12 @@
-##vue原理
-    采用数据劫持配合发布者订阅者模式,通过Object.definedProperty来劫持对象各个属性的getter/setter
-    数据发送变化,发布信息给依赖收集器,然后通知观察者去做出对应回调函数去更新视图
-    具体:
-        MVVM作为绑定的入口,整合observe,compil,watcher三者
-        observe来监听model的变化,compil来解析编译模板指令
-        watcher搭建observe和compil之间的通信桥梁
-        从而实现数据变化=>更新视图
-        视图交互变化=>数据model变更的双向绑定
-    Object.defineProperty的缺点：
-    无法监控到数组下标的变化,直接通过数组的下标给数组设置值,不能实时响应
-    所以vue才设置了7个变异数组(push,pop,shift,unshift,splice,sort,reverse),改变原数组
-    的 hack 方法来解决问题。
-    只能劫持对象的属性,因此我们需要对每个对象的每个属性进行遍历,如果能直接劫持一个对象
-    就不需要递归+遍历了,vue3.0会使用Proxy来替代Object.defineProperty
-    proxy能够直接劫持整个对象,而不是对象的属性,并且劫持的方法有多种
-    而且最后会返回劫持后的新对象,所以相对来讲,这个方法还是挺好用的,不过兼容性不太好
-    ES6 在"类"的内部可以使用get和set关键字，对某个属性设置存值函数和取值函数，拦截该属性的存取行为
 ##vue前言
-    1.Vue.js是一套响应式系统,前端开发库
-    2.Vue.js是一套构建用户界面的渐进式框架,采用自底向上增量开发的设计
-      核心库只关心视图层,提供了MVVM数据绑定和一个可组合的组件系统
-      通过简单的API实现响应式的数据绑定和可组合的视图组件
-    3.完整网页是由DOM组合与嵌套形成最基本的视图结构,再加上css样式的修饰,使用JS接受用户的交互请求
-      使用事件响应
-      把最基本的视图结构拿出来,称为视图层,传统开发数据和视图全部混合在HTML中,处理起来十分不易
-    4.主要特点
-        1.轻量级框架
-        2.双向数据绑定
-            1.声明式渲染是双向数据绑定的主要体现
-                1.声明式渲染:用简洁的模板语法声明式地将数据渲染进DOM,只需要指明最后效果
-                2.命令式渲染:告诉程序去做什么,按照你的命令一步一步去做
             2.数据发生变化,视图自动更新
-                利用ES6中的Object.definedProperty中的setter/getter代理数据、监控数据操作
-        3.指令
-            与页面交互,主要靠内置指令来完成,表达式改变,相应的将某种行为应用到DOM上
-        4.组件化
-            1.组件可以扩展HTML元素,封装可重用的代码
-                1.父组件向子组件传值:通过props传递通信
-                2.子组件向父组件通信,通过触发事件通知父组件改变数据
-                3.热重载(hot-reload):产生修改,不会刷新页面,只是对组件进行立刻重载,不会影响应用当前状态
-        5.客户端路由
-            1.Vue-router是vue的官方插件用于构建单页面应用,单页面应用基于路由和组件
-                路由用于设定访问路径,并将路径和组件映射起来,传统页面靠超链接来实现
-        6.状态管理
-            状态管理实际就是一个单向的数据流,State驱动View的渲染,用户对View进行操作产生Action
-            使State产生变化,从而使View重新渲染,形成一个单独的组件
-    5.项目文件目录结构
-        1.build文件夹保存webpack的项目配置,config保存项目基本配置
-        2.node_modules是npm加载的项目依赖的模块
-        3.src是我们要开发的目录
-            1.assets:放置图片
-            2.common:存放字体文件和通用的样式文件
-            3.components:放组件文件
-            4.App.vue:项目入口文件
-        4.static放置静态资源目录
-        5.index.html:项目入口文件
-        6.package.json:项目配置文件
-    6.实例化Vue对象
-        通过Vue()创建一个Vue根实例,每一个new Vue()都是一个Vue构造函数实例,函数的实例化
-        Vue构造器要求实例化时传入一个选项对象,选项对象包括挂载元素(el)、数据(data)、方法(methods)
-        模板(template)、生命周期钩子函数
+                利用ES6中的Object.definedProperty中的setter/getter代理数据、监控数据操作    
     7.MVVM模式
         是Model-View-ViewModel的缩写,基于前端开发的架构模式,核心是V和VM的双向数据绑定
         VM负责连接V和M,保证视图和数据的一致性
         View(DOM)-->VM(DOM Listeners/Data Bindings)(Vue)-->Model(Plain JS Objects)
         DOM元素和Model中的数据绑定成功后,通过两个DOM Listeners/Data Bindings工具分别检测各自的数据改变
 ##Vue数据绑定
-    在底层的实现上，Vue 将模板编译成虚拟 DOM 渲染函数,结合响应系统
-    Vue 能够智能地计算出最少需要重新渲染多少组件,并把 DOM 操作次数减到最少
     1.模板语法
         1.插值-声明式渲染
             1."Mustache"语法 (双大括号) 的文本插值
@@ -76,17 +15,6 @@
                 请只对可信内容使用 HTML 插值，绝不要对用户提供的内容使用插值
             3.通过使用 v-once 指令，你也能执行一次性地插值，当数据改变时
                 插值处的内容不会更新,但请留心这会影响到该节点上的其它数据绑定
-            <div id="app">
-                {{ message }}
-            </div>
-
-            var app = new Vue({
-            el: '#app',
-                data: {
-                    message: 'Hello Vue!'
-                }
-            })
-            //Hello Vue!
         2.表达式
             Vue支持所有的JS表达式
     2.响应式声明渲染机制
@@ -102,33 +30,6 @@
             计算属性和方法,得到的结果完全一样
             然而计算属性基于依赖进行求值,只有依赖发生改变才会重新求值,拥有缓存,可以直接从缓存中获取
             重新触发渲染时,调用方法将总是再次执行函数
-    4.生命周期
-        每个Vue实例在被创建时都要经过一系列的初始化过程——例如，需要设置数据监听、编译模板
-        将实例挂载到 DOM 并在数据变化时更新 DOM 等,这个过程中也会运行一些叫做生命周期钩子的函数
-        这给了用户在不同阶段添加自己的代码的机会
-        开始创建、初始化数据、编译模板、挂载DOM、渲染-->更新-->渲染到卸载
-        初始化一个Vue空的实例对象，只有默认的生命周期函数和一些事件，其它都未创建
-        生命周期钩子的 this 上下文指向调用它的 Vue 实例
-        不要在选项属性或回调上使用箭头函数
-        因为箭头函数并没有 this，this 会作为变量一直向上级词法作用域查找，直至找到为止，经常导致错误
-        1.beforeCreate(){}
-            第一个生命周期函数，实例创建之前就执行它
-            在beforeCreate执行的时候，data和methods中的数据还没初始化
-        2.created(){}
-            第二个生命周期函数
-            在created中，data和methods都已经被初始化 
-        3.beforeMount(){}
-            第三个生命周期函数，模板已经编译完成，没有渲染到页面中,页面还是旧的
-        4.mounted(){}
-            第四个生命周期函数，挂载完成，用户可以看见渲染好的页面，实例创建好了运行中的两个事件
-        5.beforeUpdate(){}
-            界面未被更新，数据被更新,界面和数据未同步
-        6.updated(){}
-            页面和数据保持同步
-        7.beforeDestroy(){}
-            都处于可用状态，没有真正销毁
-        8.destroyed(){}
-            组件被完全销毁
     5.创建一个Vue实例
         每个 Vue 应用都是通过用 Vue 函数创建一个新的 Vue 实例开始的
         var vm = new Vue({
@@ -285,16 +186,6 @@
     2.指令详解
         1.条件渲染
             1.v-if 条件性地渲染一块内容,这块内容只会在指令的表达式返回truthy值的时候被渲染
-                <div id="app-3">
-                    <p v-if="seen">现在你看到我了</p>
-                </div>
-
-                var app3 = new Vue({
-                    el: '#app-3',
-                        data: {
-                            seen: true
-                        }
-                })
             2.在<template>元素上使用v-if条件渲染分组
                 因为 v-if 是一个指令，所以必须将它添加到一个元素上,但是如果想切换多个元素呢？
                 此时可以把一个 <template> 元素当做不可见的包裹元素，并在上面使用 v-if
@@ -409,22 +300,6 @@
         3.v-on
             1.绑定一个事件监听器,通过它调用vue实例中定义的方法
                 比如HTML的点击事件,v-on:click缩写为@click
-                <div id="app-5">
-                    <p>{{ message }}</p>
-                    <button v-on:click="reverseMessage">反转消息</button>
-                </div>
-
-                var app5 = new Vue({
-                el: '#app-5',
-                    data: {
-                        message: 'Hello Vue.js!'
-                    },
-                    methods: {
-                        reverseMessage: function () {
-                        this.message = this.message.split('').reverse().join('')
-                        }
-                    }
-                })
             2.事件修饰符
                 <!-- 阻止单击事件继续传播 -->
                 <a v-on:click.stop="doThis"></a>
@@ -868,149 +743,6 @@
         })
     3.钩子函数参数
         el:当前指令绑定的DOM元素
-##webpack
-    1.认识webpack
-        模块/打包
-        grunt/gulp:
-            配置一系列的task,定义task要处理的事物
-            之后依次执行这些task,而且让整个流程自动化
-            前端自动化任务管理工具
-        webpack:
-            更加强调模块化开发管理,文件压缩合并,预处理都是附加的功能
-        工作方式:把项目当做一个整体,从一个给定的主文件开始,webpack将找到项目的所有依赖文件
-        再使用loaders处理它们,最后打包为一个或者多个浏览器可识别的JS文件
-    2.安装webpack
-        依赖于node环境 
-        node依赖各种包
-        npm包管理工具
-        npm install webpack@3.6.0 -g
-        npm install webpack@3.6.0 --save-dev
-        开发依赖/运行依赖
-    3.起步
-        cd 指定文件夹
-        webpack ./src/main.js ./dist/bundle.js
-        webpack最重要的两项是入口(Entry)和出口(Output)
-        入口的作用是告诉用户,webpack从何处开始寻找依赖,并且编译
-        出口的作用是配置编译后文件存储的位置和文件名
-    4.配置
-        webpack.config.js
-            const path = require('path')
-            module.exports = {
-                entry: '',
-                output: {
-                    path: path.resolve(__dirname, 'dist'),
-                    filename: 'bundle.js'
-                },
-            }      
-    5.使用loader
-        通过npm安装需要使用的loader
-        在webpack.config.js中的modules关键字下进行配置
-            module: {
-                rules: [
-                    {
-                        test: /\.css$/,
-                        //从右向左读取
-                        use: ['style-loader', 'css-loader']
-                    }
-                ]
-            }
-    6.配置vue
-        运行时依赖
-        npm install vue --save
-        同时存在el和template,那么就会用template替换掉el
-    7.plugin的使用
-        插件,对现有功能的扩展
-    8.搭建本地服务器
-        提供了一个可选的本地服务器,基于node.js搭建,内部使用express框架
-        npm install --save-dev webpack-dev-server@2.9.1
-        devServer: {
-            contentBase: './dist',
-            inline: true,         
-        }
-##vue-router
-    1.vue程序运行
-        首先template解析(parse)成为抽象语法树(ast),编译(compile)成为一个render函数
-        然后通过render函数翻译成虚拟DOM,最后将虚拟DOM渲染成为真实DOM
-        runtime-only:直接通过render函数进行渲染
-        runtime-compile
-        template通过vue-template-compiler解析成为render函数
-    2.render
-        render: function(createElement) {
-            //1.createElement('标签', {标签属性}, [''])
-            //return createElement('h2', {class: 'box'}, ['hello world'])
-
-            //2.传入一个组件对象
-        }
-    3.箭头函数与this指向
-        一个参数
-            const power = num => {
-                return num * num;
-            }
-        两个参数
-            const sum = (num1, num2) => {
-                return num1 + num2;
-            }
-        返回值只有一行代码
-            const mul = (num1, num2) => num1 + num2
-        使用情况
-            将一个函数作为另外一个函数的参数
-        this指向
-            向外层作用域一层层查找this,直到有this的定义
-    4.router
-        1.路由:互联的网络把信息从源地址传输到目的地址的活动
-            公网IP:唯一标识
-            内网IP:通过路由分发,每个内网IP分配一个电脑mac地址
-        2.后端路由:
-            后端渲染:服务器端直接生产渲染好的HTML页面,返回给客户端进行显示
-            后端路由:后端来处理URL和页面的映射关系
-        3.前端路由:
-            前端渲染:服务器提供数据接口,网页在前端渲染出来
-            前端路由:前端映射URL和页面的关系,页面切换不会刷新
-        4.单页面富应用阶段:
-            SPA:在前后端分离的基础上加上了一层前端路由
-                前端来维护一套路由规则,整个页面只有一个html页面
-        5.怎么让页面切换不会刷新
-            也就是URL改变不会向服务器请求数据
-                1.URL的hash
-                    URL的hash也就是锚点(#),本质上是改变window.location的href属性
-                2.HTML5的history模式:pushState-压栈,replaceState,go
-        6.动态路由
-            this.$router:大的这个router对象
-            this.$route:当前活跃的这个router对象
-        7.路由的懒加载
-            打包构建应用时,JS包会变得非常大,影响页面加载
-            将不同路由对应的组件分割成不同的代码块,当路由被访问的时候才加载相应的组件
-            一般情况下,所有页面的JS代码都在一个JS文件中,一次性请求这个下来,需要花费一定的时间
-            懒加载就是将每个页面的逻辑代码分开,用到时再去加载
-        8.嵌套路由
-        9.参数传递
-            params
-            query
-        10.导航守卫
-            //前置钩子(hook)
-            router.beforeEach = (to, from, next) => {
-                //从from跳转到to
-                document.title = to.meta.title
-                next()
-            }
-            //后置钩子
-            router.afterEach = (to, from) => {
-
-            }
-            to:即将要进入的目标
-            from:正要离开的路由
-            next:一定要调用这个方法来resolve这个钩子
-            实际应用:在即将要跳转,判断是否登录,是否拿到相应权限
-        11.keep-alive
-            包在keep-alive里,所有路径匹配到的视图组件都会被缓存,保留状态,避免重新渲染
-        12.tabbar
-            1.自定义tabbar组件,在App使用
-                出现在底部,设置样式
-                显示的内容不写死,定义插槽
-                flex布局平分tabbar
-                自定义tabbarItem,并且具有两个插槽:图片,文字
-                给插槽包装div,用于设置样式
-                填充插槽实现效果
 ##promise
     1.promise是异步编程的一种解决方案
         处理异步事件

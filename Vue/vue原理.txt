@@ -1,0 +1,18 @@
+vue原理
+    采用数据劫持配合发布者订阅者模式,通过Object.definedProperty来劫持对象各个属性的getter/setter
+    数据发送变化,发布信息给依赖收集器,然后通知观察者去做出对应回调函数去更新视图
+    具体:
+        MVVM作为绑定的入口,整合observe,compil,watcher三者
+        observe来监听model的变化,compil来解析编译模板指令
+        watcher搭建observe和compil之间的通信桥梁
+        从而实现数据变化=>更新视图
+        视图交互变化=>数据model变更的双向绑定
+    Object.defineProperty的缺点：
+    无法监控到数组下标的变化,直接通过数组的下标给数组设置值,不能实时响应
+    所以vue才设置了7个变异数组(push,pop,shift,unshift,splice,sort,reverse),改变原数组
+    的 hack 方法来解决问题。
+    只能劫持对象的属性,因此我们需要对每个对象的每个属性进行遍历,如果能直接劫持一个对象
+    就不需要递归+遍历了,vue3.0会使用Proxy来替代Object.defineProperty
+    proxy能够直接劫持整个对象,而不是对象的属性,并且劫持的方法有多种
+    而且最后会返回劫持后的新对象,所以相对来讲,这个方法还是挺好用的,不过兼容性不太好
+    ES6 在"类"的内部可以使用get和set关键字，对某个属性设置存值函数和取值函数，拦截该属性的存取行为
