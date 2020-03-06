@@ -1,0 +1,56 @@
+//1.创建XHLHTTPRequest对象
+//2.发送Ajax请求了。
+//open(var1, var2, var3): 准备Ajax请求
+//参数:var1: 请求方式  get/post
+//var2: 请求的后端程序地址，后端可以是 php  jsp  asp Python等等
+//var3: 异步(true)/同步(false)，可选参数，默认为true
+//3.send(var): 发送Ajax请求
+//参数var: 分为两种情况。 如果是get请求，则填写null。 如果是post请求，则填写要发送到后端的数据
+//4.接收后端返回的结果
+//onreadystatechange事件:readyState的值每次发生变化都会触发该事件。
+
+
+//axios
+//首先需要知道：axios不是一种新的技术。
+
+//axios 是一个基于Promise用于浏览器和nodejs的HTTP客户端,
+//本质上也是对原生XHR的封装,只不过它是Promise的实现版本，符合最新的ES规范，有以下特点：
+
+//从浏览器中创建 XMLHttpRequests
+//从 node.js 创建 http 请求
+//支持 Promise API
+//拦截请求和响应
+//转换请求数据和响应数据
+//取消请求
+//自动转换 JSON 数据
+//客户端支持防御 XSRF
+
+axios.get(url[, config])
+
+Axios.get('demo/url', {
+    params: {
+        id: 123,
+        name: 'Henry',
+        sex: 1,
+        phone: 13333333
+    }
+})
+ 
+axios.delete(url[, config])
+
+Axios.delete('demo/url', {
+    data: {
+        id: 123,
+        name: 'Henry',
+        sex: 1,
+        phone: 13333333
+    }
+})
+ 
+axios.post(url[, data[, config]])
+ 
+axios.put(url[, data[, config]])
+ 
+axios.patch(url[, data[, config]])
+
+

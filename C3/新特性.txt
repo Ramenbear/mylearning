@@ -69,6 +69,16 @@ css3新特性
     2.transition也可以实现动画,强调过渡,是元素的一个或多个属性发生变化时产生的过渡效果
         同一个元素通过两个不同的途径获取样式,而当第二个途径当某种改变发生时才能获取样式
         这样就会产生过渡动画
+    3.<img class="circle" src="001.jpg" width="400" height="400"/>
+
+        //infinite 表示动画无限次播放 linear表示动画从头到尾的速度是相同的
+        .circle{
+            animation: myRotation 5s linear infinite;
+        }
+        @keyframes myRotation {
+            from {transform: rotate(0deg);}
+            to {transform: rotate(360deg);}
+        }
 3.css3对溢出的处理
     text-overflow:
         clip:修剪文本

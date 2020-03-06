@@ -13,7 +13,7 @@
         如果参数中包含0，这个角就是矩形
     5.设计椭圆图形
     6.设置背景图像
-        background和background-repeat
+        background-image和background-repeat
     7.边框实现三角形
         border-top:50px solid #f00;
         border-left:50px solid #0f0;

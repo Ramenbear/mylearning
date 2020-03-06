@@ -93,17 +93,6 @@
 11.fetch
     fetch发送post请求时,第一次是发送一个options请求,询问是否支持修改的请求头
     待服务器支持,第二次发送真正的请求
-15.iframe
-    创建包含另一个文档的内联框架
-    可以将提示文字放在<iframe></iframe>来提示某些不支持iframe的浏览器
-    缺点:
-        会阻塞主页面的onload事件
-        搜索引擎无法解读这种页面,不利于SEO
-        iframe与主页面共享连接池,而浏览器对相同区域有限制所以会影响性能
-16.Doctype/严格模式、混杂模式
-    Doctype位于文档最前面,告诉浏览器以何种方式来渲染页面
-    严格模式的排版和JS运行模式是以浏览器支持的最高标准运行
-    混杂模式,向后兼容,模拟老式浏览器,防止浏览器无法兼容页面
 17.csrf/xss攻击
     1.xss
         跨站脚本攻击,攻击者注入恶意的脚本,在用户浏览网页的时候进行攻击
@@ -122,10 +111,6 @@
         在HTTP头中自定义属性并验证
 18.RESTFUL
     就是URL定位资源,用HTTP描述操作
-21.addEventListener(event,function,useCapture)
-    event:事件名
-    function:事件触发执行的函数
-    useCapture:指定事件是否在捕获或冒泡阶段执行
 22.iframe通信
     同源:根据父页面和cookie
     不同源:设置子域

@@ -1,0 +1,40 @@
+##vuex  
+    1.vuex一个vue的状态管理模式
+        采用集中式存储管理应用的所有组件状态,并以相应的规则保证状态以一种可预测的方式发生的变化
+        可以简单理解为把需要多个组件共享的变量全部存在一个对象中
+        然后将这个对象放在顶层,让其他组件可以使用,那么多个组件就可以共享
+    2.什么状态需要我们在多个组件共享
+        用户登录状态,用户名称,商品收藏...
+    3.使用
+        Vue.use(Vuex)
+        export default new Vuex.Store({
+            state: {
+                counter: 1000
+            },
+            mutations: {
+                increment(默认state) {
+                    state.counter++
+                }
+            },
+            actions,
+            getters
+        })
+        state:保存共享状态
+            单一状态树:也可以翻译为单一数据源,只有一个store,响应式
+        actions:做一些异步操作
+        mutations:含一个devtools插件可以记录具体是哪个地方修改state,做一些同步操作
+            store状态的更新唯一方式:提交mutation
+                字符串的事件类型
+                一个回调函数(handler),回调函数的第一个参数就是state
+                mutations: {
+                    increment(state, count) {
+                        state.counter++;
+                    }
+                },
+                increment: function() {
+                    this.$store.commit('increment', count);
+                }
+        getters:对数据进行进一步处理
+        modules:可以继续分模块,将一些东西进行抽离
+    4.目录结构
+        将各部分抽离出去
