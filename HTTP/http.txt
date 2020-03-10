@@ -23,12 +23,7 @@
             既避免了重复header的传输,又减少了需要传输的大小
         5.服务端推送(server push)
         https:安全的HTTP通道,加入了SSL层
-    2.http和https的区别
-        https需要CA证书,费用更高
-        http是明文传输,易于拦截
-        https更加安全
-        http连接是无状态的,断开连接下次就没有记录了
-    3.加密
+    2.加密
         1.对称加密
             生成一把密钥,对数据进行加密,最后传输密钥,用密钥解密
             密钥的传输不安全,密钥一旦被截取,也就不安全了
@@ -72,18 +67,7 @@
 4.HTTP请求的方式
     head:类似于get请求,只不过返回的响应中没有具体的内容,用户获取报头
     options:允许客户端查看服务器性能,比如支持的请求方式
-7.BOM浏览器对象
-    1.location对象
-        location.herf返回或设置当前文档的URL
-        location.port端口
-        location.host域名
-    2.history对象
-        history.go(num)前进后退指定的页面数
-        history.back()后退一页
-        history.forward()前进一页
-    3.navigator对象
-        navigator.userAgent返回用户代理头的字符串表示
-        navigator.cookieEnabledd返回是否支持cookie
+
 9.HTTP2.0
     提升访问速度
     允许多路复用,同时通过单一的HTTP连接发送多重请求响应信息
@@ -93,24 +77,6 @@
 11.fetch
     fetch发送post请求时,第一次是发送一个options请求,询问是否支持修改的请求头
     待服务器支持,第二次发送真正的请求
-17.csrf/xss攻击
-    1.xss
-        跨站脚本攻击,攻击者注入恶意的脚本,在用户浏览网页的时候进行攻击
-        比如获取cookie,或者其他用户身份信息,分为存储型和反射型
-            1.存储型
-                将恶意脚本存储到了数据库,其他浏览者看见了进行攻击
-            2.反射型
-                将攻击代码放在url地址的请求参数中
-        可以为cookie设置httpOnly,对用户的输入进行检查,特殊字符过滤
-    2.csrf  
-        跨站请求伪造,攻击者盗用了用户的身份,以用户的名义发送恶意请求
-        用户访问一个网站,在其cookie还没有过期的时候,攻击者伪造一个链接地址
-        并欺骗受害者点击
-        验证HTTP Referer字段
-        请求地址中添加token并验证
-        在HTTP头中自定义属性并验证
-18.RESTFUL
-    就是URL定位资源,用HTTP描述操作
 22.iframe通信
     同源:根据父页面和cookie
     不同源:设置子域

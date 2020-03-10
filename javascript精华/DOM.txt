@@ -36,4 +36,5 @@
     比如，子节点接口包括firstChild（第一个子节点）和lastChild（最后一个子节点）等属性，
     同级节点接口包括nextSibling（紧邻在后的那个同级节点）和previousSibling
     (紧邻在前的那个同级节点)属性
-4.
+4.实现网页标签数量统计
+new Set([...getElementsByTagName('*')].map(v=>v.tagname)).size

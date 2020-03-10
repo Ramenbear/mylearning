@@ -12,22 +12,7 @@ vue-router
 
             //2.传入一个组件对象
         }
-    3.箭头函数与this指向
-        一个参数
-            const power = num => {
-                return num * num;
-            }
-        两个参数
-            const sum = (num1, num2) => {
-                return num1 + num2;
-            }
-        返回值只有一行代码
-            const mul = (num1, num2) => num1 + num2
-        使用情况
-            将一个函数作为另外一个函数的参数
-        this指向
-            向外层作用域一层层查找this,直到有this的定义
-    4.router
+    3.router
         1.路由:互联的网络把信息从源地址传输到目的地址的活动
             公网IP:唯一标识
             内网IP:通过路由分发,每个内网IP分配一个电脑mac地址

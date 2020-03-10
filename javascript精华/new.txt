@@ -2,7 +2,7 @@
     在js中只要new一个函数,就可以new一个对象,函数和构造函数没有什么区别
 2.new内部经历了啥
     1.创建一个新对象
-    2.这个新对象的__prototype__属性指向原函数的prototype属性,(继承原函数的原型)
+    2.这个新对象的__proto__属性指向原函数的prototype属性,(继承原函数的原型)
     3.将这个新对象绑定到次函数的this上
     4.返回新对象,如果这个函数没有返回其他对象
 3.自己实现new
@@ -10,7 +10,7 @@
     //args:传入构造函数的参数
     function create(Con, ...args) {
         let obj = {};
-        obj._prototype_ = Con.prototype;
+        obj._proto_ = Con.prototype;
         let result = Con.apply(obj, args);
         return result instanceof Object ? result : obj;
     }

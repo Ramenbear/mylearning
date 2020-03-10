@@ -38,8 +38,6 @@ www.w3.org/mdn/caniuse
             1.会阻塞主页面的onload事件,搜索引擎的检索程序无法解读这种页面,不利于SEO
             2.与主页面共享连接池,而浏览器对相同域的连接有限制,影响页面的并行加载
             解决方案:通过JS动态给iframe加上src属性
-    40.背景居中
-        background-position: center -81px;    
 ##定位(normal flow)
     1.标准流
     2.position

@@ -1,0 +1,12 @@
+BOM浏览器对象
+    1.location对象
+        location.herf返回或设置当前文档的URL
+        location.port端口
+        location.host域名
+    2.history对象
+        history.go(num)前进后退指定的页面数
+        history.back()后退一页
+        history.forward()前进一页
+    3.navigator对象
+        navigator.userAgent返回用户代理头的字符串表示
+        navigator.cookieEnabledd返回是否支持cookie

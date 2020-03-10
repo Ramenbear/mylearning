@@ -10,7 +10,6 @@ vue原理
     Object.defineProperty的缺点：
     无法监控到数组下标的变化,直接通过数组的下标给数组设置值,不能实时响应
     所以vue才设置了7个变异数组(push,pop,shift,unshift,splice,sort,reverse),改变原数组
-    的 hack 方法来解决问题。
     只能劫持对象的属性,因此我们需要对每个对象的每个属性进行遍历,如果能直接劫持一个对象
     就不需要递归+遍历了,vue3.0会使用Proxy来替代Object.defineProperty
     proxy能够直接劫持整个对象,而不是对象的属性,并且劫持的方法有多种
