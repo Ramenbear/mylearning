@@ -1,0 +1,49 @@
+1.定义函数、接口、类不事先指定类型，而是使用的时候再指定类型
+2.类型变量<T>：用于表示类型而不是值
+3.例子
+    function identity <T> (arg:T) :T {
+        return arg;
+    }
+
+    let output = identity<string>("string");
+    //类型推论
+    let output = identity("string");
+4.泛型约束
+    1.泛型变量默认是任意的，我们不能随意去使用属性
+    2.约束泛型T，让其只拥有我们想要的属性
+        interface Lengthwise {
+            length: number;
+        }
+
+        function loggingIdentity<T extends Lengthwise>(arg: T): T {
+            console.log(arg.length);
+            return arg;
+        }
+    3.多个类型参数之间互相约束
+        其中要求 T 继承 U，这样就保证了 U 上不会出现 T 中不存在的字段
+5.泛型接口
+    interface CreateArrayFunc<T> {
+        (length: number, value: T): Array<T>;
+    }
+
+    let createArray: CreateArrayFunc<any>;
+    createArray = function<T>(length: number, value: T): Array<T> {
+        let result: T[] = [];
+        for (let i = 0; i < length; i++) {
+            result[i] = value;
+        }
+        return result;
+    }
+6.泛型类
+    class GenericNumber<T> {
+        zeroValue: T;
+        add: (x: T, y: T) => T;
+    }
+
+    let myGenericNumber = new GenericNumber<number>();
+    myGenericNumber.zeroValue = 0;
+    myGenericNumber.add = function(x, y) { return x + y; };
+    类：
+        1.静态：no泛型
+        2.实例：泛型
+7.也可以为类型变量指定一个默认类型

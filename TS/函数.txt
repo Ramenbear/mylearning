@@ -1,0 +1,30 @@
+1.JS中函数是一等公民
+2.定义函数
+    1.函数声明
+        // 函数声明（Function Declaration）
+        function sum(x, y) {
+            return x + y;
+        }
+    2.函数表达式
+        // 函数表达式（Function Expression）
+        let mySum = function (x, y) {
+            return x + y;
+        };
+3.TS中的函数
+    1.严格控制了输入输出的类型
+    2.function sum(x: number, y: number): number {
+            return x + y;
+        }
+    3.let mySum = function (x: number, y: number): number {
+            return x + y;
+        };
+4.TS: =>
+    let mySum: (x: number, y: number) => number = function (x: number, y: number): number {
+        return x + y;
+    };
+    TS类型定义中，=> 用来表示函数的定义，左边是输入类型，需要用括号括起来，右边是输出类型
+    !这和ES6中的箭头函数是不一样的
+5.可以使用接口来定义函数的类型
+6.可选参数，注意可选参数只能跟在必选参数的后面
+7.JS中是不允许函数进行重载的，也就是同一个函数调用多次
+    TS中允许函数进行重载，也就是接受不同的参数，做出不同的回应，同一函数调用多次

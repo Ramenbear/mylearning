@@ -22,6 +22,8 @@ webpack
         webpack最重要的两项是入口(Entry)和出口(Output)
         入口的作用是告诉用户,webpack从何处开始寻找依赖,并且编译
         出口的作用是配置编译后文件存储的位置和文件名
+        loader: 模块转换器,把模块原内容按照需求转换成新内容
+        plugins: 扩展插件
     4.配置
         webpack.config.js
             const path = require('path')
@@ -44,6 +46,8 @@ webpack
                     }
                 ]
             }
+        1.将JS代码向低版本转换: babel-loader
+        2.
     6.配置vue
         运行时依赖
         npm install vue --save

@@ -113,3 +113,35 @@
     Safari：WebKit 引擎
     Chrome：Blink 引擎
     IE: Trident 引擎
+40.浏览器中使用缓存的流程
+    浏览器发起请求
+    检查是否有缓存
+    有Pragma字段 no-cache 强制请求 新资源
+    有缓存并且没有Pragma,先判断缓存是否过期（Cache-Control 优先于 Expires），没有过期就使用缓存
+    缓存有效时间过期了,查看是否使用了Eatg 和 Last-Modified 头部
+    发送 If-none-Match 和 If-Modified-Since 去验证是否缓存还能继续使用
+    (可能缓存到期了，但是服务端没有修改，而资源又比较大，通过校验可以减少网络传输)
+    资源没有修改就使用缓存
+    资源修改了就返回新的资源
+    缓存使用的一些注意点
+
+    Expires
+    一般使用Cache-Control和Expires共存，主要是为了兼容http1.0
+    Expires返回的是服务器时间，需要考虑服务器与客户端的时间同步（时区等）
+    过期之后重新返回的响应中要加入新的Expires
+
+    Cache-Control
+    max-age 过期时间是一个时间段，从接受到这个响应之后开始生效，过期之后任然可以使用这个时间段
+    max-age 和 Expires 共存的时候使用max-age
+    no-cache 表示可以缓存，但是在使用缓存之前需要向服务器验证
+    no-store 不缓存
+
+    Last-Modified
+    用来标识服务端最后一次修改资源的时间
+    配合If-Modified-Since使用，检查缓存与服务端是否一致
+
+    Etag
+    服务端资源的唯一标识,看作一种数字签名
+    当资源没有发送变化的情况下,Etag计算值不发生变化
+    当有多个服务端的情况下,需要保证不同服务器上的Etag计算方式一致
+    需要额外的计算Etag的资源

@@ -1,0 +1,53 @@
+1.对对象形状的描述
+    1.interface Person {
+            name: string;
+            age: number;
+        }
+    ​
+        let tom: Person = {
+            name: 'Tom',
+            age: 25
+        };
+        约束了tom的形状必须和Person一样，必须一致，多了少了都不行（命名首字母大写）
+    2.可选属性
+        interface SquareConfig {
+            color?: string;
+            width?: number;
+        }
+    3.只读属性
+        interface Point {
+            readonly x: number;
+            readonly y: number;
+        }
+    4.任意类型
+        使用 [propName: string] 定义了任意属性取 string 类型的值
+        ！一旦定义了任意属性，那么确定属性和可选属性的类型都必须是它的类型的子集
+2.对类的一部分行为进行抽象
+    1.实现（implements）是面向对象中的一个重要概念。一般来讲，一个类只能继承自另一个类
+        有时候不同类之间可以有一些共有的特性，这时候就可以把特性提取成接口（interfaces）
+        用 implements 关键字来实现。这个特性大大提高了面向对象的灵活性
+        也就是说将共性提取为一个接口，任何类想使用直接implements接口就可以了
+        当然可以实现多个多个接口
+       interface Alarm {
+            alert(): void;
+        }
+
+        class Door {
+        }
+
+        class SecurityDoor extends Door implements Alarm {
+            alert() {
+                console.log('SecurityDoor alert');
+            }
+        }
+
+        class Car implements Alarm {
+            alert() {
+                console.log('Car alert');
+            }
+        }
+    2.接口与接口之间也有继承关系
+        一个接口可以继承自另一个接口
+    3.接口继承类
+        因为在创建类中，同时也创建了一个类的类型
+        接口继承类实际就是继承的类型，也就是接口继承接口了

@@ -1,0 +1,47 @@
+1.布尔
+2.数字：都是浮点数
+3.字符串：可以使用模板字符串，${}
+4.数组：
+    1.元素类型后面加上[]：let list: number[] = [1, 2, 3];
+    2.数组泛型：let list: Array<number> = [1, 2, 3];
+        <T>：泛型变量用于表示类型而不是值
+5.元组
+    元组类型允许表示一个已知元素数量和类型的数组，各元素的类型不必相同
+    let x: [string, number];
+6.枚举
+    由枚举值去得到名字，比如只知道2，可以得到2具体代表的是什么
+7.Any
+    任意类型
+8.Void
+    没有任何类型，比如函数没有返回值
+    定义了也没用，只能复制null,undefined
+9.null/undefined
+    undefined和null两者各自有自己的类型分别叫做undefined和null
+    他们是所有类型的子类型，也就是上述类型都可以赋值null/undefined
+10.Never
+    表示永不存在的值的类型，是所有类型的子类型
+    但是不能给Never赋值，包括他自己和any
+11.Object
+    非原始类型，可以使用一些API
+12.类型断言
+    也就是，告诉程序，我知道我自己在做什么
+    不进行特殊的数据检查和解构
+        1.尖括号写法
+            let value: any = "string";
+            let strLength: number = (<string>value).length;
+        2.as写法
+            let value: any = "string";
+            let strLength: number = (value as string).length;
+            //使用JSX只能使用as
+13.类型推论
+    1.如果没有明确的指定类型，那么 TypeScript 会依照类型推论（Type Inference）的规则推断出一个类型
+    2.如果定义的时候没有赋值，不管之后有没有赋值，都会被推断成 any 类型而完全不被类型检查
+14.联合类型
+    1.联合类型（Union Types）表示取值可以为多种类型中的一种
+    2.不确定一个联合类型的变量到底是哪个类型，我们只能访问此联合类型的所有类型里共有的属性或方法
+15.类型别名
+    使用type给类型取别名
+16.字符串字面量类型
+    用来约束取值只能是某几个字符串中的一个
+    type EventNames = 'click' | 'scroll' | 'mousemove';
+17.

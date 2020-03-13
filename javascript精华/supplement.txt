@@ -1,0 +1,141 @@
+1.随机数
+    Math.round(Math.random() * (n - m) + m);
+2.setTimeout/setInterval
+    1.setTimeout:延迟执行一次
+    2.setInterval:每隔一段时间就执行一次
+3.判断浏览器
+    navigator.userAgent.indexOf("chrome")
+4.alert comfirm prompt
+5.for in 循环对象的属性
+6.阻止事件冒泡: stopPropagation 阻止事件默认行为: preventDefault
+7.window.onload: dom文档树加载完和所有文件加载完之后执行一个函数 
+    document.onload: 文档加载不代表所有都加载完,可以执行多次
+8. 判断脚本运行在哪
+    this === window ? 'browser' : 'node';
+9.Javascript中，有一个函数，执行时对象查找时，永远不会去查找原型，这个函数是？
+    hasOwnProperty
+10.已知有字符串foo=”get-element-by-id”,写一个function将其转化成驼峰表示法”getElementById”
+    function combin(msg){
+        var arr=msg.split("-");
+        for(var i=1;i<arr.length;i++){
+            arr[i]=arr[i].charAt(0).toUpperCase()+arr[i].substr(1,arr[i].length-1);
+        }
+        msg=arr.join("");
+        return msg;
+    }
+11.将字符串”<tr><td>{$id}</td><td>{$name}</td></tr>”中的{$id}替换成10，{$name}替换成Tony 
+    "<tr><td>{$id}</td><td>{$id}_{$name}</td></tr>"
+    .replace(/{\$id}/g, '10').replace(/{\$name}/g, 'Tony');
+12.计算字符串中出现最多的字符
+    var str = 'asdfssaaasasasasaa';
+    var obj = {};
+    for (var i = 0; i < str.length; i++) {
+            if(!obj[str.charAt(i)]){
+                    obj[str.charAt(i)] = 1;
+            }else{
+                    obj[str.charAt(i)]++;
+            }
+    };
+    var max = 0;
+    var name = '';
+    for(var i in obj){
+            if(obj[i]>max){
+                    max = obj[i];
+                    name = i;
+            }
+    }
+    alert('出现次数最多的是:'+name+'出现'+max+'次');
+13.substring() 方法用于提取字符串中介于两个指定下标之间的字符,不能取负值
+14.charAt() 返回指定位置的字符串
+15.数组去重
+    Array from(new Set(array));
+16.写一个function，清除字符串前后的空格
+17.用程序实现找到html中id名相同的元素
+18.简述readonly与disabled的区别
+    ReadOnly和Disabled的作用是使用户不能够更改表单域中的内容.
+    但是二者还是有着一些区别的：
+        1、Readonly只针对input和textarea有效,disabled对于所有的表单 元素有效
+        2、在表单元素使用了disabled后，我们将表单以POST或者GET的方式提交的话
+            这个元素的值不会被传递出去，而readonly会将该值传递出去
+19.为什么扩展javascript内置对象不是好的做法？
+    因为你不知道哪一天浏览器或javascript本身就会实现这个方法，而且和你扩展的实现有不一致的表现
+    到时候你的javascript代码可能已经在无数个页面中执行了数年
+    而浏览器的实现导致所有使用扩展原型的代码都崩溃...
+20.$(document).ready()是DOM结构绘制完毕后就执行，不必等到加载完毕
+21.DOM的增删改查操作？
+    (1)创建新节点
+        createDocumentFragment()    //创建一个DOM片段
+        createElement()   //创建一个具体的元素
+        createTextNode()   //创建一个文本节点
+    (2)添加、移除、替换、插入
+        appendChild()
+        removeChild()
+        replaceChild()
+        insertBefore() 
+    (3)查找
+        getElementsByTagName()    
+        getElementsByName()    
+        getElementById()  
+22.target与currentTarget区别
+    target在事件流的目标阶段；currentTarget在事件流的捕获目标及冒泡阶段。
+    只有当事件流处在目标阶段的时候，两个的指向才是一样的
+    而当处于捕获和冒泡阶段的时候，target指向被单击的对象而currentTarget指向当前事件活动的对象
+    （一般为父级）。
+23.Object.is: NaN和NaN相同,+0和-0不相同
+24.fetch和Ajax有什么不同
+    XMLHttpRequest 是一个设计粗糙的 API，不符合关注分离（Separation of Concerns）的原则，
+    配置和调用方式非常混乱，而且基于事件的异步模型写起来也没有现代的 Promise，generator/yield，
+    async/await 友好。
+    fetch 是浏览器提供的一个新的 web API，它用来代替 Ajax（XMLHttpRequest），
+    其提供了更优雅的接口，更灵活强大的功能。 Fetch 优点主要有：
+    语法简洁，更加语义化
+    基于标准 Promise 实现，支持 async/await
+25.什么是Cookie 隔离？（或者说：请求资源的时候不要让它带cookie怎么做）
+  如果静态文件都放在主域名下，那静态文件请求的时候都带有的cookie的数据提交给server的，非常浪费流量，
+  因为cookie有域的限制，因此不能跨域提交请求，故使用非主要域名的时候，请求头中就不会带有cookie数据，
+  这样可以降低请求头的大小，降低请求时间，从而达到降低整体请求延时的目的。
+  同时这种方式不会将cookie传入Web Server，也减少了Web Server对cookie的处理分析环节，
+  提高了webserver的http请求的解析速度
+26. Ajax 解决浏览器缓存问题？
+    1、在ajax发送请求前加上 anyAjaxObj.setRequestHeader("If-Modified-Since","0")。
+    2、在ajax发送请求前加上 anyAjaxObj.setRequestHeader("Cache-Control","no-cache")。
+    3、在URL后面加上一个随机数： "fresh=" + Math.random();。
+    4、在URL后面加上时间戳："nowtime=" + new Date().getTime();。
+    5、如果是使用jQuery，直接这样就可以了 $.ajaxSetup({cache:false})
+        所有ajax都会执行这条语句就是不需要保存缓存记录
+27.请写出一个程序，在页面加载完成后动态创建一个form表单
+    并在里面添加一个input对象并给它任意赋值后义post方式提交到：http://127.0.0.1/save.php
+    window.οnlοad=function(){
+    var form=document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", "http://127.0.0.1/save.php");
+    var input=document.createElement("input");
+    form.appendChild(input);
+    document.body.appendChild(form);
+    input.value="cxc";
+    form.submit();//提交表单
+28.clientWidth/clientHeight 返回的是元素的内部宽度，它的值只包含 content + padding,不包含滚动条。
+    clientTop 返回的是上边框的宽度,clientLeft 返回的左边框的宽度
+
+    offsetWidth/offsetHeight 返回的是元素的布局宽度，它的值包含 content+padding+border包含了滚动条
+    offsetTop 返回的是当前元素相对于其 offsetParent 元素的顶部的距离
+    offsetLeft 返回的是当前元素相对于其 offsetParent 元素的左部的距离
+
+    scrollWidth/scrollHeight 返回值包含 content+padding+溢出内容的尺寸
+    scrollTop 属性返回的是一个元素的内容垂直滚动的像素数
+    scrollLeft 属性返回的是元素滚动条到元素左边的距离
+29.CSS3的动画的优点:
+        在性能上会稍微好一些，浏览器会对 CSS3 的动画做一些优化,代码相对简单
+    缺点:
+        在动画控制上不够灵活
+        兼容性不好
+    JavaScript 的动画正好弥补了这两个缺点，控制能力很强，可以单帧的控制、变换，
+    同时写得好完全可以兼容 IE6，并且功能强大。对于一些复杂控制的动画
+    使用 javascript 会比较靠谱。而在实现一些小的交互动效的时候，就多考虑考虑 CSS 吧
+30.
+
+
+
+   
+
+

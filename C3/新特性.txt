@@ -37,9 +37,7 @@ css3新特性
     2.word-wrap允许对长单词进行拆分,换行到下一行p{word-wrap:break-word};
 9.渐变
 10.弹性布局/栅格布局/多列布局
-11.媒体查询
-    
-        
+11.媒体查询    
     4.css3 2D转换
         transfrom:通过css3转换,我们可以对元素进行移动、缩放、转动、拉长、拉伸
         1.translate()从当前位置移动,根据给定的left/top位置参数

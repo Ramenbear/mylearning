@@ -27,6 +27,7 @@ JS的数据类型包括了原始类型和引用类型(对象类型)
     typeof(null) = Object ?
     不同对象在底层原理的存储使用二进制保存的
     JS中如果二进制前三位是000,就会判断为Object类型
+    typeof(undefined) = undefined
 5.数据类型判断
     1.typeof:一元运算符,一般判断某个变量是否为空或者是什么类型
     2.instanceof:判断一个对象是不是另一个对象的实例

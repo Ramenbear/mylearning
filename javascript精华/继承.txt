@@ -59,5 +59,12 @@
         return clone;//返回这个对象
     }
     1.基本思想:避免了第二次调用构造函数
+5.改变this指向
+    1.call
+
+    2.apply
+
+    3.bind
+        
 
 
