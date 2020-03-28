@@ -1,0 +1,30 @@
+1.git init
+2.git add . 
+3.git commit -m ""
+4.git log //查看提交历史，以便确定要回退到哪个版本
+5.HEAD //指向的就是当前版本
+6.git reset --hard commit_id //时间旅行
+6.git reflog //查看命令历史，以便确定要回到未来的哪个版本
+7.git add //实际上就是把文件修改添加到暂存区
+    git commit //实际上就是把暂存区的所有内容提交到当前分支
+    创建Git版本库时，Git自动为我们创建了唯一一个master分支，git commit就是往master分支上提交更改
+    //需要提交的文件修改通通放到暂存区，然后一次性提交暂存区的所有修改
+8.gir status //查看状态
+9.git checkout -- file //放弃工作区的修改
+10.提交到了缓存区，而且还到了工作区
+    1.git reset HEAD <file>
+    2.git checkout -- file 
+11.git rm //删除文件
+12.分布式版本控制系统
+    远程仓库：我们可以克隆，也可以提交，也可以拉取其他人的提交
+13.git remote add origin git@server-name:path/repo-name.git //关联一个远程库
+14.git push -u origin master //第一次推送master分支的所有内容
+15.git clone
+16.分支
+    在原来的基础上创建自己的分支，自己开发自己的，不会影响别人，等开发结束后再合并起来
+17.git branch //查看分支
+18.git branch <name> //创建分支
+19.git checkout <name>或者git switch <name> //切换分支
+20.git checkout -b <name>或者git switch -c <name>  //创建+切换分支
+21.git merge <name> //合并某分支到当前分支
+22.git branch -d <name> //删除分支

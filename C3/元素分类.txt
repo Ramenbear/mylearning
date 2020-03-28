@@ -8,7 +8,7 @@
                 address blockquote fieldset hr 
                 noframes noscript pre legend
         2.行内级元素
-            多个行内级元素可以在父元素同一行显示,非替换元素不可以设置宽高,宽高由内容决定
+            多个行内级元素可以在父元素同一行显示,非替换元素不可以设置宽高,宽高完全由内容决定
             中间产生空格-浏览器解析换行为空格
                 a img span strong code iframe label input button
                 canvas embed object video audio
@@ -28,3 +28,5 @@
         inline-table:行内级元素的表格显示
         *list-item:项目列表*
         run-in:块状显示或基于内容之上的行内显示
+3.行内块元素(inline-block)：结合的行内和块级的优点，既可以设置长宽，
+    可以让padding和margin生效，又可以和其他行内元素并排

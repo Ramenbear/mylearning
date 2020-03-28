@@ -1,22 +1,3 @@
-1.引用CSS
-    css样式代码必须放入.css文本文件，或者网页<style>标签中，或插入网页标签style属性值
-    设置编码
-        @charset "utf-8";
-    css样式应用
-        1.行内样式
-            直接放入代码行的标签中,一般是style属性中
-        2.内嵌式
-            写在网页源文件的头部,<head><head>之间
-            只能在此页使用,由type来决定定义css样式还是js脚本
-            (css)type="text/css"    (js脚本)type="text/javascript"
-            title属性，为不同样式设置标题，根据标题切换，IE不支持，火狐支持
-        3.链接式
-            html的<link>标签，将外部样式表文件链接导入HTML文档中
-            将html文档和css文档完全分离，结构样式的分离
-            增强了网页结构的可扩展性和css的可维护性
-            <link href:文件地址 type:文档类型 rel:关联类型>
-        4.导入式
-            @import导入外部样式表
 2.link标签和@import标签的区别
     link属于html标签,而@import是css提供的
     页面加载时link同时被加载,@import要页面加载结束后才加载

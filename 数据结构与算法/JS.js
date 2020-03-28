@@ -16,17 +16,6 @@
     //7.二维和多维数组
         //1.二维数组
             //数组嵌套数组
-            let averageTemp = [];
-            averageTemp[0] = [72,75,76];
-            averageTemp[1] = [81,54,56];
-            //#迭代二维数组
-            function printMatrix(myMatrix){
-                for (let i = 0;i < mymatrix.length;i++){
-                    for (let j = 0;j < myMatrix[i].length;j++){
-                        console.log(myMatrix[i][j])
-                    }
-                }
-            }
         //2.多维数组
             //同理创建更多的维度
     //8.JS数组方法  
@@ -48,6 +37,17 @@
         //2.类型数组
             // JS数组不是强类型,可以存储任何类型的数据
             // 类型数组用于存储单一类型的数组,声明数组类型
+    //9.随机字符串
+        function shuffle(array) {
+            for (var i = array.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+            return array;
+        }
+        shuffle(Array.from('today is Monday')).join()
 //##栈(stack) 
     //基于数组实现
     //后进先出
@@ -870,27 +870,27 @@
     //         3.标注v为已被探索的
     function Graph() {
         // 属性
-        this.vertexes = [] // 存储顶点
-        this.adjList = new Dictionay() // 存储边
+        this.vertex = []; // 存储顶点
+        this.edges = new Dictionay(); // 存储边
 
         // 添加方法
         Graph.prototype.addVertex = function (v) {
-            this.vertexes.push(v)
-            this.adjList.set(v, [])
+            this.vertex.push(v);
+            this.edges.set(v, []);
         }
 
         Graph.prototype.addEdge = function (v, w) {
-            this.adjList.get(v).push(w)
-            this.adjList.get(w).push(v)
+            this.edges.get(v).push(w);
+            this.edges.get(w).push(v);
         }
 
         Graph.prototype.toString = function () {
             var resultStr = ""
-            for (var i = 0; i < this.vertexes.length; i++) {
-                resultStr += this.vertexes[i] + "->"
-                var adj = this.adjList.get(this.vertexes[i])
-                for (var j = 0; j < adj.length; j++) {
-                    resultStr += adj[j] + " "
+            for (var i = 0; i < this.vertex.length; i++) {
+                resultStr += this.vertex[i] + "->"
+                var edg = this.edges.get(this.vertex[i])
+                for (var j = 0; j < edg.length; j++) {
+                    resultStr += edg[j] + " "
                 }
                 resultStr += "\n"
             }
@@ -898,51 +898,43 @@
         }
 
         // 初始化颜色
-        Graph.prototype.initializeColor = function () {
-            var colors = []
-            for (var i = 0; i < this.vertexes.length; i++) {
-                colors[this.vertexes[i]] = "white"
+        Graph.prototype.initColor = function () {
+            var colors = [];
+            for (var i = 0; i < this.vertex.length; i++) {
+                colors[this.vertex[i]] = "white";
             }
-            return colors
+            return colors;
         }
 
         // 广度优先算法
         Graph.prototype.bfs = function (v, handler) {
             // 1.初始化颜色
-            var color = this.initializeColor()
-
+            var color = this.initColor();
             // 2.创建队列
-            var queue = new Queue()
-
+            var queue = new Queue();
             // 3.将传入的顶点放入队列中
-            queue.enqueue(v)
-
+            queue.enqueue(v);
             // 4.从队列中依次取出和放入数据
             while (!queue.isEmpty()) {
                 // 4.1.从队列中取出数据
-                var qv = queue.dequeue()
-
+                var qv = queue.dequeue();
                 // 4.2.获取qv相邻的所有顶点
-                var qAdj = this.adjList.get(qv)
-
+                var qEdg = this.edgs.get(qv);
                 // 4.3.将qv的颜色设置成灰色
-                color[qv] = "gray"
-
+                color[qv] = "gray";
                 // 4.4.将qAdj的所有顶点依次压入队列中
-                for (var i = 0; i < qAdj.length; i++) {
-                    var a = qAdj[i]
+                for (var i = 0; i < qEdg.length; i++) {
+                    var a = qEdg[i];
                     if (color[a] === "white") {
-                        color[a] = "gray"
-                        queue.enqueue(a)
+                        color[a] = "gray";
+                        queue.enqueue(a);
                     }
                 }
-
                 // 4.5.因为qv已经探测完毕, 将qv设置成黑色
-                color[qv] = "black"
-
+                color[qv] = "black";
                 // 4.6.处理qv
                 if (handler) {
-                    handler(qv)
+                    handler(qv);
                 }
             }
         }
@@ -950,12 +942,11 @@
         // 深度优先搜索
         Graph.prototype.dfs = function (handler) {
             // 1.初始化颜色
-            var color = this.initializeColor()
-
+            var color = this.initColor();
             // 2.遍历所有的顶点, 开始访问
-            for (var i = 0; i < this.vertexes.length; i++) {
-                if (color[this.vertexes[i]] === "white") {
-                    this.dfsVisit(this.vertexes[i], color, handler)
+            for (var i = 0; i < this.vertex.length; i++) {
+                if (color[this.vertex[i]] === "white") {
+                    this.dfsVisit(this.vertex[i], color, handler);
                 }
             }
         }
@@ -963,22 +954,19 @@
         // dfs的递归调用方法
         Graph.prototype.dfsVisit = function (u, color, handler) {
             // 1.将u的颜色设置为灰色
-            color[u] = "gray"
-
+            color[u] = "gray";
             // 2.处理u顶点
             if (handler) {
                 handler(u)
             }
-
             // 3.u的所有邻接顶点的访问
-            var uAdj = this.adjList.get(u)
-            for (var i = 0; i < uAdj.length; i++) {
-                var w = uAdj[i]
+            var uEdg = this.edgs.get(u)
+            for (var i = 0; i < uEdg.length; i++) {
+                var w = uEdg[i]
                 if (color[w] === "white") {
                     this.dfsVisit(w, color, handler)
                 }
             }
-
             // 4.将u设置为黑色
             color[u] = "black"
         }
@@ -1099,59 +1087,23 @@
             this.array[n] = temp
         }
 
-        // 选择枢纽
-        ArrayList.prototype.median = function (left, right) {
-            // 1.求出中间的位置
-            var center = Math.floor((left + right) / 2)
-
-            // 2.判断并且进行交换
-            if (this.array[left] > this.array[center]) {
-                this.swap(left, center)
-            }
-            if (this.array[center] > this.array[right]) {
-                this.swap(center, right)
-            }
-            if (this.array[left] > this.array[right]) {
-                this.swap(left, right)
-            }
-
-            // 3.巧妙的操作: 将center移动到right - 1的位置.
-            this.swap(center, right - 1)
-
-            // 4.返回pivot
-            return this.array[right - 1]
-        }
-
-        // 快速排序实现
-        ArrayList.prototype.quickSort = function () {
-            this.quickSortRec(0, this.array.length - 1)
-        }
-
-        ArrayList.prototype.quickSortRec = function (left, right) {
-            // 0.递归结束条件
-            if (left >= right) return
-
-            // 1.获取枢纽
-            var pivot = this.median(left, right)
-
-            // 2.开始进行交换
-            var i = left
-            var j = right - 1
-            while (true) {
-                while (this.array[++i] < pivot) { }
-                while (this.array[--j] > pivot) { }
-                if (i < j) {
-                    this.swap(i, j)
-                } else {
-                    break
-                }
-            }
-
-            // 3.将枢纽放在正确的位置
-            this.swap(i, right - 1)
-
-            // 4.递归调用左边
-            this.quickSortRec(left, i - 1)
-            this.quickSortRec(i + 1, right)
+    //快排
+        ArrayList.prototype.quickSort = function(arr) {
+            　　if (arr.length <= 1) { return arr; }   
+            　　var pivotIndex = Math.floor(arr.length / 2);
+                //splice() 方法通过删除或替换现有元素或者原地添加新的元素来修改数组,
+                //并以数组形式返回被修改的内容。此方法会改变原数组
+            　　var pivot = arr.splice(pivotIndex, 1)[0];
+            　　var left = [];    
+            　　var right = [];    
+            　　for (var i = 0; i < arr.length; i++){
+            　　　　if (arr[i] < pivot) {   
+            　　　　　　left.push(arr[i]);  
+            　　　　} else {
+            　　　　　　right.push(arr[i]);
+            　　　　}
+            
+            　　}
+            　　return quickSort(left).concat([pivot], quickSort(right));  
         }
     }

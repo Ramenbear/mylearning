@@ -125,14 +125,18 @@
     scrollTop 属性返回的是一个元素的内容垂直滚动的像素数
     scrollLeft 属性返回的是元素滚动条到元素左边的距离
 29.CSS3的动画的优点:
-        在性能上会稍微好一些，浏览器会对 CSS3 的动画做一些优化,代码相对简单
-    缺点:
-        在动画控制上不够灵活
-        兼容性不好
+    在性能上会稍微好一些，浏览器会对 CSS3 的动画做一些优化,代码相对简单
+    缺点:在动画控制上不够灵活，兼容性不好
     JavaScript 的动画正好弥补了这两个缺点，控制能力很强，可以单帧的控制、变换，
     同时写得好完全可以兼容 IE6，并且功能强大。对于一些复杂控制的动画
     使用 javascript 会比较靠谱。而在实现一些小的交互动效的时候，就多考虑考虑 CSS 吧
-30.
+30.数组对象去重
+    let hash = {};
+    data =data.reduce((preVal, curVal) => {
+        hash[curVal.id] ? '' : hash[curVal.id] = true && preVal.push(curVal);
+        return preVal
+    }, [])
+31.
 
 
 

@@ -1,22 +1,4 @@
 文字文本
-    1.字体样式
-        1.font-family
-            定义字体类型
-        2.font-size
-            字体大小
-        3.字体颜色
-            color:为字体定义颜色
-        4.字体字形
-            font-weight:字体粗细
-            font-style:字体倾斜
-                normal正常
-                italic斜体
-                oblique没有斜体变量的特殊字体
-        5.间距
-            letter-spacing:字母之间的间距
-            word-spacing:单词之间的间距
-        6.font
-            缩写属性
     2.定义文本样式
         1.text-align
             元素内容在元素中的水平对齐方式

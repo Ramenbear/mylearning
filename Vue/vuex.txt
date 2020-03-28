@@ -17,7 +17,7 @@
                 }
             },
             actions,
-            getters
+            getter
         })
         state:保存共享状态
             单一状态树:也可以翻译为单一数据源,只有一个store,响应式
