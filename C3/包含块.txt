@@ -1,0 +1,13 @@
+1.百分比存在的问题，相对于父元素不同意
+这是因为元素的尺寸及位置，常常会受它的包含块所影响，例如 width, height, padding, margin等，
+当我们采用百分比来进行赋值时，其实是通过元素的包含块计算得来
+2.包含块，字面意思看视是父元素的内容区，其实不然，依赖于这个元素的position属性
+3.如果 position 属性为 static 或 relative ，包含块就是由它的最近的祖先块元素r
+position 属性为 absolute ，包含块就是由它的最近的 position 的值不是 static 的祖先元素的内边距区的边缘组成
+position 属性是 fixed，在连续媒体的情况下包含块是 viewport ,在分页媒体下的情况下包含块是分页区域
+position 属性是 absolute 或 fixed，包含块也可能是由满足以下条件的最近父级元素的内边距区的边缘组成的：
+根元素(<html>)所在的包含块是一个被称为初始包含块的矩形。
+4.要计算 height top 及 bottom 中的百分值，是通过包含块的 height 的值。
+如果包含块的 height 值会根据它的内容变化，而且包含块的 position 属性的值被赋予 relative 或 static ，
+那么，这些值的计算值为 0。
+要计算 width, left, right, padding, margin 这些属性由包含块的 width 属性的值来计算它的百分值
